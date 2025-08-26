@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1 class="title">Pool Legends</h1>
+
+    <button class="new-game-btn" type="button">Create New Game</button>
+    <div class="app-container show-btn">
+      <form action="submit" class="add-player-form">
+        <input
+          name="plare name input"
+          type="text"
+          placeholder=" Enter Player Name"
+          class="player-name-input"
+        />
+        <button type="submit" class="add-player-btn">Add Player</button>
+      </form>
+
+      <ul class="player-list">
+        <!-- <li class="player-profile">
+          <p class="player-name">wangkech</p>
+          <p class="score">20</p>
+          <span
+            ><input type="number" name="score-input" class="score-input" />
+            <button class="add-points">add points</button></span
+          >
+        </li> -->
+      </ul>
+
+      <button class="confirm-players">confirm</button>
+    </div>
+    <div class="lower-btns">
+      <button class="late-comer">add late comer</button
+      ><button class="end-game">end game</button
+      ><button class="next-round">next round</button>
+    </div>
+
+    <!-- Game Records: -->
+    <div class="game-records">
+      <h2>Game Records</h2>
+      <span class="record-fields">
+        <p class="record-name">Name</p>
+        <p class="record-score">game 1</p>
+        <p class="record-score">game 2</p>
+        <p class="record-score">Game 3</p>
+        <p class="record-score">game 4</p>
+        <p class="record-wins">wins</p></span
+      >
+      <ul class="records-list">
+        <li class="record">
+          <p class="record-name">John Doe</p>
+          <p class="record-score">23</p>
+          <p class="record-score">23</p>
+          <p class="record-score">23</p>
+          <p class="record-score">23</p>
+          <p class="record-wins">2</p>
+        </li>
+        <li class="record">
+          <p class="record-name">Doe John</p>
+          <p class="record-score">23</p>
+          <p class="record-score">23</p>
+          <p class="record-score">23</p>
+          <p class="record-score">23</p>
+          <p class="record-wins">2</p>
+        </li>
+        <li class="record">
+          <p class="record-name">Lorem</p>
+          <p class="record-score">23</p>
+          <p class="record-score">23</p>
+          <p class="record-score">23</p>
+          <p class="record-score">23</p>
+          <p class="record-wins">2</p>
+        </li>
+        <li class="record">
+          <p class="record-name">Wangkech</p>
+          <p class="record-score">23</p>
+          <p class="record-score">23</p>
+          <p class="record-score">23</p>
+          <p class="record-score">23</p>
+          <p class="record-wins">2</p>
+        </li>
+      </ul>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

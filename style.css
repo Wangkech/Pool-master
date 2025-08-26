@@ -1,0 +1,203 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #0663db;
+  width: 100vw;
+  color: white;
+  /* padding: 20px; */
+  font-size: 24px;
+  overflow-x: hidden;
+}
+
+.hide-btn {
+  display: contents;
+}
+
+.title {
+  margin: 20px;
+  text-align: center;
+}
+
+.new-game-btn {
+  height: 50px;
+  width: 150px;
+  margin: 0 auto;
+  align-self: center;
+  font-weight: bold;
+  color: #1e1e1e;
+}
+.app-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: none;
+}
+
+.add-player-form {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0 0 50px 0;
+}
+
+.add-player-form input {
+  width: 80%;
+  height: 50px;
+  font-size: 20px;
+  margin: 0 10px 0 0;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+.add-player-form button {
+  height: 50px;
+  width: 150px;
+  background-color: #04628d;
+  border: none;
+  font-size: 18px;
+  color: white;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.add-player-form button:hover {
+  background-color: #0663db;
+}
+
+.player-list {
+  max-width: 800px;
+
+  margin-top: 20px;
+  list-style-type: none;
+  width: 400px;
+}
+
+.player-list li {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+  font-size: 18px;
+}
+
+.player-profile {
+  margin-left: 10px;
+  /* background-color: red; */
+}
+
+.player-name {
+  width: 50%;
+  /* height: 50px; */
+  color: white;
+  margin: auto 10px;
+  /* background-color: #fff; */
+  text-transform: capitalize;
+}
+.score {
+  width: 30%;
+  text-align: center;
+  margin: auto 0;
+}
+.player-profile span {
+  display: flex;
+}
+.score-input {
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
+  /* margin: 0 10px 0 0; */
+  /* border-radius: 8px; */
+  border-radius: 8px 0 0 8px;
+  border: none;
+}
+
+.add-points {
+  width: 100px;
+  height: 50px;
+  font-size: 16px;
+  text-transform: capitalize;
+  /* margin: 0 10px 0 0; */
+  border-radius: 0 8px 8px 0;
+  border: none;
+}
+
+.confirm-players {
+  width: 90px;
+  margin: 50px auto;
+  height: 50px;
+  font-size: 20px;
+  background-color: #04628d;
+  color: white;
+  border-radius: 8px;
+  border: none;
+}
+
+.confirm-players:hover {
+  background-color: #0663db;
+}
+
+.show-btns {
+  display: flex;
+  flex-direction: column;
+}
+
+.hide-btns {
+  display: none;
+}
+.lower-btns {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px auto;
+  width: 400px;
+}
+
+.game-records {
+  margin: 50px auto;
+  max-width: 800px;
+
+  padding: 20px;
+  background-color: #1e1e1e;
+}
+
+.game-records h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.record-fields {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  /* border-bottom: 2px solid #fff; */
+  padding-bottom: 10px;
+}
+
+.record-fields p {
+  width: 100px;
+  text-align: center;
+}
+
+.record {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #333;
+  border-radius: 8px;
+}
+
+.record p {
+  width: 100px;
+  text-align: center;
+}
