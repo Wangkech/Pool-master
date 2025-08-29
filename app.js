@@ -9,6 +9,9 @@ const lateComerBtn = document.querySelector(".late-comer");
 const endGameBtn = document.querySelector(".end-game");
 const nextRoundBtn = document.querySelector(".next-round");
 const confirmBtn = document.querySelector(".confirm-players");
+const allRounds = [];
+const gameHistory = document.querySelector(".game-records");
+const recordList = document.querySelector(".records-list");
 
 const playerList = [];
 const previousGameScores = [];
@@ -32,12 +35,20 @@ const renderPlayers = () => {
           <button data-index="${index}" class="add-points">add points</button>
         </span>
       `;
+
     playerListContainer.appendChild(playerProfile);
   });
-  // addScore();
+  addScore();
 };
 
 const loadPlayers = () => {
+  // load all rounds history
+  const savedRounds = localStorage.getItem("allRounds");
+  if (savedRounds) {
+    allRounds.length = 0;
+    allRounds.push(...JSON.parse(savedRounds));
+  }
+  // load previous game scores
   const previousGame = localStorage.getItem("previousGameScores");
 
   if (previousGame) {
@@ -45,7 +56,7 @@ const loadPlayers = () => {
     playerList.push(...JSON.parse(previousGame));
 
     appContainer.classList.add("show-btns");
-    newGame.classList.add("hide-btns");
+    // newGame.classList.add("hide-btns");
     addPlayerForm.classList.add("hide-btns");
     confirmBtn.classList.add("hide-btns");
   }
@@ -59,7 +70,17 @@ const loadPlayers = () => {
     addPlayerForm.classList.add("hide-btns");
     confirmBtn.classList.add("hide-btns");
   }
+  const noRecords = document.createElement("p");
+  console.log(recordList);
+  if (allRounds.length !== 0) {
+    leaderBoard();
 
+    // gameHistory.removeChild(noRecords);
+  } else {
+    noRecords.textContent = "No game records yet.";
+    gameHistory.appendChild(noRecords);
+    // gameHistory.innerHTML = "";
+  }
   renderPlayers();
 };
 
@@ -82,7 +103,6 @@ const refresh = () => {
       confirmClicked = false;
 
       playerListContainer.innerHTML = "";
-      console.log(playerList);
     }
   } else {
     return;
@@ -105,6 +125,8 @@ newGame.addEventListener("click", () => {
   refresh();
   newGame.classList.add("hide-btns");
   confirmBtn.classList.remove("hide-btns");
+  allRounds.length = 0;
+  localStorage.removeItem("allRounds");
 });
 
 // adding points mechanism
@@ -130,35 +152,36 @@ function addScore() {
 // adding players mechanism
 addPlayerBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  playerListContainer.innerHTML = "";
-  if (playerNameInput.value === "") {
+  const playerName = playerNameInput.value.trim();
+  if (playerName === "") {
     return;
   }
-  if (confirmClicked === false)
-    playerList.push({ name: playerNameInput.value, score: 0, wins: 0 });
-  playerList.forEach((player, index) => {
-    const playerProfile = document.createElement("li");
-    playerProfile.classList.add("player-profile");
-    playerProfile.innerHTML = `
-      <li class="player-profile">
-          <p class="player-name">${player.name}</p>
-          <p class="score">${player.score}</p>
-          <span
-            ><input type="number" name="score-input" class="score-input" />
-            <button data-index="${index}" class="add-points">add points</button></span
-          >
-        </li>
-  `;
-    playerListContainer.appendChild(playerProfile);
-    playerNameInput.value = "";
-    addScore();
+  if (confirmClicked === false) {
+    const playerExists = playerList.some(
+      (player) => player.name.toLowerCase() === playerName.toLowerCase()
+    );
+    if (playerList.length !== 0) {
+      if (playerExists) {
+        alert("This player has already been added.");
+        return;
+      }
+    }
+    // Add new player
+    playerList.push({ name: playerName, score: 0, wins: 0 });
+    if (allRounds.length > 0) {
+      allRounds.forEach((round) => {
+        round.push({ name: playerName, score: "-", wins: 0 });
+      });
+    }
     savePlayers();
-  });
+    renderPlayers();
+  }
+  console.log(playerList.length);
 });
 
 lateComerBtn.addEventListener("click", () => {
-  addPlayerForm.classList.toggle("hide-btns");
-  confirmBtn.classList.toggle("hide-btns");
+  addPlayerForm.classList.remove("hide-btns");
+  confirmBtn.classList.remove("hide-btns");
   confirmClicked = false;
 });
 
@@ -176,7 +199,7 @@ nextRoundBtn.addEventListener("click", () => {
       if (player.score === highest) {
         player.wins = (player.wins || 0) + 1;
 
-        console.log(player.name, " has won:", player.wins, "games");
+        // console.log(player.name, " has won:", player.wins, "games");
       }
     });
   } else if (winner.length > 1) {
@@ -189,12 +212,12 @@ nextRoundBtn.addEventListener("click", () => {
         player.wins = (player.wins || 0) + 1;
       }
 
-      console.log(
-        player.name,
-        " has won the tie-breaker! They won:",
-        player.wins,
-        "games"
-      );
+      // console.log(
+      //   player.name,
+      //   " has won the tie-breaker! They won:",
+      //   player.wins,
+      //   "games"
+      // );
     });
   }
   previousGameScores.length = 0; // clear previous snapshot
@@ -207,17 +230,24 @@ nextRoundBtn.addEventListener("click", () => {
     });
   });
 
+  // store all rounds history
+  allRounds.push([...previousGameScores]);
+  localStorage.setItem("allRounds", JSON.stringify(allRounds));
+
+  // console.log("All rounds history:", allRounds);
+
   // save previous round to localStorage
   localStorage.setItem(
     "previousGameScores",
     JSON.stringify(previousGameScores)
   );
 
+  leaderBoard();
   // reset current round scores
   playerList.sort((a, b) => b.score - a.score);
 
   playerList.forEach((player) => (player.score = 0));
-
+  console.log(allRounds);
   // save updated playerList to localStorage
   savePlayers();
 
@@ -226,3 +256,91 @@ nextRoundBtn.addEventListener("click", () => {
 
   confirmBtn.classList.add("hide-btns");
 });
+
+function leaderBoard() {
+  gameHistory.innerHTML = ""; // clear old board first
+  document.documentElement.style.setProperty("--rounds", allRounds.length);
+
+  // ----- Build Header -----
+  const fields = document.createElement("div");
+  fields.classList.add("record-fields");
+
+  const nameField = document.createElement("p");
+  nameField.classList.add("record-name");
+  nameField.textContent = "Name";
+  fields.appendChild(nameField);
+
+  // Add Game 1 → Game N
+  for (let games = 0; games < allRounds.length; games++) {
+    const gameField = document.createElement("p");
+    gameField.classList.add("record-score");
+    gameField.textContent = `Game ${games + 1}`;
+    fields.appendChild(gameField);
+  }
+
+  const winsField = document.createElement("p");
+  winsField.classList.add("record-wins");
+  winsField.textContent = "Wins";
+  fields.appendChild(winsField);
+
+  gameHistory.appendChild(fields);
+
+  // const renderRecords = () => {
+  //   recordList.innerHTML = ""; // clear old records
+  //   allRounds.forEach((player) => {
+  //     const record = document.createElement("li");
+  //     record.classList.add("record");
+  //     recordList.appendChild(record);
+
+  //     const playerName = document.createElement("p");
+  //     playerName.classList.add("record-name");
+  //     playerName.textContent = `${player.name}`;
+
+  //     record.appendChild(playerName);
+  //     // player scores per game
+  //     for (let i = 0; i < allRounds.length; i++) {
+  //       const playerScore = document.createElement("p");
+  //       playerScore.classList.add("record-score");
+  //       playerScore.innerText = `${player.score}`;
+  //       record.appendChild(playerScore);
+  //     }
+  //     const playerWins = document.createElement("p");
+  //     playerWins.classList.add("record-wins");
+  //     playerWins.textContent = `${player.wins}`;
+  //     record.appendChild(playerWins);
+  //   });
+  // };
+
+  recordList.innerHTML = "";
+
+  if (allRounds.length === 0) return; // no games yet
+
+  // Loop players from first round (same order every round)
+  playerList.forEach((player, index) => {
+    const record = document.createElement("li");
+    record.classList.add("record");
+
+    // player name
+    const playerName = document.createElement("p");
+    playerName.classList.add("record-name");
+    playerName.textContent = player.name;
+    record.appendChild(playerName);
+
+    // player scores across all rounds
+    for (let i = 0; i < allRounds.length; i++) {
+      const playerScore = document.createElement("p");
+      playerScore.classList.add("record-score");
+      playerScore.textContent = allRounds[i][index].score; // ✅ correct mapping
+      record.appendChild(playerScore);
+    }
+
+    // player wins (from latest round snapshot)
+    const playerWins = document.createElement("p");
+    playerWins.classList.add("record-wins");
+    playerWins.textContent = allRounds[allRounds.length - 1][index].wins; // ✅ latest wins
+    record.appendChild(playerWins);
+    recordList.appendChild(record);
+  });
+  gameHistory.appendChild(recordList);
+  // renderRecords();
+}
