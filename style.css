@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+:root {
+  --game-count: 7;
+}
+
 body {
   font-family: Arial, sans-serif;
   background-color: #0663db;
@@ -165,39 +169,44 @@ body {
 .game-records {
   margin: 50px auto;
   max-width: 800px;
-
+  overflow-x: auto;
   padding: 20px;
   background-color: #1e1e1e;
 }
 
 .game-records h2 {
   text-align: center;
-  margin-bottom: 20px;
+  margin: 20px auto;
 }
 
-.record-fields {
-  display: flex;
-  justify-content: space-between;
-  font-weight: bold;
-  /* border-bottom: 2px solid #fff; */
-  padding-bottom: 10px;
-}
-
-.record-fields p {
-  width: 100px;
-  text-align: center;
-}
-
+/* Container */
+.record-fields,
 .record {
-  display: flex;
-  justify-content: space-between;
-  margin: 10px 0;
-  padding: 10px;
-  background-color: #333;
-  border-radius: 8px;
+  display: grid;
+  grid-template-columns: 150px repeat(var(--rounds), 100px) 80px;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-bottom: 1px solid #ccc;
+  font-size: 16px;
 }
 
-.record p {
-  width: 100px;
+/* Header row */
+.record-fields {
+  font-weight: bold;
+  /* background: #f4f4f4; */
+}
+
+/* Player rows */
+.record {
+  /* background: #fff; */
+}
+
+.record-name {
+  font-weight: 600;
+}
+
+.record-score,
+.record-wins {
   text-align: center;
 }
