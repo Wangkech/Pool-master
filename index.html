@@ -8,8 +8,10 @@
   </head>
   <body>
     <h1 class="title">Pool Legends</h1>
+    <div class="after-title">
+      <button class="new-game-btn" type="button">Create Session</button>
+    </div>
 
-    <button class="new-game-btn" type="button">Create New Game</button>
     <div class="app-container show-btn">
       <form action="submit" class="add-player-form">
         <input
@@ -21,31 +23,23 @@
         <button type="submit" class="add-player-btn">Add Player</button>
       </form>
 
-      <ul class="player-list">
-        <!-- <li class="player-profile">
-          <p class="player-name">wangkech</p>
-          <p class="score">20</p>
-          <span
-            ><input type="number" name="score-input" class="score-input" />
-            <button class="add-points">add points</button></span
-          >
-        </li> -->
-      </ul>
+      <ul class="player-list"></ul>
 
       <button class="confirm-players">confirm</button>
     </div>
     <div class="lower-btns">
       <button class="late-comer">add late comer</button
-      ><button class="end-game">end game</button
+      ><button class="end-game">end session</button
       ><button class="next-round">next round</button>
     </div>
 
     <!-- Game Records: -->
-    <div class="game-records">
+    <div class="game-records-container">
       <h2>Game Records</h2>
-      
+      <div class="game-records">
+        <ul class="records-list"></ul>
+      </div>
     </div>
     <script src="app.js"></script>
   </body>
 </html>
-
