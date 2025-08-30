@@ -4,13 +4,9 @@
   box-sizing: border-box;
 }
 
-:root {
-  --game-count: 7;
-}
-
 body {
   font-family: Arial, sans-serif;
-  background-color: #0663db;
+  background-color: #121212;
   width: 100vw;
   color: white;
   /* padding: 20px; */
@@ -27,6 +23,14 @@ body {
   text-align: center;
 }
 
+.after-title {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
 .new-game-btn {
   height: 50px;
   width: 150px;
@@ -39,7 +43,7 @@ body {
   display: flex;
   flex-direction: column;
   max-width: 800px;
-  margin: 50px auto;
+  margin: 20px auto;
   padding: 20px;
   background-color: #1e1e1e;
   border-radius: 8px;
@@ -51,7 +55,7 @@ body {
   display: flex;
   align-items: center;
   width: 100%;
-  margin: 0 0 50px 0;
+  margin: 0 0 10px 0;
 }
 
 .add-player-form input {
@@ -88,10 +92,11 @@ body {
 }
 
 .player-list li {
+  list-style-type: disc;
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin: 20px 0;
+  margin: 20px auto;
   font-size: 18px;
 }
 
@@ -138,7 +143,7 @@ body {
 
 .confirm-players {
   width: 90px;
-  margin: 50px auto;
+  margin: 20px auto;
   height: 50px;
   font-size: 20px;
   background-color: #04628d;
@@ -163,10 +168,21 @@ body {
   display: flex;
   justify-content: space-around;
   margin: 20px auto;
-  width: 400px;
+  width: 800px;
 }
 
-.game-records {
+.lower-btns button {
+  width: 150px;
+  height: 50px;
+  font-size: 16px;
+  background-color: #022f44;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  text-transform: capitalize;
+}
+
+.game-records-container {
   margin: 50px auto;
   max-width: 800px;
   overflow-x: auto;
@@ -174,7 +190,7 @@ body {
   background-color: #1e1e1e;
 }
 
-.game-records h2 {
+.game-records-container h2 {
   text-align: center;
   margin: 20px auto;
 }
@@ -200,6 +216,7 @@ body {
 /* Player rows */
 .record {
   /* background: #fff; */
+  list-style: lower-latin;
 }
 
 .record-name {
@@ -209,4 +226,5 @@ body {
 .record-score,
 .record-wins {
   text-align: center;
+  font-style: italic;
 }
