@@ -12,9 +12,11 @@ const nextRoundBtn = document.querySelector(".next-round");
 const confirmBtn = document.querySelector(".confirm-players");
 const lowerBtnsRow = document.querySelector(".lower-btns");
 lowerBtnsRow.style.display = "none";
+const gameNumberHolder = document.querySelector(".after-title");
 const gameNumberDisplay = document.createElement("p");
 gameNumberDisplay.style.display = "none";
 const allRounds = [];
+let gameEnded = false;
 
 const gameHistory = document.querySelector(".game-records");
 const recordList = document.querySelector(".records-list");
@@ -47,7 +49,7 @@ const renderPlayers = () => {
         <p class="player-name">${player.name}</p>
         <p class="score">${player.score}</p>
         <span>
-          <input type="number" name="score-input" class="score-input" />
+          <input  inputmode='numeric' pattern="-?[0-9]*" name="score-input" class="score-input" />
           <button data-index="${index}" class="add-points">add points</button>
         </span>
       `;
@@ -58,9 +60,6 @@ const renderPlayers = () => {
 };
 // load players
 const loadPlayers = () => {
-  // if (!playerList.length === 0) {
-  //   gameNumberDisplay.style.display = "block";
-  // }
   // // load all rounds history
   const savedRounds = localStorage.getItem("allRounds");
   if (savedRounds) {
@@ -86,17 +85,26 @@ const loadPlayers = () => {
 
     appContainer.classList.add("show-btns");
     newGame.classList.add("hide-btns");
-    addPlayerForm.classList.add("hide-btns");
+    addPlayerForm.style.display = "none";
     confirmBtn.style.display = "none";
     lowerBtnsRow.style.display = "none";
 
     gameNumberDisplay.textContent = `Game No: ${gameNumber()}`;
-    document.querySelector(".after-title").appendChild(gameNumberDisplay);
+    gameNumberHolder.appendChild(gameNumberDisplay);
     gameNumberDisplay.style.display = "block";
     lowerBtnsRow.style.display = "flex";
   }
-
-  console.log(recordList);
+  const gameStatus = localStorage.getItem("gameStatus");
+  if (gameStatus) {
+    gameEnded = JSON.parse(gameStatus);
+  }
+  console.log("The game ended", gameEnded);
+  if (gameEnded === true) {
+    appContainer.style.display = "none";
+    lowerBtnsRow.style.display = "none";
+    newGame.style.display = "block";
+    gameNumberDisplay.textContent = `Games Played: ${gameNumber() - 1}`;
+  }
   if (allRounds.length !== 0) {
     leaderBoard();
 
@@ -135,6 +143,8 @@ const refresh = () => {
       noRecords.textContent = "No game records yet.";
       gameHistory.appendChild(noRecords);
       addPlayerForm.style.display = "flex";
+
+      // localStorage.removeItem('players')
     }
   } else {
     return;
@@ -154,14 +164,19 @@ confirmBtn.addEventListener("click", () => {
 
 // animation block
 newGame.addEventListener("click", () => {
-  appContainer.classList.add("show-btns");
+  appContainer.style.display = "flex";
   addPlayerForm.style.display = "flex";
   recordList.innerHTML = "";
   gameHistory.innerHTML = "";
-  gameNumberDisplay;
+  // gameNumberDisplay;
   lowerBtnsRow.classList.remove("hide-btns");
   gameNumberDisplay.style.display = "block";
+
+  gameNumberDisplay.textContent = `Games No: ${gameNumber() + 1}`;
+  gameNumberHolder.appendChild(gameNumberDisplay);
   newGame.style.display = "none";
+  confirmBtn.style.display = "block";
+  gameEnded = false;
 
   refresh();
 });
@@ -189,6 +204,8 @@ function addScore() {
 // adding players mechanism
 addPlayerBtn.addEventListener("click", (e) => {
   e.preventDefault();
+  gameEnded = false;
+  localStorage.setItem("gameStatus", JSON.stringify(gameEnded));
   const playerName = playerNameInput.value.trim();
   if (playerName === "") {
     return;
@@ -227,12 +244,41 @@ lateComerBtn.addEventListener("click", () => {
 endGameBtn.addEventListener("click", () => {
   appContainer.style.display = "none";
   addPlayerForm.style.display = "none";
-  newGame.classList.remove("hide-btns");
+  newGame.style.display = "block";
   lowerBtnsRow.style.display = "none";
-  gameNumberDisplay.style.display = "none";
+  gameNumberDisplay.style.display = "block";
+  gameNumberDisplay.textContent = `Games Played: ${gameNumber()}`;
+  gameNumberHolder.appendChild(gameNumberDisplay);
+  gameEnded = true;
+  localStorage.setItem("gameStatus", JSON.stringify(gameEnded));
+
+  console.log("The game ended", gameEnded);
+
+  pickWinner();
+  storeRounds();
+  leaderBoard();
 });
 
 nextRoundBtn.addEventListener("click", () => {
+  pickWinner();
+  storeRounds();
+  leaderBoard();
+  // reset current round scores
+  playerList.sort((a, b) => b.score - a.score);
+
+  playerList.forEach((player) => (player.score = 0));
+  console.log(allRounds);
+  // save updated playerList to localStorage
+  savePlayers();
+
+  // re-render the UI
+  gameEnded = false;
+  loadPlayers();
+
+  confirmBtn.classList.add("hide-btns");
+});
+
+function pickWinner() {
   let highest = Math.max(...playerList.map((p) => p.score));
   const winner = [];
   playerList.forEach((player) => {
@@ -260,6 +306,9 @@ nextRoundBtn.addEventListener("click", () => {
       }
     });
   }
+}
+
+function storeRounds() {
   previousGameScores.length = 0; // clear previous snapshot
 
   playerList.forEach((player) => {
@@ -269,7 +318,6 @@ nextRoundBtn.addEventListener("click", () => {
       wins: player.wins, // cumulative wins
     });
   });
-
   // store all rounds history
   allRounds.push([...previousGameScores]);
   localStorage.setItem("allRounds", JSON.stringify(allRounds));
@@ -281,24 +329,7 @@ nextRoundBtn.addEventListener("click", () => {
     "previousGameScores",
     JSON.stringify(previousGameScores)
   );
-
-  leaderBoard();
-  // reset current round scores
-  playerList.sort((a, b) => b.score - a.score);
-
-  playerList.forEach((player) => (player.score = 0));
-  console.log(allRounds);
-  // save updated playerList to localStorage
-  savePlayers();
-
-  // re-render the UI
-  loadPlayers();
-
-  confirmBtn.classList.add("hide-btns");
-
-  console.log("Next round started");
-  console.log(playerList);
-});
+}
 
 function leaderBoard() {
   gameHistory.innerHTML = ""; // clear old board first
