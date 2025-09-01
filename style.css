@@ -93,18 +93,18 @@ body {
 
 .player-list li {
   list-style-type: disc;
-  width: 100%;
+  width: 95%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   margin: 20px;
   font-size: 18px;
 }
 
 .player-profile {
-  margin-left: 10px;
-  width: 100%;
+  /* padding-left: 10px; */
+  width: 70%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 
   font-size: 18px;
   /* background-color: red; */
@@ -127,6 +127,7 @@ body {
   display: flex;
   width: 45%;
   justify-content: center;
+  /* display: none; */
 }
 .score-input {
   width: 50px;
@@ -147,7 +148,15 @@ body {
   border-radius: 0 8px 8px 0;
   border: none;
 }
-
+.archive-player {
+  width: 70px;
+  height: 50px;
+  border-radius: 10px;
+  border: none;
+  background-color: rgba(235, 2, 2, 0.452);
+  color: #fff;
+  display: none;
+}
 .confirm-players {
   width: 90px;
   margin: 20px auto;
@@ -223,7 +232,6 @@ body {
 /* Player rows */
 .record {
   /* background: #fff; */
-  list-style: lower-latin;
 }
 
 .record-name {
@@ -300,7 +308,6 @@ body {
     margin: auto 0;
   }
   .player-profile span {
-    display: flex;
     width: 45%;
     justify-content: center;
   }
@@ -360,7 +367,6 @@ body {
     margin: auto 0;
   }
   .player-profile span {
-    display: flex;
     width: 45%;
     justify-content: center;
   }

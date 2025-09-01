@@ -42,21 +42,25 @@ const renderPlayers = () => {
   playerListContainer.innerHTML = "";
 
   playerList.forEach((player, index) => {
-    // render player card
-    const playerProfile = document.createElement("li");
-    playerProfile.classList.add("player-profile");
-    playerProfile.innerHTML = `
+    if (player.active !== false) {
+      // render player card
+      const playerProfile = document.createElement("li");
+      playerProfile.classList.add("player-profile");
+      playerProfile.innerHTML = `
         <p class="player-name">${player.name}</p>
         <p class="score">${player.score}</p>
         <span>
           <input  inputmode='numeric' pattern="-?[0-9]*" name="score-input" class="score-input" />
           <button data-index="${index}" class="add-points">add points</button>
         </span>
+        <button data-index="${index}" class="archive-player">Archive</button>
       `;
 
-    playerListContainer.appendChild(playerProfile);
+      playerListContainer.appendChild(playerProfile);
+    }
   });
   addScore();
+  archivePlayer();
 };
 // load players
 const loadPlayers = () => {
@@ -98,7 +102,7 @@ const loadPlayers = () => {
   if (gameStatus) {
     gameEnded = JSON.parse(gameStatus);
   }
-  console.log("The game ended", gameEnded);
+
   if (gameEnded === true) {
     appContainer.style.display = "none";
     lowerBtnsRow.style.display = "none";
@@ -179,6 +183,21 @@ newGame.addEventListener("click", () => {
   confirmBtn.style.display = "block";
 });
 
+function archivePlayer() {
+  const archiveBtn = document.querySelectorAll(".archive-player");
+  archiveBtn.forEach((btn, index) => {
+    btn.addEventListener("click", () => {
+      playerList[index].active = false;
+      console.log(
+        playerList[index].name,
+        "is active:",
+        playerList[index].active
+      );
+      savePlayers();
+      renderPlayers();
+    });
+  });
+}
 // adding points mechanism
 function addScore() {
   const addPointsBtn = document.querySelectorAll(".add-points");
@@ -219,7 +238,7 @@ addPlayerBtn.addEventListener("click", (e) => {
       }
     }
     // Add new player
-    playerList.push({ name: playerName, score: 0, wins: 0 });
+    playerList.push({ name: playerName, score: 0, wins: 0, active: true });
     if (allRounds.length > 0) {
       allRounds.forEach((round) => {
         round.push({ name: playerName, score: "-", wins: 0 });
