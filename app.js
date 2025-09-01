@@ -168,17 +168,15 @@ newGame.addEventListener("click", () => {
   addPlayerForm.style.display = "flex";
   recordList.innerHTML = "";
   gameHistory.innerHTML = "";
+  gameEnded = false;
   // gameNumberDisplay;
   lowerBtnsRow.classList.remove("hide-btns");
   gameNumberDisplay.style.display = "block";
-
-  gameNumberDisplay.textContent = `Games No: ${gameNumber() + 1}`;
+  refresh();
+  gameNumberDisplay.textContent = `Games No: ${gameNumber()}`;
   gameNumberHolder.appendChild(gameNumberDisplay);
   newGame.style.display = "none";
   confirmBtn.style.display = "block";
-  gameEnded = false;
-
-  refresh();
 });
 
 // adding points mechanism

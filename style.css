@@ -317,6 +317,14 @@ body {
 }
 
 @media screen and (max-width: 535px) {
+  .title {
+    font-size: 1.5em;
+  }
+
+  .after-title p {
+    font-size: 16px;
+  }
+
   .app-container {
     width: 90vw;
     /* padding: ; */
@@ -371,11 +379,16 @@ body {
     height: 50px;
     font-size: 12px;
   }
+
   .lower-btns {
     width: 90vw;
   }
   .lower-btns button {
     width: 80px;
     font-size: 12px;
+  }
+
+  .game-records-container h2 {
+    font-size: 28px;
   }
 }
