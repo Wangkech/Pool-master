@@ -28,6 +28,13 @@ let confirmClicked = false;
 const playerListContainer = document.querySelector(".player-list");
 
 // Determine current game number
+/**
+ * gameNumber
+ * Returns the current game number based on saved rounds.
+ * If there are previously stored rounds in localStorage, the next game number
+ * will be the count of rounds + 1. Otherwise returns 1 for the first game.
+ * Side effects: none (pure getter from localStorage)
+ */
 function gameNumber() {
   const savedRounds = localStorage.getItem("allRounds");
   if (savedRounds) {
@@ -38,6 +45,16 @@ function gameNumber() {
   }
 }
 
+/**
+ * renderPlayers
+ * Render the active players into the DOM.
+ * - Clears the player list container
+ * - For each active player, creates a player card showing name and score
+ * - Adds input + button for adding points and an Archive button
+ * - Attaches handlers (addScore and archivePlayer) after rendering
+ * Inputs: uses global `playerList` and DOM refs
+ * Side effects: mutates DOM
+ */
 const renderPlayers = () => {
   playerListContainer.innerHTML = "";
 
@@ -63,6 +80,15 @@ const renderPlayers = () => {
   archivePlayer();
 };
 // load players
+/**
+ * loadPlayers
+ * Load application state from localStorage into memory and the UI.
+ * - Loads `allRounds` history, `previousGameScores`, saved `players`, and gameStatus
+ * - Updates UI elements (player list, forms, game number and visibility)
+ * - If rounds exist, show leaderboard; otherwise show placeholder text
+ * Inputs: reads localStorage entries `allRounds`, `previousGameScores`, `players`, `gameStatus`
+ * Side effects: updates global arrays and DOM.
+ */
 const loadPlayers = () => {
   // // load all rounds history
   const savedRounds = localStorage.getItem("allRounds");
@@ -122,12 +148,24 @@ const loadPlayers = () => {
 };
 
 loadPlayers();
-// save players names and scores
+/**
+ * savePlayers
+ * Persist the current `playerList` into localStorage.
+ * Inputs: global `playerList`
+ * Side effects: writes `players` entry to localStorage
+ */
 const savePlayers = () => {
   localStorage.setItem("players", JSON.stringify(playerList));
 };
 
-//delete players and start new game
+/**
+ * refresh
+ * Delete current players and reset to a fresh state for a new game.
+ * - Asks the user for confirmation before clearing player data
+ * - Clears players, rounds and related UI elements and localStorage
+ * Inputs: uses global `playerList` and DOM
+ * Side effects: clears localStorage entries and DOM elements
+ */
 const refresh = () => {
   if (playerList.length !== 0) {
     const askUser = confirm(
@@ -155,6 +193,11 @@ const refresh = () => {
   }
 };
 
+/*
+ * confirmBtn click handler
+ * When the confirm button is clicked, mark that players have been confirmed
+ * and transition the UI: save players, hide the form and show lower buttons
+ */
 confirmBtn.addEventListener("click", () => {
   confirmClicked = true;
   console.log(confirmClicked);
@@ -167,6 +210,12 @@ confirmBtn.addEventListener("click", () => {
 });
 
 // animation block
+/*
+ * newGame click handler
+ * Starts a new game session from the landing state and reveals the UI
+ * - Shows the app container and player form
+ * - Resets records and game status and updates the displayed game number
+ */
 newGame.addEventListener("click", () => {
   appContainer.style.display = "flex";
   addPlayerForm.style.display = "flex";
@@ -183,6 +232,13 @@ newGame.addEventListener("click", () => {
   confirmBtn.style.display = "block";
 });
 
+/**
+ * archivePlayer
+ * Attach click listeners to player 'Archive' buttons. When clicked,
+ * the target player is marked inactive (`active = false`) and the UI is re-rendered.
+ * Inputs: reads `playerList` and querySelectorAll('.archive-player')
+ * Side effects: mutates `playerList`, persists via savePlayers(), updates DOM
+ */
 function archivePlayer() {
   const archiveBtn = document.querySelectorAll(".archive-player");
   archiveBtn.forEach((btn, index) => {
@@ -198,7 +254,14 @@ function archivePlayer() {
     });
   });
 }
-// adding points mechanism
+/**
+ * addScore
+ * Attach click listeners to each player's "add points" button and update the
+ * corresponding player's score based on the numeric input next to the button.
+ * - Reads integer input (or uses 0 when empty)
+ * - Updates in-memory `playerList` score and the DOM
+ * - Calls savePlayers() to persist state
+ */
 function addScore() {
   const addPointsBtn = document.querySelectorAll(".add-points");
   const scoreInput = document.querySelectorAll(".score-input");
@@ -218,7 +281,15 @@ function addScore() {
   });
 }
 
-// adding players mechanism
+/*
+ * addPlayerBtn click handler
+ * Adds a new player to `playerList` when the Add Player button is clicked.
+ * - Prevents blank names or duplicates
+ * - Inserts the new player into `playerList` and updates any existing round
+ *   snapshots (allRounds) so the player appears in prior round rows with a '-'
+ * Inputs: uses `playerNameInput`, `confirmClicked`, global arrays
+ * Side effects: mutates playerList, allRounds, localStorage and DOM
+ */
 addPlayerBtn.addEventListener("click", (e) => {
   e.preventDefault();
   gameEnded = false;
@@ -252,12 +323,23 @@ addPlayerBtn.addEventListener("click", (e) => {
   gameNumberDisplay.style.display = "block";
 });
 
+/*
+ * lateComerBtn click handler
+ * Reveal the add-player form for a late player during an ongoing session.
+ */
 lateComerBtn.addEventListener("click", () => {
   addPlayerForm.style.display = "flex";
   confirmBtn.style.display = "block";
   confirmClicked = false;
 });
 
+/*
+ * endGameBtn click handler
+ * Ends the current game session:
+ * - Hides the gameplay UI and shows the new-game button
+ * - Sets `gameEnded` flag and saves it
+ * - Calls pickWinner(), storeRounds(), and leaderBoard() to finalize results
+ */
 endGameBtn.addEventListener("click", () => {
   appContainer.style.display = "none";
   addPlayerForm.style.display = "none";
@@ -276,6 +358,13 @@ endGameBtn.addEventListener("click", () => {
   leaderBoard();
 });
 
+/*
+ * nextRoundBtn click handler
+ * Finalize the current round and prepare for the next round:
+ * - Picks winner and stores round results
+ * - Resets all players' round scores to 0 and re-saves state
+ * - Re-load UI and hide the confirm button
+ */
 nextRoundBtn.addEventListener("click", () => {
   pickWinner();
   storeRounds();
@@ -295,6 +384,13 @@ nextRoundBtn.addEventListener("click", () => {
   confirmBtn.classList.add("hide-btns");
 });
 
+/**
+ * pickWinner
+ * Determine the winner(s) of the current round and award a win to the
+ * highest-scoring player. If there is a tie, pick a random player among the
+ * tied players as the tiebreaker and award the win to them.
+ * Side effects: increments `wins` for the winner and updates player objects
+ */
 function pickWinner() {
   let highest = Math.max(...playerList.map((p) => p.score));
   const winner = [];
@@ -325,6 +421,14 @@ function pickWinner() {
   }
 }
 
+/**
+ * storeRounds
+ * Save the current round snapshot into `previousGameScores` and append that
+ * snapshot to `allRounds` history.
+ * - Writes `allRounds` and `previousGameScores` to localStorage
+ * Inputs: reads `playerList`
+ * Side effects: updates `previousGameScores`, `allRounds`, and localStorage
+ */
 function storeRounds() {
   previousGameScores.length = 0; // clear previous snapshot
 
@@ -348,6 +452,14 @@ function storeRounds() {
   );
 }
 
+/**
+ * leaderBoard
+ * Render the tournaments/rounds history table in the game history section of
+ * the UI. For each player it creates a row containing the player's name,
+ * their score across all recorded rounds, and their number of wins.
+ * Inputs: uses global `allRounds` and `playerList`
+ * Side effects: mutates the DOM, adding record elements to `gameHistory`
+ */
 function leaderBoard() {
   gameHistory.innerHTML = ""; // clear old board first
   document.documentElement.style.setProperty("--rounds", allRounds.length);
