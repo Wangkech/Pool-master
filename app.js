@@ -18,6 +18,7 @@ gameNumberDisplay.style.display = "none";
 const allRounds = [];
 let gameEnded = false;
 let twoPlayers = false;
+let difference = 0;
 
 // Game history elements
 
@@ -60,31 +61,24 @@ function gameNumber() {
  */
 const renderPlayers = () => {
   playerListContainer.innerHTML = "";
-  
-  console.log("twoPlayers is ", twoPlayers)
- if(twoPlayers === true){
-  const nameSection = document.createElement("ul");
-  const scoreSection = document.createElement("li");
-  nameSection.classList.add("two-player-names");
-  scoreSection.classList.add("average-scores");
+  console.log("twoPlayers is ", twoPlayers);
+  if (twoPlayers === true) {
+    const nameSection = document.createElement("ul");
+    const scoreSection = document.createElement("li");
+    nameSection.classList.add("two-player-names");
+    scoreSection.classList.add("average-scores");
+    if (difference === 0) {
+      scoreSection.innerHTML = `<p class="two-player-leader">It's a tie! <span>0</span> points.</p>`;
+    }
 
-  
- 
-  playerListContainer.style.display = "flex";
-   
-    
+    playerListContainer.style.display = "flex";
 
-      playerList.forEach((player, index) => {
-    //logic for if the there are only two players
-       // render player card
-  
-    // logic for if there are more than two players
-     
-    if (player.active !== false) {
-      // render player card
-      const playerProfile = document.createElement("li");
-      playerProfile.classList.add("player-profile");
-      playerProfile.innerHTML = `
+    playerList.forEach((player, index) => {
+      if (player.active !== false) {
+        // render player card
+        const playerProfile = document.createElement("li");
+        playerProfile.classList.add("player-profile");
+        playerProfile.innerHTML = `
         <p class="player-name">${player.name}</p>
         
         <span>
@@ -94,24 +88,26 @@ const renderPlayers = () => {
         <button data-index="${index}" class="archive-player">Archive</button>
       `;
 
+        nameSection.appendChild(playerProfile);
+      }
+    });
+    playerListContainer.appendChild(nameSection);
+    playerListContainer.appendChild(scoreSection);
+  } else {
+    playerListContainer.style.display = "block";
+    twoPlayers = false;
+    playerListContainer.innerHTML = "";
 
+    playerList.forEach((player, index) => {
+      //logic for if the there are only two players
 
-      nameSection.appendChild(playerProfile);
-    
-}});
-playerListContainer.appendChild(nameSection);
-playerListContainer.appendChild(scoreSection);
- } else{ 
-  playerList.forEach((player, index) => {
-    //logic for if the there are only two players
-    
-    // logic for if there are more than two players
-     
-    if (player.active !== false) {
-      // render player card
-      const playerProfile = document.createElement("li");
-      playerProfile.classList.add("player-profile");
-      playerProfile.innerHTML = `
+      // logic for if there are more than two players
+
+      if (player.active !== false) {
+        // render player card
+        const playerProfile = document.createElement("li");
+        playerProfile.classList.add("player-profile");
+        playerProfile.innerHTML = `
         <p class="player-name">${player.name}</p>
         <p class="score">${player.score}</p>
         <span>
@@ -120,10 +116,10 @@ playerListContainer.appendChild(scoreSection);
         </span>
         <button data-index="${index}" class="archive-player">Archive</button>
       `;
-
-      playerListContainer.appendChild(playerProfile);
-    
-}});}
+        playerListContainer.appendChild(playerProfile);
+      }
+    });
+  }
   addScore();
   archivePlayer();
 };
@@ -171,6 +167,10 @@ const loadPlayers = () => {
     gameNumberHolder.appendChild(gameNumberDisplay);
     gameNumberDisplay.style.display = "block";
     lowerBtnsRow.style.display = "flex";
+
+    if (playerList.length === 2) {
+      twoPlayers = true;
+    }
   }
   const gameStatus = localStorage.getItem("gameStatus");
   if (gameStatus) {
@@ -248,12 +248,14 @@ const refresh = () => {
  */
 confirmBtn.addEventListener("click", () => {
   confirmClicked = true;
-  if(playerList.length === 2){
-    twoPlayers = true
-    console.log(" there are " , `${playerList.length}`," players")
+  if (playerList.length === 2) {
+    twoPlayers = true;
+    console.log(" there are ", `${playerList.length}`, " players");
     renderPlayers();
-  }else{
-    console.log("there are more than 2 players")
+  } else {
+    twoPlayers = false;
+    console.log("there are more than 2 players");
+    renderPlayers();
   }
 
   savePlayers();
@@ -320,47 +322,54 @@ function archivePlayer() {
 function addScore() {
   const addPointsBtn = document.querySelectorAll(".add-points");
   const scoreInput = document.querySelectorAll(".score-input");
-  if(twoPlayers === true ){
-    let difference = 0;
-     addPointsBtn.forEach((btn, index) => {
-    btn.addEventListener("click", () => {
-      const scoreToAdd = parseInt(scoreInput[index].value) || 0;
+  if (twoPlayers === true) {
+    addPointsBtn.forEach((btn, index) => {
+      btn.addEventListener("click", () => {
+        const scoreToAdd = parseInt(scoreInput[index].value) || 0;
 
-      playerList[index].score += scoreToAdd;
+        playerList[index].score += scoreToAdd;
 
-      scoreInput[index].value = "";
-      if(playerList[0].score > playerList[1].score){
-       console.log( playerList[0].name, "is leading with ", playerList[0].score)
-      difference = playerList[0].score - playerList[1].score
-      const scoreSection = document.querySelector(".average-scores");
-      scoreSection.innerHTML = `<p class="two-player-leader">${playerList[0].name} : <span>${difference}</span>  points.</p>`
-      } else{
-        console.log( playerList[1].name, "is leading with ", playerList[1].score) 
-        difference = playerList[1].score - playerList[0].score
-        const scoreSection = document.querySelector(".average-scores");
-        scoreSection.innerHTML = `<p class="two-player-leader">${playerList[1].name} : <span>${difference}</span> points.</p>`
-      }
-      // const scoreElement = btn.closest("li").querySelector(".score");
-      // scoreElement.textContent = playerList[index].score;
-      savePlayers();
+        scoreInput[index].value = "";
+        if (playerList[0].score > playerList[1].score) {
+          console.log(
+            playerList[0].name,
+            "is leading with ",
+            playerList[0].score
+          );
+          difference = playerList[0].score - playerList[1].score;
+          const scoreSection = document.querySelector(".average-scores");
+          scoreSection.innerHTML = `<p class="two-player-leader">${playerList[0].name} : <span>${difference}</span>  points.</p>`;
+        } else {
+          console.log(
+            playerList[1].name,
+            "is leading with ",
+            playerList[1].score
+          );
+          difference = playerList[1].score - playerList[0].score;
+          const scoreSection = document.querySelector(".average-scores");
+          scoreSection.innerHTML = `<p class="two-player-leader">${playerList[1].name} : <span>${difference}</span> points.</p>`;
+        }
+        // const scoreElement = btn.closest("li").querySelector(".score");
+        // scoreElement.textContent = playerList[index].score;
+        savePlayers();
+      });
     });
-  });
-  } else{
+  } else {
+    addPointsBtn.forEach((btn, index) => {
+      btn.addEventListener("click", () => {
+        const scoreToAdd = parseInt(scoreInput[index].value) || 0;
 
-  addPointsBtn.forEach((btn, index) => {
-    btn.addEventListener("click", () => {
-      const scoreToAdd = parseInt(scoreInput[index].value) || 0;
+        playerList[index].score += scoreToAdd;
 
-      playerList[index].score += scoreToAdd;
+        scoreInput[index].value = "";
 
-      scoreInput[index].value = "";
-
-      const scoreElement = btn.closest("li").querySelector(".score");
-      scoreElement.textContent = playerList[index].score;
-      savePlayers();
+        const scoreElement = btn.closest("li").querySelector(".score");
+        scoreElement.textContent = playerList[index].score;
+        savePlayers();
+      });
     });
-  });
-}}
+  }
+}
 
 /*
  * addPlayerBtn click handler
@@ -379,7 +388,15 @@ addPlayerBtn.addEventListener("click", (e) => {
   if (playerName === "") {
     return;
   }
+
   if (confirmClicked === false) {
+    twoPlayers = false;
+    if (playerList.length === 2) {
+      twoPlayers = true;
+    } else {
+      twoPlayers = false;
+    }
+    // Check for duplicate names
     const playerExists = playerList.some(
       (player) => player.name.toLowerCase() === playerName.toLowerCase()
     );
@@ -396,9 +413,10 @@ addPlayerBtn.addEventListener("click", (e) => {
         round.push({ name: playerName, score: "-", wins: 0 });
       });
     }
-    savePlayers();
-    renderPlayers();
   }
+
+  savePlayers();
+  renderPlayers();
   playerNameInput.value = "";
   lowerBtnsRow.style.display = "flex";
   gameNumberDisplay.style.display = "block";
@@ -610,5 +628,3 @@ function leaderBoard() {
   gameHistory.appendChild(recordList);
   // renderRecords();
 }
-
-
