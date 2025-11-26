@@ -68,9 +68,7 @@ const renderPlayers = () => {
   nameSection.classList.add("two-player-names");
   scoreSection.classList.add("average-scores");
 
-   scoreSection.innerHTML = `
-    <p class="score">Pot Balls for scores to see who is leading!</p>
-  `
+  
  
   playerListContainer.style.display = "flex";
    
@@ -320,11 +318,34 @@ function archivePlayer() {
  * - Calls savePlayers() to persist state
  */
 function addScore() {
-  if(playerList.length === 2){
-
-  } else{
   const addPointsBtn = document.querySelectorAll(".add-points");
   const scoreInput = document.querySelectorAll(".score-input");
+  if(twoPlayers === true ){
+    let difference = 0;
+     addPointsBtn.forEach((btn, index) => {
+    btn.addEventListener("click", () => {
+      const scoreToAdd = parseInt(scoreInput[index].value) || 0;
+
+      playerList[index].score += scoreToAdd;
+
+      scoreInput[index].value = "";
+      if(playerList[0].score > playerList[1].score){
+       console.log( playerList[0].name, "is leading with ", playerList[0].score)
+      difference = playerList[0].score - playerList[1].score
+      const scoreSection = document.querySelector(".average-scores");
+      scoreSection.innerHTML = `<p class="two-player-leader">${playerList[0].name} : <span>${difference}</span>  points.</p>`
+      } else{
+        console.log( playerList[1].name, "is leading with ", playerList[1].score) 
+        difference = playerList[1].score - playerList[0].score
+        const scoreSection = document.querySelector(".average-scores");
+        scoreSection.innerHTML = `<p class="two-player-leader">${playerList[1].name} : <span>${difference}</span> points.</p>`
+      }
+      // const scoreElement = btn.closest("li").querySelector(".score");
+      // scoreElement.textContent = playerList[index].score;
+      savePlayers();
+    });
+  });
+  } else{
 
   addPointsBtn.forEach((btn, index) => {
     btn.addEventListener("click", () => {
