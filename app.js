@@ -17,6 +17,9 @@ const gameNumberDisplay = document.createElement("p");
 gameNumberDisplay.style.display = "none";
 const allRounds = [];
 let gameEnded = false;
+let twoPlayers = false;
+
+// Game history elements
 
 const gameHistory = document.querySelector(".game-records");
 const recordList = document.querySelector(".records-list");
@@ -57,8 +60,55 @@ function gameNumber() {
  */
 const renderPlayers = () => {
   playerListContainer.innerHTML = "";
+  
+  console.log("twoPlayers is ", twoPlayers)
+ if(twoPlayers === true){
+  const nameSection = document.createElement("ul");
+  const scoreSection = document.createElement("li");
+  nameSection.classList.add("two-player-names");
+  scoreSection.classList.add("average-scores");
 
+   scoreSection.innerHTML = `
+    <p class="score">Pot Balls for scores to see who is leading!</p>
+  `
+ 
+  playerListContainer.style.display = "flex";
+   
+    
+
+      playerList.forEach((player, index) => {
+    //logic for if the there are only two players
+       // render player card
+  
+    // logic for if there are more than two players
+     
+    if (player.active !== false) {
+      // render player card
+      const playerProfile = document.createElement("li");
+      playerProfile.classList.add("player-profile");
+      playerProfile.innerHTML = `
+        <p class="player-name">${player.name}</p>
+        
+        <span>
+          <input  inputmode='numeric' pattern="-?[0-9]*" name="score-input" class="score-input" />
+          <button data-index="${index}" class="add-points">add points</button>
+        </span>
+        <button data-index="${index}" class="archive-player">Archive</button>
+      `;
+
+
+
+      nameSection.appendChild(playerProfile);
+    
+}});
+playerListContainer.appendChild(nameSection);
+playerListContainer.appendChild(scoreSection);
+ } else{ 
   playerList.forEach((player, index) => {
+    //logic for if the there are only two players
+    
+    // logic for if there are more than two players
+     
     if (player.active !== false) {
       // render player card
       const playerProfile = document.createElement("li");
@@ -74,8 +124,8 @@ const renderPlayers = () => {
       `;
 
       playerListContainer.appendChild(playerProfile);
-    }
-  });
+    
+}});}
   addScore();
   archivePlayer();
 };
@@ -200,7 +250,14 @@ const refresh = () => {
  */
 confirmBtn.addEventListener("click", () => {
   confirmClicked = true;
-  console.log(confirmClicked);
+  if(playerList.length === 2){
+    twoPlayers = true
+    console.log(" there are " , `${playerList.length}`," players")
+    renderPlayers();
+  }else{
+    console.log("there are more than 2 players")
+  }
+
   savePlayers();
   addPlayerForm.classList.toggle("hide-btns");
 
@@ -263,6 +320,9 @@ function archivePlayer() {
  * - Calls savePlayers() to persist state
  */
 function addScore() {
+  if(playerList.length === 2){
+
+  } else{
   const addPointsBtn = document.querySelectorAll(".add-points");
   const scoreInput = document.querySelectorAll(".score-input");
 
@@ -279,7 +339,7 @@ function addScore() {
       savePlayers();
     });
   });
-}
+}}
 
 /*
  * addPlayerBtn click handler
