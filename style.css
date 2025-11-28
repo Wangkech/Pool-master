@@ -123,16 +123,17 @@ body {
   text-align: center;
   margin: auto 0;
 }
-.two-player-leader{
+.two-player-leader {
   margin: auto;
   padding: 20px;
   text-align: center;
   font-size: 20px;
   font-weight: bold;
   text-transform: capitalize;
-} 
-.two-player-leader span{
-  color: #00ff00;}
+}
+.two-player-leader span {
+  color: #00ff00;
+}
 .player-profile span {
   display: flex;
   width: 45%;
