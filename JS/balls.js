@@ -1,4 +1,4 @@
-export const Balls = {
+export const balls = {
   3: {
     value: 6,
     isPotted: false,

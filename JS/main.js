@@ -1,5 +1,6 @@
 // Imports
 import { Player } from "./players.js";
+import { Game } from "./game.js";
 
 // DOM Query Selectors
 const newGameBtn = document.querySelector(".new-game-btn");
