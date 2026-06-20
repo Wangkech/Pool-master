@@ -1,0 +1,411 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #121212;
+  /* width: 100vw; */
+  color: white;
+  /* padding: 20px; */
+  font-size: 24px;
+  overflow-x: hidden;
+}
+
+.hide-btn {
+  display: contents;
+}
+
+.title {
+  margin: 20px;
+  text-align: center;
+}
+
+.after-title {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.new-game-btn {
+  height: 50px;
+  width: 150px;
+  margin: 0 auto;
+  align-self: center;
+  font-weight: bold;
+  color: #1e1e1e;
+}
+.app-container {
+  display: flex;
+  flex-direction: column;
+  width: 70vw;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: none;
+}
+
+.add-player-form {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0 0 10px 0;
+}
+
+.add-player-form input {
+  width: 80%;
+  height: 50px;
+  font-size: 20px;
+  margin: 0 10px 0 0;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+.add-player-form button {
+  height: 50px;
+  width: 150px;
+  background-color: #04628d;
+  border: none;
+  font-size: 18px;
+  color: white;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.add-player-form button:hover {
+  background-color: #0663db;
+}
+
+.player-list {
+  /* max-width: 800px; */
+
+  margin-top: 20px;
+  list-style-type: none;
+  width: 100%;
+}
+
+.player-list li {
+  list-style-type: disc;
+  width: 95%;
+  display: flex;
+  justify-content: space-around;
+  margin: 20px;
+  font-size: 18px;
+}
+
+.player-profile {
+  /* padding-left: 10px; */
+  width: 70%;
+  display: flex;
+  justify-content: space-around;
+
+  font-size: 18px;
+  /* background-color: red; */
+}
+
+.player-name {
+  width: 35%;
+  /* height: 50px; */
+  color: white;
+  margin: auto 10px;
+  /* background-color: #fff; */
+  text-transform: capitalize;
+}
+.score {
+  width: 10%;
+  text-align: center;
+  margin: auto 0;
+}
+.two-player-leader {
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+.two-player-leader span {
+  color: #00ff00;
+}
+.player-profile span {
+  display: flex;
+  width: 45%;
+  justify-content: center;
+  /* display: none; */
+}
+.score-input {
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
+  /* margin: 0 10px 0 0; */
+  /* border-radius: 8px; */
+  border-radius: 8px 0 0 8px;
+  border: none;
+}
+
+.add-points {
+  width: 100px;
+  height: 50px;
+  font-size: 16px;
+  text-transform: capitalize;
+  /* margin: 0 10px 0 0; */
+  border-radius: 0 8px 8px 0;
+  border: none;
+}
+.archive-player {
+  width: 70px;
+  height: 50px;
+  border-radius: 10px;
+  border: none;
+  background-color: rgba(235, 2, 2, 0.452);
+  color: #fff;
+  display: none;
+}
+.confirm-players {
+  width: 90px;
+  margin: 20px auto;
+  height: 50px;
+  font-size: 20px;
+  background-color: #04628d;
+  color: white;
+  border-radius: 8px;
+  border: none;
+}
+
+.confirm-players:hover {
+  background-color: #0663db;
+}
+
+.show-btns {
+  display: flex;
+  flex-direction: column;
+}
+
+.hide-btns {
+  display: none;
+}
+.lower-btns {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px auto;
+  width: 800px;
+}
+
+.lower-btns button {
+  width: 150px;
+  height: 50px;
+  font-size: 16px;
+  background-color: #022f44;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  text-transform: capitalize;
+}
+
+.game-records-container {
+  margin: 50px auto;
+  max-width: 800px;
+  overflow-x: auto;
+  padding: 20px;
+  background-color: #1e1e1e;
+}
+
+.game-records-container h2 {
+  text-align: center;
+  margin: 20px auto;
+}
+
+/* Container */
+.record-fields,
+.record {
+  display: grid;
+  grid-template-columns: 150px repeat(var(--rounds), 100px) 80px;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-bottom: 1px solid #ccc;
+  font-size: 16px;
+}
+
+/* Header row */
+.record-fields {
+  font-weight: bold;
+  /* background: #f4f4f4; */
+}
+
+/* Player rows */
+.record {
+  /* background: #fff; */
+}
+
+.record-name {
+  font-weight: 600;
+}
+
+.record-score,
+.record-wins {
+  text-align: center;
+  font-style: italic;
+}
+
+/* responsiveness */
+@media screen and (max-width: 768px) {
+  .app-container {
+    width: 70vw;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* display: none; */
+  }
+
+  .add-player-form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 0 0 10px 0;
+  }
+
+  .add-player-form input {
+    width: 80%;
+    height: 50px;
+    font-size: 20px;
+    margin: 0 10px 0 0;
+    padding: 0 10px;
+    border-radius: 8px;
+    border: none;
+  }
+
+  .add-player-form button {
+    height: 50px;
+    width: 80px;
+    background-color: #04628d;
+    border: none;
+    font-size: 12px;
+    color: white;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+  }
+
+  .add-player-form input {
+    width: 80%;
+    height: 50px;
+    font-size: 20px;
+    margin: 0 10px 0 0;
+    padding: 0 10px;
+    border-radius: 8px;
+    border: none;
+  }
+
+  .player-name {
+    width: 35%;
+    /* height: 50px; */
+    color: white;
+    margin: auto 10px;
+    /* background-color: #fff; */
+    text-transform: capitalize;
+  }
+  .score {
+    width: 10%;
+    text-align: center;
+    margin: auto 0;
+  }
+  .player-profile span {
+    width: 45%;
+    justify-content: center;
+  }
+  .lower-btns {
+    width: 70vw;
+    /* height: 50px; */
+  }
+
+  .lower-btns button {
+    /* min-width: px; */
+    width: 80px;
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 535px) {
+  .title {
+    font-size: 1.5em;
+  }
+
+  .after-title p {
+    font-size: 16px;
+  }
+
+  .app-container {
+    width: 90vw;
+    /* padding: ; */
+  }
+  .player-list {
+    /* max-width: 800px; */
+
+    margin-top: 5px;
+    list-style-type: none;
+    width: 100%;
+  }
+  .player-profile {
+    margin: 0;
+    width: 95%;
+    display: flex;
+    justify-content: space-around;
+
+    font-size: 18px;
+    /* background-color: red; */
+  }
+
+  .player-name {
+    width: 35%;
+    /* height: 50px; */
+    color: white;
+    margin: auto 10px;
+    /* background-color: #fff; */
+    text-transform: capitalize;
+  }
+  .score {
+    width: 10%;
+    text-align: center;
+    margin: auto 0;
+  }
+  .player-profile span {
+    width: 45%;
+    justify-content: center;
+  }
+  .score-input {
+    width: 50px;
+    height: 50px;
+    font-size: 16px;
+    /* margin: 0 10px 0 0; */
+    /* border-radius: 8px; */
+    border-radius: 8px 0 0 8px;
+    border: none;
+  }
+
+  .add-points {
+    width: 60px;
+    height: 50px;
+    font-size: 12px;
+  }
+
+  .lower-btns {
+    width: 90vw;
+  }
+  .lower-btns button {
+    width: 80px;
+    font-size: 12px;
+  }
+
+  .game-records-container h2 {
+    font-size: 28px;
+  }
+}

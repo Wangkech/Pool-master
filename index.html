@@ -1,21 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./CSS/style.css" />
     <title>Pool Master</title>
   </head>
   <body>
-    <h1 class="title">Pool Master</h1>
-    <div class="after-title">
-      <button class="new-game-btn" type="button">Create Session</button>
-    </div>
+    <nav class="top-nav">
+      <div class="nav-content">
+        <div class="burger-btn"></div>
+        <div class="logo-banner"><h1 class="logo">Pool Master</h1></div>
+      </div>
+    </nav>
+
+    <button class="new-game-btn" type="button">Start Game</button>
 
     <div class="app-container show-btn">
       <form action="submit" class="add-player-form">
         <input
-          name="plare name input"
+          name="player name input"
           type="text"
           placeholder=" Enter Player Name"
           class="player-name-input"
@@ -40,6 +44,6 @@
         <ul class="records-list"></ul>
       </div>
     </div>
-    <script src="app.js"></script>
+    <script type="module" src="./JS/main.js"></script>
   </body>
 </html>
