@@ -8,14 +8,15 @@ export class Game {
     this.allRounds = [];
     this.gameEnded = false;
   }
-
-  ballsInit() {
-    let breaker = new Ball((value = 6));
-    this.balls.push(breaker);
-
-    for (let i = 0; i < 13; i++) {
-      let ball = new Ball();
-      this.balls.push(ball);
-    }
+  getBalls() {
+    return balls;
+  }
+  resetGame() {
+    this.players.length = 0;
+    this.balls.forEach((ball) => {
+      ball.isPotted = false;
+    });
+    this.allRounds.length = 0;
+    this.gameEnded = false;
   }
 }
