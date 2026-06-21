@@ -4,13 +4,16 @@ import { balls } from "./balls.js";
 export class Game {
   constructor() {
     this.players = [];
-    this.balls = [];
+    // this.activeBalls = getBalls(balls);
     this.allRounds = [];
     this.gameEnded = false;
   }
-  getBalls() {
-    return balls;
-  }
+  // getBalls(balls) {
+  //   this.activeBalls.length = 0;
+  //   balls.forEach((ball) => {
+  //     this.activeBalls.push(ball.value);
+  //   });
+  // }
   resetGame() {
     this.players.length = 0;
     this.balls.forEach((ball) => {
