@@ -8,9 +8,12 @@ $primary-black: #262524;
 
 body {
   background-color: $primary-black;
+  height: 100vh;
 }
 
 .top-nav {
+  position: absolute;
+  top: 0;
   width: 100vw;
   color: #ffffff;
   //   background-color: #fff;
@@ -52,16 +55,23 @@ body {
 
 .new-game-btn-container {
   background-color: #ffffff10;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 100%;
+  gap: 8px;
+  // flex-direction: column;
   padding: 16px;
   width: 60vw;
-  margin: 0 auto;
+  margin: auto;
   border: 2px solid #ffffff;
   border-radius: 50px;
   height: 150px;
   justify-content: space-around;
   align-items: center;
+
+  grid-row-gap: 16px;
+  text-align: center;
+  justify-items: center;
+  grid-column-gap: 16px;
   .new-game-btn {
     height: 50px;
     width: 50px;
