@@ -9,12 +9,19 @@
   <body>
     <nav class="top-nav">
       <div class="nav-content">
-        <div class="burger-btn"></div>
+        <div class="burger-btn">
+          <div class="burger-btn-line" id="burger-btn-line1"></div>
+          <div class="burger-btn-line" id="burger-btn-line2"></div>
+          <div class="burger-btn-line" id="burger-btn-line3"></div>
+        </div>
         <div class="logo-banner"><h1 class="logo">Pool Master</h1></div>
       </div>
     </nav>
 
-    <button class="new-game-btn" type="button">Start Game</button>
+    <div class="new-game-btn-container">
+      <button class="new-game-btn">+</button>
+      <p class="new-game-btn-text">Start New Game</p>
+    </div>
 
     <div class="app-container show-btn">
       <form action="submit" class="add-player-form">
