@@ -10,7 +10,7 @@
 }
 body {
   font-family: "poppins";
-  background-color: #262524;
+  background-color: #000000;
   display: grid;
   grid-template-rows: 75px 1fr 76px;
   height: 100vh;
@@ -194,9 +194,63 @@ body {
 .app-section .active-game-container {
   height: 90%;
   width: calc(100vw - 2rem);
-  background-color: #262524;
-  border: 1px solid #ffffff;
+  padding: 1rem;
   border-radius: 1rem;
+  background-color: rgba(255, 255, 255, 0.062745098);
+  border: 1px solid #ffffff;
+  backdrop-filter: blur(100px);
+  display: grid;
+  grid-template-rows: 40px 1fr 40px;
+}
+.app-section .active-game-top-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.app-section .active-game-top-row .active-game-action-btns {
+  display: flex;
+  align-items: center;
+}
+.app-section .active-game-top-row .active-game-action-btns .active-game-action-btn {
+  height: 2rem;
+  width: 2rem;
+  background-color: transparent;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+.app-section .active-game-top-row .active-game-action-btns .active-game-action-btn img {
+  width: 100%;
+  height: 100%;
+}
+.app-section .active-game-top-row .game-number-holder {
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+.app-section .active-game-top-row .game-number-holder .game-number {
+  background-color: #fff;
+  border-radius: 1rem;
+  width: 60%;
+  height: 2rem;
+  font-size: 1rem;
+  padding: 0.25rem;
+  text-align: center;
+}
+.app-section .active-game-btns-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.app-section .active-game-btns-container .bottom-row-btn {
+  height: 2rem;
+  padding: 0.5rem;
+  border-radius: 0.75rem;
+  border: none;
+  font-size: 0.75rem;
 }
 
 .bottom-nav {
@@ -204,14 +258,14 @@ body {
   bottom: 1rem;
   width: 70vw;
   height: 60px;
-  border-radius: 1rem;
+  border-radius: 2rem;
   padding: 0.25rem;
   border: 1px solid #ffffff;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   justify-self: center;
-  background-color: rgba(104, 95, 95, 0.062745098);
+  background-color: rgba(255, 255, 255, 0.062745098);
 }
 .bottom-nav .bottom-nav-btn {
   background-color: transparent;
