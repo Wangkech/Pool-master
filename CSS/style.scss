@@ -19,6 +19,7 @@ body {
   grid-template-rows: 75px 1fr 76px;
   height: 100vh;
   margin: 0;
+
   // grid: ;
 }
 
@@ -108,7 +109,7 @@ body {
   .add-player-modal-container {
     height: 90%;
     padding: 1rem;
-    display: grid;
+    display: none;
     grid-template-rows: 40px 1fr 40px;
     min-height: 60vh;
     width: 70vw;
@@ -213,6 +214,14 @@ body {
       }
     }
   }
+
+  .active-game-container {
+    height: 90%;
+    width: calc(100vw - 2rem);
+    background-color: $primary-black;
+    border: 1px solid #ffffff;
+    border-radius: 1rem;
+  }
 }
 // Bottom Navigation Bar
 .bottom-nav {
@@ -228,7 +237,7 @@ body {
   align-items: center;
   justify-content: space-evenly;
   justify-self: center;
-  background-color: $transparent-grey;
+  background-color: #685f5f10;
 
   .bottom-nav-btn {
     background-color: transparent;
