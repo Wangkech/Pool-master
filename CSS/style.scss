@@ -4,9 +4,15 @@
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: "poppins";
+  src: url("../assets/fonts/Poppins/Poppins-Regular.ttf");
+}
+
 $primary-black: #262524;
 
 body {
+  font-family: "poppins";
   background-color: $primary-black;
   height: 100vh;
 }
@@ -46,7 +52,7 @@ body {
     }
     .logo-banner {
       width: 90%;
-      text-transform: uppercase;
+      text-transform: capitalize;
       font-size: 0.8rem;
       text-align: center;
     }
@@ -60,15 +66,15 @@ body {
   gap: 8px;
   // flex-direction: column;
   padding: 16px;
-  width: 60vw;
-  margin: auto;
+  width: 70vw;
+  height: 25vh;
+  margin: 200px auto;
   border: 2px solid #ffffff;
   border-radius: 50px;
-  height: 150px;
   justify-content: space-around;
   align-items: center;
 
-  grid-row-gap: 16px;
+  // grid-row-gap: 0px;
   text-align: center;
   justify-items: center;
   grid-column-gap: 16px;
@@ -78,13 +84,14 @@ body {
     background-color: #ffffff50;
     color: #ffffff;
     font-size: 2em;
+    border: none;
     border-radius: 0.25em;
   }
 
   .new-game-btn-text {
     color: #ffffff;
-    font-size: 1.5em;
-    font-weight: bold;
+    font-size: 1.5rem;
+    font-weight: 400;
   }
 }
 
