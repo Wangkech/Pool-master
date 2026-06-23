@@ -18,16 +18,28 @@
       </div>
     </nav>
 
-    <div class="new-game-btn-container">
-      <button class="new-game-btn">
-        <img
-          src="./assets/icons/Plus.svg"
-          alt="New Game Button"
-          class="new-game-btn-icon"
-        />
-      </button>
-      <p class="new-game-btn-text">Start New Game</p>
-    </div>
+    <section class="app-section">
+      <!-- Create New Game Banner -->
+      <div class="new-game-btn-container">
+        <button class="new-game-btn">
+          <img
+            src="./assets/icons/Plus.svg"
+            alt="New Game Button"
+            class="new-game-btn-icon"
+          />
+        </button>
+        <p class="new-game-btn-text">Start New Game</p>
+      </div>
+      <!-- Add player Modal -->
+      <div class="add-player-modal-container">
+        <form action="submit" class="add-player-form">
+          <input type="text" class="player-name-input" />
+          <button type="submit" class="add-player-btn">
+            <img src="./assets/icons/Plus.svg" alt="Add Player" />
+          </button>
+        </form>
+      </div>
+    </section>
 
     <div class="bottom-nav">
       <button class="home-btn bottom-nav-btn">
@@ -41,7 +53,7 @@
       </button>
     </div>
 
-    <div class="app-container show-btn">
+    <!-- <div class="app-container show-btn">
       <form action="submit" class="add-player-form">
         <input
           name="player name input"
@@ -60,15 +72,14 @@
       <button class="late-comer">add Late comer</button
       ><button class="end-game">end session</button
       ><button class="next-round">next round</button>
-    </div>
-
-    <!-- Game Records: -->
+    </div> -->
+    <!-- 
     <div class="game-records-container">
       <h2>Game Records</h2>
       <div class="game-records">
         <ul class="records-list"></ul>
       </div>
-    </div>
+    </div> -->
     <script type="module" src="./JS/main.js"></script>
   </body>
 </html>
