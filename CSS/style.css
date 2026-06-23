@@ -15,7 +15,7 @@ body {
 }
 
 .top-nav {
-  position: absolute;
+  position: fixed;
   top: 0;
   width: 100vw;
   color: #ffffff;
@@ -48,7 +48,7 @@ body {
 .top-nav .nav-content .logo-banner {
   width: 90%;
   text-transform: capitalize;
-  font-size: 0.8rem;
+  font-size: 1rem;
   text-align: center;
 }
 
@@ -56,7 +56,6 @@ body {
   background-color: rgba(255, 255, 255, 0.062745098);
   display: grid;
   grid-template-columns: 100%;
-  gap: 8px;
   padding: 16px;
   width: 70vw;
   height: 25vh;
@@ -70,18 +69,45 @@ body {
   grid-column-gap: 16px;
 }
 .new-game-btn-container .new-game-btn {
-  height: 50px;
-  width: 50px;
+  height: 45px;
+  width: 45px;
   background-color: rgba(255, 255, 255, 0.3137254902);
   color: #ffffff;
   font-size: 2em;
   border: none;
   border-radius: 0.25em;
+  cursor: pointer;
 }
 .new-game-btn-container .new-game-btn-text {
   color: #ffffff;
-  font-size: 1.5rem;
-  font-weight: 400;
+  font-size: 1.25rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 1rem;
+  width: 70vw;
+  height: 75px;
+  border-radius: 1rem;
+  border: 1px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  justify-self: center;
+  background-color: rgba(255, 255, 255, 0.062745098);
+}
+.bottom-nav .bottom-nav-btn {
+  background-color: transparent;
+  border: none;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+.bottom-nav .bottom-nav-btn img {
+  width: 40px;
+  height: 40px;
 }
 
 .show-btn {
