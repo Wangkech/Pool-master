@@ -14,7 +14,7 @@ $primary-black: #262524;
 body {
   font-family: "poppins";
   background-color: $primary-black;
-  height: 100vh;
+  // height: 100vh;
 }
 
 .top-nav {
@@ -69,7 +69,7 @@ body {
   width: 70vw;
   height: 25vh;
   margin: 200px auto;
-  border: 2px solid #ffffff;
+  border: 1px solid #ffffff;
   border-radius: 50px;
   justify-content: space-around;
   align-items: center;
