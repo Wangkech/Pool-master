@@ -110,29 +110,35 @@ body {
   height: 40px;
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  -moz-column-gap: 0rem;
-       column-gap: 0rem;
+  -moz-column-gap: 0.5rem;
+       column-gap: 0.5rem;
 }
 .app-section .add-player-modal-container .add-player-form .player-name-input {
   height: 40px;
-  border-radius: 1rem 0 0 1rem;
+  min-width: 75%;
+  border-radius: 1rem;
   border: none;
   border: 1px solid #ffffff;
+  outline-color: inset 0px;
+  padding: 0.5rem;
+  font-size: 1rem;
 }
 .app-section .add-player-modal-container .add-player-form .add-player-btn {
+  text-align: center;
+  align-items: center;
   height: 40px;
-  width: 40px;
+  width: 75px;
   background-color: rgba(255, 255, 255, 0.062745098);
   border: none;
-  border-radius: 0 1rem 1rem 0;
+  border-radius: 1rem;
+  padding: 8px;
   border: 1px solid #ffffff;
-  outline-color: none;
 }
 .app-section .add-player-modal-container .add-player-form .add-player-btn img {
-  width: 20px;
-  height: 20px;
+  width: 1rem;
+  height: 1rem;
 }
 
 .bottom-nav {
