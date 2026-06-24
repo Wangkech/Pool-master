@@ -109,9 +109,11 @@ body {
   .add-player-modal-container {
     height: 90%;
     padding: 1rem;
+    display: grid;
     display: none;
     grid-template-rows: 40px 1fr 40px;
     min-height: 60vh;
+    gap: 0.5rem;
     width: 70vw;
     padding: 1rem;
     border: 1px solid #ffffff;
@@ -230,6 +232,8 @@ body {
 
     display: grid;
     grid-template-rows: 40px 1fr 40px;
+    gap: 0.5rem;
+    display: none;
 
     .active-game-top-row {
       width: 100%;
