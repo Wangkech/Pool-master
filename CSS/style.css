@@ -143,13 +143,13 @@ body {
 }
 .app-section .add-player-modal-container .players-list {
   display: flex;
+  overflow-y: auto;
+  scrollbar-width: none;
   flex-direction: column;
   padding: 1rem;
   width: 100%;
   row-gap: 0.5rem;
   list-style: none;
-  overflow-y: auto;
-  scrollbar-width: none;
 }
 .app-section .add-player-modal-container .players-list li {
   border: 1px solid #ffffff;
@@ -193,7 +193,7 @@ body {
 }
 .app-section .active-game-container {
   height: 90%;
-  width: calc(100vw - 2rem);
+  width: 100%;
   padding: 1rem;
   border-radius: 1rem;
   background-color: rgba(255, 255, 255, 0.062745098);
@@ -202,16 +202,16 @@ body {
   display: grid;
   grid-template-rows: 40px 1fr 40px;
 }
-.app-section .active-game-top-row {
+.app-section .active-game-container .active-game-top-row {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
-.app-section .active-game-top-row .active-game-action-btns {
+.app-section .active-game-container .active-game-top-row .active-game-action-btns {
   display: flex;
   align-items: center;
 }
-.app-section .active-game-top-row .active-game-action-btns .active-game-action-btn {
+.app-section .active-game-container .active-game-top-row .active-game-action-btns .active-game-action-btn {
   height: 2rem;
   width: 2rem;
   background-color: transparent;
@@ -219,38 +219,107 @@ body {
   padding: 0.5rem;
   cursor: pointer;
 }
-.app-section .active-game-top-row .active-game-action-btns .active-game-action-btn img {
+.app-section .active-game-container .active-game-top-row .active-game-action-btns .active-game-action-btn img {
   width: 100%;
   height: 100%;
 }
-.app-section .active-game-top-row .game-number-holder {
-  width: 200px;
+.app-section .active-game-container .active-game-top-row .game-number-holder {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: right;
 }
-.app-section .active-game-top-row .game-number-holder .game-number {
+.app-section .active-game-container .active-game-top-row .game-number-holder .game-number {
   background-color: #fff;
   border-radius: 1rem;
-  width: 60%;
+  width: 70%;
   height: 2rem;
-  font-size: 1rem;
+  font-size: 0.75em;
   padding: 0.25rem;
+  margin: auto;
   text-align: center;
 }
-.app-section .active-game-btns-container {
+.app-section .active-game-container .active-game-btns-container {
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
 }
-.app-section .active-game-btns-container .bottom-row-btn {
+.app-section .active-game-container .active-game-btns-container .bottom-row-btn {
   height: 2rem;
   padding: 0.5rem;
   border-radius: 0.75rem;
   border: none;
   font-size: 0.75rem;
+}
+.app-section .player-list-container {
+  width: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.app-section .player-list-container .players-list {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: repeat(auto, minmax(5rem, 1fr));
+  gap: 0.5rem;
+}
+.app-section .player-list-container .players-list .player-card {
+  width: 100%;
+  height: 5rem;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  border: 1px solid #ffffff;
+  border-radius: 1rem;
+  padding: 0.5rem;
+}
+.app-section .player-list-container .players-list .player-card .player-card-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0.25rem 1rem;
+  color: #fff;
+}
+.app-section .player-list-container .players-list .player-card .player-card-top .player-name {
+  font-size: 1rem;
+}
+.app-section .player-list-container .players-list .player-card .player-card-top .points-area {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.app-section .player-list-container .players-list .player-card .player-card-top .points-btns {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+.app-section .player-list-container .players-list .player-card .player-card-bottom {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  height: 100%;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: row;
+}
+.app-section .player-list-container .players-list .player-card .player-card-bottom .potted-balls-container {
+  height: 100%;
+  width: 100%;
+  padding: 0.25rem 1rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  list-style: none;
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+.app-section .player-list-container .players-list .player-card .player-card-bottom .potted-balls-container .potted-ball {
+  text-align: center;
+  font-size: 0.75rem;
+  background-color: #fff;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 1rem;
 }
 
 .bottom-nav {
