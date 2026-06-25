@@ -1,8 +1,8 @@
+// import "react" 
 
 function Header() {
     return (
-        
-        <nav class="top-nav">
+    <nav class="top-nav">
       <div class="nav-content">
         <div class="burger-btn">
           <div class="burger-btn-line" id="burger-btn-line1"></div>
@@ -13,5 +13,7 @@ function Header() {
       </div>
     </nav>
         
-    )
+    );
 }
+
+export default Header;

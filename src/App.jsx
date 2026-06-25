@@ -1,10 +1,11 @@
 import { useState } from "react";
-import "./css/App.css";
+import Header from './components/Header.jsx'
+import  "./css/App.css";
 
 function App() {
-  return (<>
-    
-  </>);
+  return (
+    <Header />
+  );
 }
 
 export default App;
