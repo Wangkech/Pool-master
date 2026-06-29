@@ -48,29 +48,31 @@ export class Player {
 }
 
 export class Ball {
-  constructor(value) {
-    this.ballNo = value;
+  constructor(ball) {
+    this.ballNo = ball;
     this.id;
-    this.value = value === 3 ? (value = 6) : (value = value);
+    this.value = ball === 3 ?  6 : ball;
     this.isPotted = false;
   }
 }
 
-class Game {
-  constructor(games, balls, players) {
-    this.gameNo = games.length + 1;
-    this.balls = balls.length != 0 ? balls : [];
-    this.players = players.length != 0 ? players : [];
+export class Game {
+  constructor(engine ) {
+    this.gameNo = engine.allGames.length + 1;
+    this.balls =  [];
+    this.players =  [];
   }
 
-  getBalls(ball) {}
-  getPlayers() {
-    return this.players;
+  getBalls(engine) {
+    this.balls.push(...engine.balls)
+  }
+  getPlayers(engine) {
+    this.players.push(...engine.players);
   }
 }
 
 export class GameEngine {
-  constructor(Player) {
+  constructor() {
     this.allGames = [];
     this.players = [];
     this.balls = [];
