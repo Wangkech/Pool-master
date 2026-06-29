@@ -1,5 +1,5 @@
 // Imports
-import { GameEngine, Ball, Player, Game } from "./logic.js";
+import { GameEngine, Ball, Game } from "./logic.js";
 
 // DOM Query Selectors
 const newGameBtn = document.querySelector(".new-game-btn");

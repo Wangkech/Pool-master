@@ -25,9 +25,9 @@
 // }
 
 export class Player {
-  constructor(name) {
+  constructor(name, id = crypto.randomUUID()) {
     this.name = name;
-    this.id = crypto.randomUUID();
+    this.id = id;
     this.isActive = true;
     this.isKnocked = false;
     this.ballBasket = [];
@@ -36,13 +36,11 @@ export class Player {
   }
 
   addPoints(ball) {
-    let points = this.player.score;
-    points += ball.value;
+    this.player.score += ball.value;
     this.ballBasket.push(ball);
   }
   minusPoints(ball) {
-    let points = this.player.score;
-    points -= ball;
+ this.player.score -= ball;
     this.ballBasket.push(ball);
   }
 }
@@ -118,8 +116,8 @@ export class GameEngine {
     }
   }
   addPlayer(name) {
-    let newPlayer = new Player(name)
-    this.players.push(newPlayer);
+    let player = new Player(name)
+    this.players.push(player);
   }
 }
 
