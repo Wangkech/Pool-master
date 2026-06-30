@@ -172,7 +172,14 @@ body {
       list-style: none;
 
       // background-color: red;
-      li {
+      .add-player-message {
+        text-align: center;
+        color: #ffffff;
+        font-size: 0.75rem;
+
+        margin-top: 2rem;
+      }
+      .player-on-modal {
         border: 1px solid #ffffff;
         border-radius: 1rem;
         padding: 1rem;

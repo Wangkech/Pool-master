@@ -152,7 +152,13 @@ body {
   row-gap: 0.5rem;
   list-style: none;
 }
-.app-section .add-player-modal-container .players-list li {
+.app-section .add-player-modal-container .players-list .add-player-message {
+  text-align: center;
+  color: #ffffff;
+  font-size: 0.75rem;
+  margin-top: 2rem;
+}
+.app-section .add-player-modal-container .players-list .player-on-modal {
   border: 1px solid #ffffff;
   border-radius: 1rem;
   padding: 1rem;
@@ -163,7 +169,7 @@ body {
        column-gap: 1rem;
   align-items: center;
 }
-.app-section .add-player-modal-container .players-list li .player-index {
+.app-section .add-player-modal-container .players-list .player-on-modal .player-index {
   text-align: center;
   font-size: 0.5rem;
   align-items: center;
@@ -173,7 +179,7 @@ body {
   background-color: #fff;
   color: #000000;
 }
-.app-section .add-player-modal-container .players-list li .player-name {
+.app-section .add-player-modal-container .players-list .player-on-modal .player-name {
   color: #ffffff;
   font-size: 0.75rem;
 }
