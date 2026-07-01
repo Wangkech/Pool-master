@@ -40,7 +40,7 @@ export class Player {
     this.ballBasket.push(ball);
   }
   minusPoints(ball) {
- this.player.score -= ball;
+    this.player.score -= ball;
     this.ballBasket.push(ball);
   }
 }
@@ -49,23 +49,32 @@ export class Ball {
   constructor(ball) {
     this.ballNo = ball;
     this.id;
-    this.value = ball === 3 ?  6 : ball;
+    this.value = ball === 3 ? 6 : ball;
     this.isPotted = false;
   }
 }
 
 export class Game {
-  constructor(engine ) {
+  constructor(engine) {
     this.gameNo = engine.allGames.length + 1;
-    this.balls =  [];
-    this.players =  [];
+    this.balls = [];
+    this.players = [];
+    this.gameEnded = false;
   }
 
   getBalls(engine) {
-    this.balls.push(...engine.balls)
+    this.balls.push(...engine.balls);
   }
-  getPlayers(engine) {
-    this.players.push(...engine.players);
+  getActivePlayers(engine) {
+    let players = engine.players;
+
+    players.forEach((player) => {
+      if (player.isActive) {
+        this.players.push(player);
+      }
+    });
+
+    // this.players.push(...engine.players);
   }
 }
 
@@ -116,7 +125,7 @@ export class GameEngine {
     }
   }
   addPlayer(name) {
-    let player = new Player(name)
+    let player = new Player(name);
     this.players.push(player);
   }
 }

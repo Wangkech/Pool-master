@@ -1,19 +1,20 @@
-// import "react" 
+// import "react"
 
 function Header() {
-    return (
-    <nav class="top-nav">
-      <div class="nav-content">
-        <div class="burger-btn">
-          <div class="burger-btn-line" id="burger-btn-line1"></div>
-          <div class="burger-btn-line" id="burger-btn-line2"></div>
-          <div class="burger-btn-line" id="burger-btn-line3"></div>
+  return (
+    <nav className="top-nav bg-gray-800 w-full h-16 flex items-center justify-between px-4">
+      <div className="nav-content">
+        <div className="burger-btn">
+          <div className="burger-btn-line" id="burger-btn-line1"></div>
+          <div className="burger-btn-line" id="burger-btn-line2"></div>
+          <div className="burger-btn-line" id="burger-btn-line3"></div>
         </div>
-        <div class="logo-banner"><h1 class="logo">Pool Master</h1></div>
+        <div className="logo-banner">
+          <h1 className="logo">Pool Master</h1>
+        </div>
       </div>
     </nav>
-        
-    );
+  );
 }
 
 export default Header;
