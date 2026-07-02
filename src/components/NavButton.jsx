@@ -5,9 +5,9 @@ function NavButton({ url, text }) {
   const imgURL = url;
 
   return (
-    <button className=" w-auto h-auto border-none p-2 text-center flex flex-col justify-between items-center  rounded-[50%]">
-      <img src={imgURL} alt={text} className=" w-[30px] h-[30px]" />
-      <p className="text-[0.875rem]">{text}</p>
+    <button className="flex h-[65px] w-[65px] flex-col items-center justify-between rounded-[50%] border-none p-2 text-center">
+      <img src={imgURL} alt={text} className="h-[30px] w-[30px]" />
+      <p className="text-[0.875rem] capitalize">{text}</p>
     </button>
   );
 }
