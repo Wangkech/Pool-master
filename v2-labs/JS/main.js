@@ -92,7 +92,8 @@ window.addEventListener("DOMContentLoaded", () => {
   function restoreEngine(engine, data, render) {
     data.players.forEach((player) => {
       let name = player.name;
-      engine.addPlayer(name);
+      let id = player.id;
+      engine.addPlayer(name, id);
       render();
     });
   }

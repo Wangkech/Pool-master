@@ -1,0 +1,22 @@
+{
+  "players": [
+    {
+      "name": "wangkech",
+      "id": "player1",
+      "isActive": true,
+      "isKnocked": false
+    },
+    {
+      "name": "Player",
+      "id": "player2",
+      "isActive": true,
+      "isKnocked": false
+    },
+    {
+      "name": "wangkech",
+      "id": "player3",
+      "isActive": true,
+      "isKnocked": false
+    }
+  ]
+}
