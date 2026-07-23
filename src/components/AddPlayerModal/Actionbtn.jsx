@@ -13,7 +13,7 @@ function Actionbtn({ id, text, imgURL, style, doSome }) {
         style,
       )}
     >
-      <img src={imgURL} alt={alt} className=" " />
+      {imgURL != "" && <img src={imgURL} alt={alt} className=" " />}
       {text}
     </button>
   );

@@ -1,9 +1,10 @@
 import Actionbtn from "./Actionbtn.jsx";
-function Nameinput() {
+// import AddIcon from ".src/assets/icons/plus.svg";
+
+function PlayerNameInput() {
   return (
     <form
       action="submit"
-
       className="add-player-form align-center flex justify-center gap-4"
     >
       <input
@@ -18,10 +19,10 @@ function Nameinput() {
         doSome={(e) => {
           e.preventDefault();
         }}
-        imgURL="./src/assets/icons/plus.svg"
+        imgURL={""}
       />
     </form>
   );
 }
 
-export default Nameinput;
+export default PlayerNameInput;
