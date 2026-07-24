@@ -1,12 +1,11 @@
 import { useState } from "react";
+import { Player } from "../../logic/constructors.js";
 
 import PlayerNameInput from "./PlayerNameInput.jsx";
 import List from "./List.jsx";
 import Actionbtn from "./Actionbtn.jsx";
-function AddPlayerModal() {
-  const [players, setPlayers] = useState([
-    { name: "wangkech", id: crypto.randomUUID() },
-  ]);
+function AddPlayerModal({ playerList, setPlayerList }) {
+  const [players, setPlayers] = useState(playerList);
   const [playerName, setPlayerName] = useState("");
 
   function getPlayerName(e) {
@@ -17,27 +16,34 @@ function AddPlayerModal() {
 
   function addPlayerToList(e) {
     e.preventDefault();
-    let newPlayerList = players;
-    let newPlayer = {
-      name: playerName,
-      id: crypto.randomUUID(),
-    };
-
-    newPlayerList.push(newPlayer);
+    // let newPlayerList = players;
+    const newPlayer = new Player(playerName);
+    let newPlayerList = [...players, newPlayer];
 
     setPlayers(newPlayerList);
     setPlayerName("");
 
-    console.log(players);
+    console.log(playerList);
   }
 
   function removePlayer(id) {
+    console.log("Before: ", players);
     let currentPlayers = players.filter((player) => player.id != id);
+    // setPlayers(currentPlayers);
     setPlayers(currentPlayers);
+    console.log("after: ", players);
   }
   function editPlayerName(id) {
     console.log("edit Player: ", id);
   }
+
+  function saveList() {
+    setPlayerList(players);
+    console.log(playerList);
+  }
+
+  function cancelList() {}
+
   return (
     <div className="add-player-modal-container justify-self-cent align-self-center grid h-[90%] min-h-[60vh] w-[70vw] grid-rows-[40px_1fr_40px] rounded-2xl border bg-[#1A1A1A] p-2">
       <PlayerNameInput
@@ -45,6 +51,8 @@ function AddPlayerModal() {
         setPlayerName={setPlayerName}
         getPlayerName={getPlayerName}
         addPlayerToList={addPlayerToList}
+        saveList={saveList}
+        cancelList={cancelList}
       />
       <List
         players={players}
@@ -52,8 +60,8 @@ function AddPlayerModal() {
         removePlayer={removePlayer}
       />
       <div className="flex justify-around">
-        <Actionbtn id="btn2" text="Cancel" imgURL="" />
-        <Actionbtn id="btn1" text="Save" imgURL={""} />
+        <Actionbtn doSome={cancelList} id="btn2" text="Cancel" imgURL="" />
+        <Actionbtn doSome={saveList} id="btn1" text="Save" imgURL={""} />
       </div>
     </div>
   );
