@@ -1,7 +1,7 @@
 import Actionbtn from "./Actionbtn.jsx";
 // import AddIcon from ".src/assets/icons/plus.svg";
 
-function PlayerNameInput() {
+function PlayerNameInput({ playerName, getPlayerName, addPlayerToList }) {
   return (
     <form
       action="submit"
@@ -9,16 +9,16 @@ function PlayerNameInput() {
     >
       <input
         type="text"
-        className="player-name-input flex h-10 w-auto justify-center gap-2 rounded-[5rem] border-2 border-none bg-white p-4 text-[0.875rem] text-white shadow shadow-black placeholder:text-[#1F1F1F]"
+        className="player-name-input flex h-10 w-auto justify-center gap-2 rounded-[5rem] border-2 border-none bg-white p-4 text-[0.875rem] text-black shadow shadow-black placeholder:text-[#1F1F1F]"
         placeholder="Enter Player Name...  "
+        onChange={getPlayerName}
+        value={playerName}
       />
       <Actionbtn
         id="add-player"
         style=""
         text="Add Player"
-        doSome={(e) => {
-          e.preventDefault();
-        }}
+        doSome={addPlayerToList}
         imgURL={""}
       />
     </form>
