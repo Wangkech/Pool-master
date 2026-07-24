@@ -30,6 +30,14 @@ function AddPlayerModal() {
 
     console.log(players);
   }
+
+  function removePlayer(id) {
+    let currentPlayers = players.filter((player) => player.id != id);
+    setPlayers(currentPlayers);
+  }
+  function editPlayerName(id) {
+    console.log("edit Player: ", id);
+  }
   return (
     <div className="add-player-modal-container justify-self-cent align-self-center grid h-[90%] min-h-[60vh] w-[70vw] grid-rows-[40px_1fr_40px] rounded-2xl border bg-[#1A1A1A] p-2">
       <PlayerNameInput
@@ -38,7 +46,11 @@ function AddPlayerModal() {
         getPlayerName={getPlayerName}
         addPlayerToList={addPlayerToList}
       />
-      <List players={players} />
+      <List
+        players={players}
+        editPlayerName={editPlayerName}
+        removePlayer={removePlayer}
+      />
       <div className="flex justify-around">
         <Actionbtn id="btn2" text="Cancel" imgURL="" />
         <Actionbtn id="btn1" text="Save" imgURL={""} />
