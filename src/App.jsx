@@ -1,14 +1,16 @@
 import { useState } from "react";
 import Header from "./components/Header";
-
+import './css/App.css'
 import data from "./dummyData.json";
 import Navbar from "./components/Navbar";
 import Container from "./components/Container";
 import AddPlayerModal from "./components/AddPlayerModal/AddPlayerModal.jsx";
 import StartNewGame from "./components/StartNewGame.jsx";
+import ActiveGameContainer from "./components/ActiveGame/ActiveGameContainer.jsx";
 
 function App() {
   const [isAddingPlayers, setIsAddingPlayers] = useState(false)
+  const [gameOn, setGameOn] = useState(false)
   let storedData = data;
 
   const [playerList, setPlayerList] = useState(
@@ -30,8 +32,10 @@ function App() {
               playerList={playerList}
               setPlayerList={setPlayerList}
               setIsAddingPlayers={setIsAddingPlayers}
+              setGameOn={setGameOn}
             />)}
-            {isAddingPlayers === false && <StartNewGame handleStartNewGame={handleStartNewGame} />}
+            {(isAddingPlayers === false && gameOn === false) && <StartNewGame handleStartNewGame={handleStartNewGame} />}
+            {gameOn === true && <ActiveGameContainer />}
           </>
         } />
 

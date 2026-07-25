@@ -4,7 +4,7 @@ import { Player } from "../../logic/players.js";
 import PlayerNameInput from "./PlayerNameInput.jsx";
 import PlayerNameList from "./PlayerNameListContainer.jsx";
 import Actionbtn from "./Actionbtn.jsx";
-function AddPlayerModal({ playerList, setPlayerList, setIsAddingPlayers }) {
+function AddPlayerModal({ playerList, setPlayerList, setIsAddingPlayers, setGameOn }) {
   const [players, setPlayers] = useState(playerList);
   const [playerName, setPlayerName] = useState("");
 
@@ -27,9 +27,7 @@ function AddPlayerModal({ playerList, setPlayerList, setIsAddingPlayers }) {
   }
 
   function removePlayer(id) {
-    console.log("Before: ", players);
     let currentPlayers = players.filter((player) => player.id != id);
-    // setPlayers(currentPlayers);
     setPlayers(currentPlayers);
     console.log("after: ", players);
   }
@@ -40,7 +38,7 @@ function AddPlayerModal({ playerList, setPlayerList, setIsAddingPlayers }) {
   function saveList() {
     setPlayerList(players);
     setIsAddingPlayers(false)
-    console.log(playerList);
+    setGameOn(true)
   }
 
   function cancelList() {

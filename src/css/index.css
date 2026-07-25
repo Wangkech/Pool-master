@@ -5,6 +5,10 @@
   src: url("../assets/fonts/Poppins/Poppins-Regular.ttf");
 }
 
+:root {
+  --accent-bg: #1e1e1e;
+}
+
 /* * {
   margin: 0;
   padding: 0;
