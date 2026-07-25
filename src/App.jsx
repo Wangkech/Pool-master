@@ -5,13 +5,19 @@ import data from "./dummyData.json";
 import Navbar from "./components/Navbar";
 import Container from "./components/Container";
 import AddPlayerModal from "./components/AddPlayerModal/AddPlayerModal.jsx";
+import StartNewGame from "./components/StartNewGame.jsx";
 
 function App() {
+  const [isAddingPlayers, setIsAddingPlayers] = useState(false)
   let storedData = data;
 
   const [playerList, setPlayerList] = useState(
     storedData ? storedData.players : [],
   );
+
+  function handleStartNewGame() {
+    setIsAddingPlayers(true)
+  }
 
   console.log(playerList);
   return (
@@ -19,12 +25,17 @@ function App() {
       <Header />
       <Container
         child={
-          <AddPlayerModal
-            playerList={playerList}
-            setPlayerList={setPlayerList}
-          />
-        }
-      />
+          <>
+            {isAddingPlayers && (<AddPlayerModal
+              playerList={playerList}
+              setPlayerList={setPlayerList}
+              setIsAddingPlayers={setIsAddingPlayers}
+            />)}
+            {isAddingPlayers === false && <StartNewGame handleStartNewGame={handleStartNewGame} />}
+          </>
+        } />
+
+
       <Navbar />
     </div>
   );
