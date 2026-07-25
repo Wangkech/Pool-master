@@ -9,16 +9,16 @@ function PlayerNameInput({ playerName, getPlayerName, addPlayerToList }) {
     >
       <input
         type="text"
-        className="player-name-input flex h-10 w-auto justify-center gap-2 rounded-[5rem] border-2 border-none bg-white p-4 text-[0.875rem] text-black shadow shadow-black placeholder:text-[#1F1F1F]"
-        placeholder="Enter Player Name...  "
+        className="player-name-input flex h-10 w-auto justify-center gap-2 rounded-[5rem] border-2 border-none bg-white p-4 text-[0.875rem] text-black shadow-black placeholder:text-[#1F1F1F]"
+        placeholder=" Enter Player Name...  "
         onChange={getPlayerName}
         value={playerName}
       />
       <Actionbtn
         id="add-player"
-        style=""
+        style="text-[12px] shadow-[0_0_4px_20px_rgb(20_33_23_0.5)]"
         text="Add Player"
-        doSome={addPlayerToList}
+        action={addPlayerToList}
         imgURL={""}
       />
     </form>

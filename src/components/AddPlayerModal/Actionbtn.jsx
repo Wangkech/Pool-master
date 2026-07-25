@@ -1,12 +1,12 @@
 import PropTypes from "prop-types";
 
 import { twMerge } from "tailwind-merge";
-function Actionbtn({ id, text, imgURL, style, doSome }) {
+function Actionbtn({ id, text, imgURL, style, action }) {
   const alt = imgURL === "" ? "" : text;
   return (
     <button
       id={id}
-      onClick={doSome}
+      onClick={action}
       className={twMerge(
         "action-btn {style} flex h-10 w-fit rounded-[5rem] border-2 border-white bg-[#1A1A1A] p-2 text-[0.875rem] text-white",
         style,

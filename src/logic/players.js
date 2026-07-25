@@ -4,21 +4,12 @@ export class Player {
     id = crypto.randomUUID(),
     isActive = true,
     isKnocked = false,
+    ballBasket = [],
   ) {
     this.name = name;
     this.id = id;
     this.isActive = isActive;
     this.isKnocked = isKnocked;
+    this.ballBasket = ballBasket;
   }
-
-  // addPoints(ball) {
-  //   this.player.score += ball.value;
-  //   this.ballBasket.push(ball);
-  // }
-  // minusPoints(ball) {
-  //   this.player.score -= ball;
-  //   this.ballBasket.push(ball);
-  // }
 }
-
-// Player.prototype.addPoints();

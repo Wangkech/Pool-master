@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Player } from "../../logic/constructors.js";
+import { Player } from "../../logic/players.js";
 
 import PlayerNameInput from "./PlayerNameInput.jsx";
-import List from "./List.jsx";
+import PlayerNameList from "./PlayerNameListContainer.jsx";
 import Actionbtn from "./Actionbtn.jsx";
 function AddPlayerModal({ playerList, setPlayerList }) {
   const [players, setPlayers] = useState(playerList);
@@ -42,7 +42,7 @@ function AddPlayerModal({ playerList, setPlayerList }) {
     console.log(playerList);
   }
 
-  function cancelList() {}
+  function cancelList() { }
 
   return (
     <div className="add-player-modal-container justify-self-cent align-self-center grid h-[90%] min-h-[60vh] w-[70vw] grid-rows-[40px_1fr_40px] rounded-2xl border bg-[#1A1A1A] p-2">
@@ -54,14 +54,14 @@ function AddPlayerModal({ playerList, setPlayerList }) {
         saveList={saveList}
         cancelList={cancelList}
       />
-      <List
+      <PlayerNameList
         players={players}
         editPlayerName={editPlayerName}
         removePlayer={removePlayer}
       />
       <div className="flex justify-around">
-        <Actionbtn doSome={cancelList} id="btn2" text="Cancel" imgURL="" />
-        <Actionbtn doSome={saveList} id="btn1" text="Save" imgURL={""} />
+        <Actionbtn action={cancelList} id="btn2" text="Cancel" imgURL="" />
+        <Actionbtn action={saveList} id="btn1" text="Save" imgURL={""} />
       </div>
     </div>
   );
