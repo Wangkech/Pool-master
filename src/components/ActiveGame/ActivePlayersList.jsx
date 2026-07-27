@@ -1,9 +1,17 @@
-function ActivePlayersList() {
-    return (
-        <div className="bg-red-400">
+import ActivePlayerCard from "./ActivePlayerCardContainer";
 
-        </div>
-    )
+function ActivePlayersList() {
+  return (
+    <div className="overflow-hidden">
+      <ul class="player-card-container flex h-full w-full scrollbar-none flex-col gap-y-4 overflow-auto p-2">
+        <ActivePlayerCard />
+        <ActivePlayerCard />
+        <ActivePlayerCard />
+        <ActivePlayerCard />
+        <ActivePlayerCard />
+      </ul>
+    </div>
+  );
 }
 
-export default ActivePlayersList
+export default ActivePlayersList;
