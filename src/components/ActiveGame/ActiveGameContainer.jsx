@@ -6,7 +6,7 @@ import deleteIcon from "../../assets/icons/Home.svg";
 import disableIcon from "../../assets/icons/History.svg";
 import "./ActiveGame.css";
 
-function ActiveGameContainer() {
+function ActiveGameContainer({ playerList }) {
   return (
     <div className="grid h-full w-[90vw] grid-rows-[50px_1fr_50px] gap-1 rounded-2xl bg-(--accent-bg) p-2">
       <TopRowContainer
@@ -14,7 +14,7 @@ function ActiveGameContainer() {
         disableIcon={disableIcon}
         plusIcon={plusIcon}
       />
-      <ActivePlayersList />
+      <ActivePlayersList playerList={playerList} />
       <BottomRowContainer />
     </div>
   );

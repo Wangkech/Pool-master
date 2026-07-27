@@ -1,14 +1,17 @@
 import ActivePlayerCard from "./ActivePlayerCardContainer";
 
-function ActivePlayersList() {
+function ActivePlayersList({ playerList }) {
   return (
     <div className="overflow-hidden">
       <ul class="player-card-container flex h-full w-full scrollbar-none flex-col gap-y-4 overflow-auto p-2">
-        <ActivePlayerCard />
-        <ActivePlayerCard />
-        <ActivePlayerCard />
-        <ActivePlayerCard />
-        <ActivePlayerCard />
+        {playerList.map((player) => (
+          <ActivePlayerCard
+            score={player.score}
+            name={player.name}
+            key={player.id}
+            ballBasket={player.ballBasket}
+          />
+        ))}
       </ul>
     </div>
   );

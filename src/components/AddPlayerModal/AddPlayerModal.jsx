@@ -4,7 +4,13 @@ import { Player } from "../../logic/players.js";
 import PlayerNameInput from "./PlayerNameInput.jsx";
 import PlayerNameList from "./PlayerNameListContainer.jsx";
 import Actionbtn from "./Actionbtn.jsx";
-function AddPlayerModal({ playerList, setPlayerList, setIsAddingPlayers, setGameOn }) {
+function AddPlayerModal({
+  playerList,
+  setPlayerList,
+  setIsAddingPlayers,
+  setGameOn,
+  getCurrentGamePlayers,
+}) {
   const [players, setPlayers] = useState(playerList);
   const [playerName, setPlayerName] = useState("");
 
@@ -37,13 +43,14 @@ function AddPlayerModal({ playerList, setPlayerList, setIsAddingPlayers, setGame
 
   function saveList() {
     setPlayerList(players);
-    setIsAddingPlayers(false)
-    setGameOn(true)
+    setIsAddingPlayers(false);
+    setGameOn(true);
+    getCurrentGamePlayers(players);
   }
 
   function cancelList() {
-    setPlayers(playerList)
-    setIsAddingPlayers(false)
+    setPlayers(playerList);
+    setIsAddingPlayers(false);
   }
 
   return (

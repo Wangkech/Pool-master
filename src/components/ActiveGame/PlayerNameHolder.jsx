@@ -1,5 +1,5 @@
-function PlayerNameHolder() {
-  return <p class="player-name">Wangkech</p>;
+function PlayerNameHolder({ name }) {
+  return <p class="player-name">{name}</p>;
 }
 
 export default PlayerNameHolder;

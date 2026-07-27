@@ -1,5 +1,5 @@
-function PlayerPointsHolder() {
-  return <p class="points">34</p>;
+function PlayerPointsHolder({ score }) {
+  return <p class="points">{score}</p>;
 }
 
 export default PlayerPointsHolder;
