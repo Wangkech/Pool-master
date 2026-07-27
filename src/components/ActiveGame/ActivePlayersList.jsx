@@ -1,7 +1,7 @@
 function ActivePlayersList() {
     return (
-        <div>
-            here we go
+        <div className="bg-red-400">
+
         </div>
     )
 }

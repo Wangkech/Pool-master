@@ -1,8 +1,13 @@
+
+import GamesCountTracker from "./GamesCountTracker"
+import PlayerManagementBtns from "./PlayerManagementBtns"
+
 function TopRowContainer() {
 
     return (
-        <div className="h-full w-full bg-red-400">
-            Top
+        <div className="active-game-top-row flex justify-between p-2 items-center h-full ">
+            <PlayerManagementBtns />
+            <GamesCountTracker />
         </div>
     )
 }
