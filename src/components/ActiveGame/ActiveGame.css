@@ -5,10 +5,10 @@ button {
 .player-card {
   /* overflow-x: hidden; */
   width: 100%;
-  height: 5rem;
-  display: grid;
+  height: auto;
+  display: flex;
   /* background: #1d1c1c; */
-  grid-template-rows: 1fr 1fr;
+  /* grid-template-rows: 1fr 1fr; */
   /* border: 1px solid #ffffff; */
   /* box-shadow:  */
   box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.25);
@@ -18,6 +18,7 @@ button {
 
 .player-card-top {
   display: grid;
+  width: 100%;
   grid-template-columns: 1fr 1fr;
   padding: 0.25rem 1rem;
   color: #fff;
