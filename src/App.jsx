@@ -10,7 +10,7 @@ import ActiveGameContainer from "./components/ActiveGame/ActiveGameContainer.jsx
 import { InGamePlayer } from "./logic/players.js";
 
 function App() {
-  const [isAddingPlayers, setIsAddingPlayers] = useState(false);
+  const [isAddingPlayers, setIsAddingPlayers] = useState(true);
   const [gameOn, setGameOn] = useState(false);
   let storedData = data;
 

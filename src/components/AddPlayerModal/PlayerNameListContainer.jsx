@@ -5,14 +5,14 @@ function PlayerNameListContainer({ players, removePlayer, editPlayerName }) {
   // const playerNameListComp = PlayerNameList
   const playerNameListRef = useRef(null);
   useEffect(() => {
-    const playerNameListElem = playerNameListRef.current
+    const playerNameListElem = playerNameListRef.current;
 
     if (playerNameListElem) {
       playerNameListElem.scrollTop = playerNameListElem.scrollHeight;
     }
   }, [players]);
   return (
-    <div className="list-container  overflow-hidden">
+    <div className="list-container overflow-hidden">
       <PlayerNameList
         ref={playerNameListRef}
         players={players}

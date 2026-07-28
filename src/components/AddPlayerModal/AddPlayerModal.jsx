@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Player } from "../../logic/players.js";
 
 import PlayerNameInput from "./PlayerNameInput.jsx";
-import PlayerNameList from "./PlayerNameListContainer.jsx";
+import PlayerNameListContainer from "./PlayerNameListContainer.jsx";
 import Actionbtn from "./Actionbtn.jsx";
 function AddPlayerModal({
   playerList,
@@ -16,20 +16,27 @@ function AddPlayerModal({
 
   function getPlayerName(e) {
     let newPlayerName = e.target.value;
-    setPlayerName(newPlayerName);
+    setPlayerName(newPlayerName.toLowerCase().trim());
+
     return newPlayerName;
   }
 
   function addPlayerToList(e) {
     e.preventDefault();
-    // let newPlayerList = players;
-    const newPlayer = new Player(playerName);
-    let newPlayerList = [...players, newPlayer];
 
-    setPlayers(newPlayerList);
-    setPlayerName("");
+    const playerNames = [];
 
-    console.log(playerList);
+    players.map((player) => playerNames.push(player.name));
+
+    if (!playerNames.includes(playerName)) {
+      const newPlayer = new Player(playerName);
+      let newPlayerList = [...players, newPlayer];
+
+      setPlayers(newPlayerList);
+      setPlayerName("");
+    } else {
+      alert(`${playerName} has already been added`);
+    }
   }
 
   function removePlayer(id) {
@@ -54,7 +61,7 @@ function AddPlayerModal({
   }
 
   return (
-    <div className="add-player-modal-container justify-self-cent align-self-center grid h-[90%] min-h-[60vh] w-[70vw] grid-rows-[40px_1fr_40px] rounded-2xl border bg-[#1A1A1A] p-2">
+    <div className="add-player-modal-container justify-self-cent align-self-center grid h-[90%] min-h-[60vh] w-[90vw] grid-rows-[40px_1fr_40px] rounded-2xl border bg-[#1A1A1A] px-2 py-4">
       <PlayerNameInput
         playerName={playerName}
         setPlayerName={setPlayerName}
@@ -63,7 +70,7 @@ function AddPlayerModal({
         saveList={saveList}
         cancelList={cancelList}
       />
-      <PlayerNameList
+      <PlayerNameListContainer
         players={players}
         editPlayerName={editPlayerName}
         removePlayer={removePlayer}
