@@ -5,8 +5,7 @@ function PlayerNameInput({ playerName, getPlayerName, addPlayerToList }) {
   return (
     <form
       action="submit"
-      className="add-player-form align-center grid max-w-125 grid-cols-[1fr_4rem] justify-center gap-2"
-      items-center
+      className="add-player-form align-center grid grid-cols-[1fr_3rem] items-center justify-center gap-2 px-2"
     >
       <input
         type="text"

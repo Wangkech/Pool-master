@@ -64,8 +64,11 @@ function App() {
             {isAddingPlayers === false && gameOn === false && (
               <StartNewGame handleStartNewGame={handleStartNewGame} />
             )}
-            {gameOn === true && (
-              <ActiveGameContainer playerList={currentGamePlayers} />
+            {gameOn === true && isAddingPlayers === false && (
+              <ActiveGameContainer
+                playerList={currentGamePlayers}
+                setIsAddingPlayers={setIsAddingPlayers}
+              />
             )}
           </>
         }

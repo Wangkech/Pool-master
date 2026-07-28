@@ -66,7 +66,7 @@ function AddPlayerModal({
   }
 
   return (
-    <div className="add-player-modal-container justify-self-cent align-self-center grid h-[90%] min-h-[60vh] w-[90vw] grid-rows-[40px_1fr_40px] rounded-2xl border bg-[#1A1A1A] px-2 py-4">
+    <div className="add-player-modal-container justify-self-cent grid h-[90%] min-h-[60vh] w-[90vw] grid-rows-[40px_1fr_40px] self-center rounded-2xl border bg-[#1A1A1A] px-2 py-4">
       <PlayerNameInput
         playerName={playerName}
         setPlayerName={setPlayerName}
