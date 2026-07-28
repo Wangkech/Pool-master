@@ -5,7 +5,8 @@ function PlayerNameInput({ playerName, getPlayerName, addPlayerToList }) {
   return (
     <form
       action="submit"
-      className="add-player-form align-center grid max-w-125 grid-cols-[1fr_3rem] justify-center gap-2"
+      className="add-player-form align-center grid max-w-125 grid-cols-[1fr_4rem] justify-center gap-2"
+      items-center
     >
       <input
         type="text"
@@ -16,7 +17,7 @@ function PlayerNameInput({ playerName, getPlayerName, addPlayerToList }) {
       />
       <Actionbtn
         id="add-player"
-        style="text-[12px] shadow-[0_0_4px_20px_rgb(20_33_23_0.5)] h-f"
+        style="text-[12px] shadow-[0_0_4px_20px_rgb(20_33_23_0.5)] "
         text="Add"
         action={addPlayerToList}
         imgURL={""}

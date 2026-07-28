@@ -27,15 +27,16 @@ function AddPlayerModal({
     const playerNames = [];
 
     players.map((player) => playerNames.push(player.name));
+    if (playerName != "") {
+      if (!playerNames.includes(playerName)) {
+        const newPlayer = new Player(playerName);
+        let newPlayerList = [...players, newPlayer];
 
-    if (!playerNames.includes(playerName)) {
-      const newPlayer = new Player(playerName);
-      let newPlayerList = [...players, newPlayer];
-
-      setPlayers(newPlayerList);
-      setPlayerName("");
-    } else {
-      alert(`${playerName} has already been added`);
+        setPlayers(newPlayerList);
+        setPlayerName("");
+      } else {
+        alert(`${playerName} has already been added`);
+      }
     }
   }
 
@@ -49,10 +50,14 @@ function AddPlayerModal({
   }
 
   function saveList() {
-    setPlayerList(players);
-    setIsAddingPlayers(false);
-    setGameOn(true);
-    getCurrentGamePlayers(players);
+    if (players.length > 1) {
+      setPlayerList(players);
+      setIsAddingPlayers(false);
+      setGameOn(true);
+      getCurrentGamePlayers(players);
+    } else {
+      alert(`Add more than ${players.length} Players to Proceed`);
+    }
   }
 
   function cancelList() {

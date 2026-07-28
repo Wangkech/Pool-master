@@ -9,6 +9,7 @@ function Actionbtn({ id, text, imgURL, style, action }) {
       onClick={action}
       className={twMerge(
         "action-btn {style} flex rounded-[5rem] border-2 border-white bg-[#1A1A1A] p-2 text-center text-[0.875rem] text-white",
+
         style,
       )}
     >
