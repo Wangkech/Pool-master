@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import "./css/App.css";
 import data from "./dummyData.json";
@@ -10,13 +10,53 @@ import ActiveGameContainer from "./components/ActiveGame/ActiveGameContainer.jsx
 import { InGamePlayer } from "./logic/players.js";
 
 function App() {
-  const [isAddingPlayers, setIsAddingPlayers] = useState(true);
-  const [gameOn, setGameOn] = useState(false);
-  let storedData = data;
+  const [isAddingPlayers, setIsAddingPlayers] = useState(false);
+  const [gameOn, setGameOn] = useState(true);
+  let storedData = getPlayers();
+  // let storedData = getFromLocal();
 
   const [playerList, setPlayerList] = useState(
     storedData ? storedData.players : [],
+    // getFromLocal() ? getFromLocal : [],
   );
+  function getPlayers() {
+    if (data) {
+      let newPlayerList = [];
+      data.players.map((player) => {
+        let inGamePlayer = new InGamePlayer(
+          player.name,
+          player.id,
+          player.isActive,
+          player.isKnocked,
+          player.wins,
+        );
+        newPlayerList.push(inGamePlayer);
+      });
+      return newPlayerList;
+    }
+  }
+
+  // getPlayers();
+  // store data to localStorage
+  // useEffect(() => {
+  //   const data = JSON.stringify(playerList);
+  //   localStorage.setItem("gamedata", data);
+  // }, [playerList]);
+
+  // function getFromLocal() {
+  //   const data = JSON.parse(localStorage.getItem("gamedata"));
+  //   if (data) {
+  //     console.log();
+  //     return [];
+  //   }
+  // }
+  // useEffect(() => {
+
+  //   getFromLocal();
+
+  //   console.log(playerList);
+  // }, []);
+
   const [currentGamePlayers, setCurrentGamePlayers] = useState([]);
 
   function getCurrentGamePlayers(playersList) {

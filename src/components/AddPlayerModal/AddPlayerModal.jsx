@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Player } from "../../logic/players.js";
+import { Player } from "../../logic/player.js";
 
 import PlayerNameInput from "./PlayerNameInput.jsx";
 import PlayerNameListContainer from "./PlayerNameListContainer.jsx";
