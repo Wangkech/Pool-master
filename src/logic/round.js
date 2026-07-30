@@ -1,34 +1,23 @@
 import { Ball } from "./balls.js";
 
 export class Round {
-  constructor(roundPlayers) {
-    this.players = this.#initializePlayers(roundPlayers);
+  constructor(players, mode) {
+    this.players = players;
     this.balls = this.#setBalls();
-    this.roundWinner = [];
+    this.roundWinner = null;
+    this.mode = this.setMode(mode);
+    this.roundEnded = null;
   }
-  #initializePlayers(roundPlayers) {
-    let readyPlayers = [];
-    roundPlayers.map((player) => {
-      readyPlayers.push(
-        // (() => {
-
-        //   return
-        {
-          ...player,
-          isActive: true,
-          isKnocked: false,
-          ballBasket: [],
-          score: 0,
-
-          // potBall(ball) {
-          //   this.ballBasket.push();
-          // },
-        },
-        // })(),
-      );
-    });
-
-    return readyPlayers;
+  setPlayers() {
+    if (!this.roundEnded) {
+      this.players.map((player) => {
+        player.roundState();
+      });
+    } else {
+      this.players.map((player) => {
+        player.roundEndState();
+      });
+    }
   }
   #setBalls() {
     let balls = [];
@@ -42,5 +31,13 @@ export class Round {
 
     return balls;
   }
+
+  endRound() {
+    this.roundEnded = true;
+  }
   addPlayerPoints() {}
+
+  setMode(mode) {
+    return mode;
+  }
 }

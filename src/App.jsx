@@ -7,7 +7,7 @@ import Container from "./components/Container";
 import AddPlayerModal from "./components/AddPlayerModal/AddPlayerModal.jsx";
 import StartNewGame from "./components/StartNewGame.jsx";
 import ActiveGameContainer from "./components/ActiveGame/ActiveGameContainer.jsx";
-import { InGamePlayer } from "./logic/players.js";
+// import { InGamePlayer } from "./logic/players.js";
 
 function App() {
   const [isAddingPlayers, setIsAddingPlayers] = useState(false);
@@ -23,14 +23,14 @@ function App() {
     if (data) {
       let newPlayerList = [];
       data.players.map((player) => {
-        let inGamePlayer = new InGamePlayer(
-          player.name,
-          player.id,
-          player.isActive,
-          player.isKnocked,
-          player.wins,
-        );
-        newPlayerList.push(inGamePlayer);
+        // let inGamePlayer = new InGamePlayer(
+        //   player.name,
+        //   player.id,
+        //   player.isActive,
+        //   player.isKnocked,
+        //   player.wins,
+        // );
+        // newPlayerList.push(inGamePlayer);
       });
       return newPlayerList;
     }
@@ -66,15 +66,15 @@ function App() {
     const currentPlayers = [];
 
     players.map((player) => {
-      let inGamePlayer = new InGamePlayer(
-        player.name,
-        player.id,
-        player.isActive,
-        player.isKnocked,
-        player.wins,
-      );
+      // let inGamePlayer = new InGamePlayer(
+      //   player.name,
+      //   player.id,
+      //   player.isActive,
+      //   player.isKnocked,
+      //   player.wins,
+      // );
 
-      currentPlayers.push(inGamePlayer);
+      // currentPlayers.push(inGamePlayer);
     });
 
     setCurrentGamePlayers(currentPlayers);
