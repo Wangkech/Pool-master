@@ -1,0 +1,216 @@
+/*
+// ball file
+export class Ball {
+  constructor(ball) {
+    this.ballNo = ball;
+    this.id;
+    this.value = ball === 3 ? 6 : ball;
+    this.isPotted = false;
+  }
+}
+
+// player file
+export class Player {
+  constructor(name) {
+    this.name = name;
+    this.id = crypto.randomUUID();
+  }
+}
+
+
+// ------- round file
+
+import { Ball } from "./balls.js";
+
+export class Round {
+  constructor(players, mode) {
+    this.players = players;
+    this.balls = this.#setBalls();
+    this.roundWinner = null;
+    this.mode = this.setMode(mode);
+    this.isEnded = null;
+  }
+  setPlayers() {
+    if (!this.isEnded) {
+      this.players.map((player) => {
+        player.roundState();
+      });
+    } else {
+      this.players.map((player) => {
+        player.roundEndState();
+      });
+    }
+  }
+  #setBalls() {
+    let balls = [];
+    const breaker = 3;
+
+    for (let i = breaker; i <= 15; i++) {
+      let newBall = new Ball(i);
+
+      balls.push(newBall);
+    }
+
+    return balls;
+  }
+
+  endRound() {
+    this.isEnded = true;
+  }
+  addPlayerPoints() {}
+
+  setMode(mode) {
+    return mode;
+  }
+}
+
+//  ------session file
+// import { Modes } from "./modes.js";
+import { Round } from "./round.js";
+
+export class Session {
+  constructor(players) {
+    this.rounds = [];
+    this.players = players;
+    this.currentRound = null;
+    this.isEnded = false;
+    this.mode = null;
+  }
+
+  setPlayers() {
+    this.players.map((player) => {
+      player.sessionMemberState();
+    });
+  }
+
+  startNewRound() {
+    const newRound = new Round(this.players, this.mode);
+    newRound.isEnded = false;
+    this.currentRound = newRound;
+    this.currentRound.setPlayers();
+  }
+
+  endSession() {
+    this.isEnded = true;
+  }
+  saveCurrentRound() {
+    this.rounds.push(Object.freeze(this.currentRound));
+  }
+  endCurrentRound() {
+    this.currentRound.endRound();
+  }
+
+  setGameMode(mode = "SINGLE") {
+    this.mode = mode;
+  }
+
+  currentRoundEnded() {
+    return this.currentRound.isEnded;
+  }
+  saveRound() {
+    this.rounds.push(this.currentRound);
+  }
+
+ 
+}
+
+
+// ------ GameEngine file
+
+import { Player } from "./player.js";
+import { Session } from "./session.js";
+
+export class GameEngine {
+  constructor() {
+    this.players = [];
+    this.sessions = [];
+    this.modes = Object.freeze({
+      TWOPLAYER: "TWOPLAYER",
+      SINGLE: "SINGLE",
+      TEAMS: "TEAMS",
+      ROTATION: "ROTATION",
+    });
+
+    this.currentSession = null;
+  }
+
+  addPlayer(name) {
+    let newPlayer = new Player(name);
+    this.players.push(newPlayer);
+  }
+
+  removePlayer() {}
+  disablePlayer() {}
+  setSessionPlayers() {
+    this.currentSession.setPlayers();
+  }
+
+  startNewSession() {
+    this.currentSession = new Session(this.players);
+  }
+
+  endCurrentRound() {
+    this.currentSession.endCurrentRound();
+    if (this.currentSession.currentRound.isEnded) {
+      this.currentSession.saveCurrentRound();
+    }
+  }
+
+  endCurrentSession() {
+    if (this.currentSession.currentRoundEnded()) {
+      this.currentSession.endSession();
+      this.saveCurrentSession();
+      this.currentSession = null;
+    } else {
+      throw new Error("Current Round not finished");
+    }
+  }
+
+  saveCurrentSession() {
+    this.sessions.push(Object.freeze(this.currentSession));
+  }
+  setSessionMode(mode = this.modes.SINGLE) {
+    this.currentSession.mode = mode;
+  }
+
+  
+  startNewRound() {
+    this.currentSession.startNewRound();
+  }
+}
+
+
+//----------- controller.js file
+// import { Modes } from "./modes.js";
+import { GameEngine } from "./gameEngine.js";
+
+const engine = new GameEngine();
+const modes = engine.modes;
+
+engine.addPlayer("wangkech");
+engine.addPlayer("Hothnyang");
+engine.addPlayer("big");
+
+engine.startNewSession();
+engine.setSessionPlayers();
+const sessionPlayers = engine.currentSession.players;
+// console.log(engine.currentSession.players);
+
+// console.log(engine.currentSession.players); //.currentRound.players);
+engine.setSessionMode(modes.SINGLE);
+engine.startNewRound();
+console.log(sessionPlayers);
+
+engine.endCurrentRound();
+// engine.changeSessionMode(modes.ROTATION);
+engine.startNewRound();
+engine.endCurrentRound();
+engine.endCurrentSession();
+// engine.sessions[0].isEnded = false;
+
+console.log(engine.sessions[0]);
+
+// console.log(engine);
+
+
+*/

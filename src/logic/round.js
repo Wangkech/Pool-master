@@ -6,10 +6,10 @@ export class Round {
     this.balls = this.#setBalls();
     this.roundWinner = null;
     this.mode = this.setMode(mode);
-    this.roundEnded = null;
+    this.isEnded = null;
   }
   setPlayers() {
-    if (!this.roundEnded) {
+    if (!this.isEnded) {
       this.players.map((player) => {
         player.roundState();
       });
@@ -33,7 +33,7 @@ export class Round {
   }
 
   endRound() {
-    this.roundEnded = true;
+    this.isEnded = true;
   }
   addPlayerPoints() {}
 
