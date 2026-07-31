@@ -3,44 +3,80 @@
 export class Ball {
   constructor(ball) {
     this.ballNo = ball;
-    this.id;
+    this.id = crypto.randomUUID();
     this.value = ball === 3 ? 6 : ball;
     this.isPotted = false;
   }
 }
+
 
 // player file
 export class Player {
   constructor(name) {
     this.name = name;
     this.id = crypto.randomUUID();
+    this.state = null;
+  }
+
+  roundState() {
+    this.state = {
+      isKnocked: false,
+      isActive: true,
+      ballBasket: [],
+      score: 0,
+    };
+  }
+
+  roundSEndtate() {
+    this.state = {
+      isKnocked: false,
+      isActive: true,
+    };
+  }
+
+  sessionMemberState() {
+    this.state = {
+      isActive: true,
+      isKnocked: false,
+    };
+  }
+
+  knockedState() {
+    this.state = {
+      isActive: true,
+      isKnocked: true,
+    };
+  }
+
+  archivedState() {
+    this.state = {
+      isActive: false,
+    };
   }
 }
 
 
-// ------- round file
 
+// ------- round file
 import { Ball } from "./balls.js";
 
 export class Round {
-  constructor(players, mode) {
+  constructor(players, mode, roundNumber) {
+    this.roundID = crypto.randomUUID();
+    this.roundNumber = roundNumber;
     this.players = players;
     this.balls = this.#setBalls();
     this.roundWinner = null;
     this.mode = this.setMode(mode);
-    this.isEnded = null;
+    this.isEnded = false;
   }
-  setPlayers() {
-    if (!this.isEnded) {
-      this.players.map((player) => {
-        player.roundState();
-      });
-    } else {
-      this.players.map((player) => {
-        player.roundEndState();
-      });
-    }
+
+  setParticipants() {
+    this.players.map((player) => {
+      player.roundState();
+    });
   }
+
   #setBalls() {
     let balls = [];
     const breaker = 3;
@@ -57,6 +93,7 @@ export class Round {
   endRound() {
     this.isEnded = true;
   }
+
   addPlayerPoints() {}
 
   setMode(mode) {
@@ -73,6 +110,7 @@ export class Session {
     this.rounds = [];
     this.players = players;
     this.currentRound = null;
+    this.currentRoundNumber = this.rounds.length + 1;
     this.isEnded = false;
     this.mode = null;
   }
@@ -84,18 +122,29 @@ export class Session {
   }
 
   startNewRound() {
-    const newRound = new Round(this.players, this.mode);
+    const newRound = new Round(
+      this.players,
+      this.mode,
+      this.currentRoundNumber,
+    );
     newRound.isEnded = false;
     this.currentRound = newRound;
-    this.currentRound.setPlayers();
+
+    this.currentRound.setParticipants();
   }
 
   endSession() {
     this.isEnded = true;
   }
+
   saveCurrentRound() {
     this.rounds.push(Object.freeze(this.currentRound));
   }
+
+  resetCurrentRound() {
+    this.currentRound = null;
+  }
+
   endCurrentRound() {
     this.currentRound.endRound();
   }
@@ -105,18 +154,32 @@ export class Session {
   }
 
   currentRoundEnded() {
+    // console.log(this.currentRound);
+
     return this.currentRound.isEnded;
   }
+
   saveRound() {
     this.rounds.push(this.currentRound);
   }
 
- 
+  // changeMode(mode) {
+  //   const playerSum = this.currentRound.players.length;
+  //   if (mode === "TWOPLAYER" && playerSum > 2) {
+  //     console.log("cannot change the mode");
+  //     console.log(`mode: ${mode}`);
+  //     console.log(`players: ${playerSum}`);
+  //   } else {
+  //     this.setGameMode(mode);
+  //     // this.currentRound.setMode(mode);
+  //   }
+  // }
 }
 
 
-// ------ GameEngine file
 
+// ------ GameEngine file
+// import { Modes } from "./modes.js";
 import { Player } from "./player.js";
 import { Session } from "./session.js";
 
@@ -159,58 +222,128 @@ export class GameEngine {
   endCurrentSession() {
     if (this.currentSession.currentRoundEnded()) {
       this.currentSession.endSession();
-      this.saveCurrentSession();
-      this.currentSession = null;
+      this.#saveCurrentSession();
+      this.#resetCurrentSession();
     } else {
       throw new Error("Current Round not finished");
     }
   }
 
-  saveCurrentSession() {
+  #saveCurrentSession() {
     this.sessions.push(Object.freeze(this.currentSession));
+  }
+  #resetCurrentSession() {
+    this.currentSession = null;
   }
   setSessionMode(mode = this.modes.SINGLE) {
     this.currentSession.mode = mode;
   }
 
-  
+  // changeSessionMode(mode) {
+  //   const activePlayers = this.currentSession.players.filter(
+  //     (player) => player.isActive === true,
+  //   );
+  // console.log(mode, activePlayers);
+
+  // if (mode != this.modes.TWOPLAYER && activePlayers.length > 2) {
+  //   throw new Error("Cannot change mode");
+
+  //   // console.log("cannot change the mode");
+  //   // console.log(`mode: ${mode}`);
+  //   // console.log(`players: ${activePlayers}`);
+  // }
+  // else {
+  //   this.setSessionMode(mode);
+  //   console.log(this.currentSession.mode);
+  // }
+
+  // if(this.currentSession.mode != this.modes.twoPlayer){
+
+  // }
+  // }
+
   startNewRound() {
+    this.currentSession.resetCurrentRound();
     this.currentSession.startNewRound();
   }
 }
 
 
+
 //----------- controller.js file
 // import { Modes } from "./modes.js";
-import { GameEngine } from "./gameEngine.js";
+import { Round } from "./round.js";
 
-const engine = new GameEngine();
-const modes = engine.modes;
+export class Session {
+  constructor(players) {
+    this.rounds = [];
+    this.players = players;
+    this.currentRound = null;
+    this.currentRoundNumber = this.rounds.length + 1;
+    this.isEnded = false;
+    this.mode = null;
+  }
 
-engine.addPlayer("wangkech");
-engine.addPlayer("Hothnyang");
-engine.addPlayer("big");
+  setPlayers() {
+    this.players.map((player) => {
+      player.sessionMemberState();
+    });
+  }
 
-engine.startNewSession();
-engine.setSessionPlayers();
-const sessionPlayers = engine.currentSession.players;
-// console.log(engine.currentSession.players);
+  startNewRound() {
+    const newRound = new Round(
+      this.players,
+      this.mode,
+      this.currentRoundNumber,
+    );
+    newRound.isEnded = false;
+    this.currentRound = newRound;
 
-// console.log(engine.currentSession.players); //.currentRound.players);
-engine.setSessionMode(modes.SINGLE);
-engine.startNewRound();
-console.log(sessionPlayers);
+    this.currentRound.setParticipants();
+  }
 
-engine.endCurrentRound();
-// engine.changeSessionMode(modes.ROTATION);
-engine.startNewRound();
-engine.endCurrentRound();
-engine.endCurrentSession();
-// engine.sessions[0].isEnded = false;
+  endSession() {
+    this.isEnded = true;
+  }
 
-console.log(engine.sessions[0]);
+  saveCurrentRound() {
+    this.rounds.push(Object.freeze(this.currentRound));
+  }
 
-// console.log(engine);
+  resetCurrentRound() {
+    this.currentRound = null;
+  }
+
+  endCurrentRound() {
+    this.currentRound.endRound();
+  }
+
+  setGameMode(mode = "SINGLE") {
+    this.mode = mode;
+  }
+
+  currentRoundEnded() {
+    // console.log(this.currentRound);
+
+    return this.currentRound.isEnded;
+  }
+
+  saveRound() {
+    this.rounds.push(this.currentRound);
+  }
+
+  // changeMode(mode) {
+  //   const playerSum = this.currentRound.players.length;
+  //   if (mode === "TWOPLAYER" && playerSum > 2) {
+  //     console.log("cannot change the mode");
+  //     console.log(`mode: ${mode}`);
+  //     console.log(`players: ${playerSum}`);
+  //   } else {
+  //     this.setGameMode(mode);
+  //     // this.currentRound.setMode(mode);
+  //   }
+  // }
+}
 
 
 */

@@ -1,24 +1,22 @@
 import { Ball } from "./balls.js";
 
 export class Round {
-  constructor(players, mode) {
+  constructor(players, mode, roundNumber) {
+    this.roundID = crypto.randomUUID();
+    this.roundNumber = roundNumber;
     this.players = players;
     this.balls = this.#setBalls();
     this.roundWinner = null;
     this.mode = this.setMode(mode);
-    this.isEnded = null;
+    this.isEnded = false;
   }
-  setPlayers() {
-    if (!this.isEnded) {
-      this.players.map((player) => {
-        player.roundState();
-      });
-    } else {
-      this.players.map((player) => {
-        player.roundEndState();
-      });
-    }
+
+  setParticipants() {
+    this.players.map((player) => {
+      player.roundState();
+    });
   }
+
   #setBalls() {
     let balls = [];
     const breaker = 3;
@@ -35,9 +33,25 @@ export class Round {
   endRound() {
     this.isEnded = true;
   }
+
   addPlayerPoints() {}
 
   setMode(mode) {
     return mode;
+  }
+
+  getSnapshot() {
+    return Object.freeze({
+      roundID: this.roundID,
+      roundNumber: this.roundNumber,
+      players: this.players.map((player) => ({
+        id: player.id,
+        name: player.name,
+        state: structuredClone(player.state),
+      })),
+      winner: this.roundWinner,
+      mode: this.mode,
+      ended: this.isEnded,
+    });
   }
 }

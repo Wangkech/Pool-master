@@ -41,16 +41,18 @@ export class GameEngine {
   endCurrentSession() {
     if (this.currentSession.currentRoundEnded()) {
       this.currentSession.endSession();
-      this.saveCurrentSession();
-      this.currentSession = null;
-      // throw new Error("Current Round not finished");
+      this.#saveCurrentSession();
+      this.#resetCurrentSession();
     } else {
       throw new Error("Current Round not finished");
     }
   }
 
-  saveCurrentSession() {
+  #saveCurrentSession() {
     this.sessions.push(Object.freeze(this.currentSession));
+  }
+  #resetCurrentSession() {
+    this.currentSession = null;
   }
   setSessionMode(mode = this.modes.SINGLE) {
     this.currentSession.mode = mode;

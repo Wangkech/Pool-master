@@ -6,6 +6,7 @@ export class Session {
     this.rounds = [];
     this.players = players;
     this.currentRound = null;
+    this.currentRoundNumber = this.rounds.length + 1;
     this.isEnded = false;
     this.mode = null;
   }
@@ -17,18 +18,32 @@ export class Session {
   }
 
   startNewRound() {
-    const newRound = new Round(this.players, this.mode);
+    this.resetCurrentRound();
+
+    const newRound = new Round(
+      this.players,
+      this.mode,
+      this.currentRoundNumber,
+    );
     newRound.isEnded = false;
     this.currentRound = newRound;
-    this.currentRound.setPlayers();
+
+    this.currentRound.setParticipants();
   }
 
   endSession() {
     this.isEnded = true;
   }
+
   saveCurrentRound() {
-    this.rounds.push(Object.freeze(this.currentRound));
+    this.rounds.push(this.currentRound.getSnapshot());
+    this.currentRoundNumber++;
   }
+
+  resetCurrentRound() {
+    this.currentRound = null;
+  }
+
   endCurrentRound() {
     this.currentRound.endRound();
   }
@@ -38,10 +53,9 @@ export class Session {
   }
 
   currentRoundEnded() {
+    // console.log(this.currentRound);
+
     return this.currentRound.isEnded;
-  }
-  saveRound() {
-    this.rounds.push(this.currentRound);
   }
 
   // changeMode(mode) {
