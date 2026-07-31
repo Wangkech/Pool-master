@@ -26,6 +26,7 @@ export class Session {
       this.currentRoundNumber,
     );
     newRound.isEnded = false;
+
     this.currentRound = newRound;
 
     this.currentRound.setParticipants();
@@ -45,6 +46,7 @@ export class Session {
   }
 
   endCurrentRound() {
+    this.currentRound.determineWinner();
     this.currentRound.endRound();
   }
 
@@ -53,8 +55,6 @@ export class Session {
   }
 
   currentRoundEnded() {
-    // console.log(this.currentRound);
-
     return this.currentRound.isEnded;
   }
 
@@ -68,9 +68,9 @@ export class Session {
   recordWrongHit(playerId, ballId) {
     this.currentRound.recordWrongHit(playerId, ballId);
   }
-  getRoundWinner() {
-    this.currentRound.getRoundWinner();
-  }
+  // getRoundWinner() {
+  //   this.currentRound.roundWinner;
+  // }
   // changeMode(mode) {
   //   const playerSum = this.currentRound.players.length;
   //   if (mode === "TWOPLAYER" && playerSum > 2) {

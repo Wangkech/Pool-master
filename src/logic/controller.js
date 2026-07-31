@@ -38,7 +38,6 @@ export const controller = {
   },
   getRoundPlayer() {
     let players = engine.currentSession.currentRound.players;
-
     return players;
   },
   getBalls() {
@@ -70,8 +69,6 @@ controller.recordCueScratch(playerIDs[0]);
 // console.log(controller.getCurrentRoundStatus());
 controller.endCurrentRound();
 
-controller.startNewRound();
-controller.endCurrentRound();
 controller.endCurrentSession();
 
 // console.log(controller.getSession());

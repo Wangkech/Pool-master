@@ -68,9 +68,9 @@ export class GameEngine {
     this.currentSession.recordWrongHit(playerId, ballId);
   }
 
-  getRoundWinner() {
-    this.currentSession.getRoundWinner();
-  }
+  // getRoundWinner() {
+  //   this.currentSession.getRoundWinner();
+  // }
   // changeSessionMode(mode) {
   //   const activePlayers = this.currentSession.players.filter(
   //     (player) => player.isActive === true,

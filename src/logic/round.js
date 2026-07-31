@@ -59,6 +59,28 @@ export class Round {
     player.calculateScore();
   }
 
+  determineWinner() {
+    let heighestScore = this.players.sort(
+      (low, high) => high.state.score - low.state.score,
+    )[0].state.score;
+
+    let highScorers = this.players.filter(
+      (player) => player.state.score === heighestScore,
+    );
+
+    if (highScorers.length === 1) {
+      this.roundWinner = highScorers[0];
+      console.log(this.roundWinner);
+    } else {
+      const chosenWinner = Math.floor(Math.random() * highScorers.length);
+      this.roundWinner = highScorers[chosenWinner];
+      console.log(this.roundWinner);
+    }
+    console.log(heighestScore);
+
+    // console.log(highScorers);
+  }
+  //helpers
   getPlayerById(id) {
     return this.players.find((player) => player.id === id);
   }
