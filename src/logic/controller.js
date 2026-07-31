@@ -4,21 +4,60 @@ import { GameEngine } from "./gameEngine.js";
 const engine = new GameEngine();
 const modes = engine.modes;
 
-engine.addPlayer("wangkech");
-engine.addPlayer("Hothnyang");
-engine.addPlayer("big");
+export const controller = {
+  addPlayer(player) {
+    engine.addPlayer(player);
+  },
+  startNewSession(mode) {
+    engine.startNewSession();
+    engine.setSessionPlayers();
+    engine.setSessionMode(mode);
+  },
+  startNewRound() {
+    engine.startNewRound();
+  },
+  endCurrentRound() {
+    engine.endCurrentRound();
+  },
+  endCurrentSession() {
+    engine.endCurrentSession();
+  },
+  //   scores
+  recordScore(playerID, ballID) {
+    engine.recordScore(playerID, ballID);
+  },
+  //getters
+  getSession() {
+    return engine.sessions;
+  },
+  getRoundPlayer() {
+    let players = engine.currentSession.currentRound.players;
 
-engine.startNewSession();
-engine.setSessionPlayers();
+    return players;
+  },
+  getBalls() {
+    const ballIDs = engine.currentSession.currentRound.balls;
+    return ballIDs;
+  },
+};
 
-engine.setSessionMode(modes.SINGLE);
-engine.startNewRound();
+controller.addPlayer("wangkech");
+controller.addPlayer("Hothnyang");
+controller.addPlayer("big");
 
-console.log(engine.currentSession.currentRound.players);
-engine.endCurrentRound();
+controller.startNewSession(modes.SINGLE);
+controller.startNewRound();
+const playerIDs = controller.getRoundPlayer().map((player) => player.id);
+const balls = controller.getBalls();
+// console.log(ballIDs);
 
-engine.startNewRound();
-engine.endCurrentRound();
-engine.endCurrentSession();
+controller.recordScore(playerIDs[1], balls[4].id);
+controller.recordScore(playerIDs[0], balls[10].id);
+// console.log(controller.getCurrentRoundStatus());
+controller.endCurrentRound();
 
-console.log(engine.sessions[0]);
+controller.startNewRound();
+controller.endCurrentRound();
+controller.endCurrentSession();
+
+// console.log(controller.getSession());

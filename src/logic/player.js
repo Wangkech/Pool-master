@@ -40,4 +40,15 @@ export class Player {
       isActive: false,
     };
   }
+  potBall(ball) {
+    this.state.ballBasket.push(ball);
+  }
+  calculateScore() {
+    if (this.state.ballBasket.length != 0) {
+      this.state.score = this.state.ballBasket.reduce(
+        (total, ball) => total + ball.value,
+        0,
+      );
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import { Ball } from "./balls.js";
+import { Player } from "./player.js";
 
 export class Round {
   constructor(players, mode, roundNumber) {
@@ -34,14 +35,33 @@ export class Round {
     this.isEnded = true;
   }
 
-  addPlayerPoints() {}
+  recordScore(playerId, ballid) {
+    const player = this.players.find((player) => player.id === playerId);
+
+    let ball = this.balls.find((ball) => ball.id === ballid);
+
+    ball.potted();
+    player.potBall(ball);
+
+    player.calculateScore();
+  }
+
+  // #PottedBall(balltoPott) {
+  //   let ball = this.balls.find((ball) => ball.id === balltoPott.id);
+  //   ball.potted();
+
+  //   console.log(this.balls);
+  // }
 
   setMode(mode) {
     return mode;
   }
 
+  getAvailableBalls() {
+    return this.balls.filter((ball) => ball.isPotted === false);
+  }
   getSnapshot() {
-    return Object.freeze({
+    return {
       roundID: this.roundID,
       roundNumber: this.roundNumber,
       players: this.players.map((player) => ({
@@ -52,6 +72,6 @@ export class Round {
       winner: this.roundWinner,
       mode: this.mode,
       ended: this.isEnded,
-    });
+    };
   }
 }

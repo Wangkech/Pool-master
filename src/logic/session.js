@@ -36,7 +36,7 @@ export class Session {
   }
 
   saveCurrentRound() {
-    this.rounds.push(this.currentRound.getSnapshot());
+    this.rounds.push(this.currentRound);
     this.currentRoundNumber++;
   }
 
@@ -58,6 +58,9 @@ export class Session {
     return this.currentRound.isEnded;
   }
 
+  recordScore(playerId, ball) {
+    this.currentRound.recordScore(playerId, ball);
+  }
   // changeMode(mode) {
   //   const playerSum = this.currentRound.players.length;
   //   if (mode === "TWOPLAYER" && playerSum > 2) {

@@ -5,4 +5,7 @@ export class Ball {
     this.value = ball === 3 ? 6 : ball;
     this.isPotted = false;
   }
+  potted() {
+    this.isPotted = true;
+  }
 }

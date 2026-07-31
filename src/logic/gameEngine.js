@@ -57,7 +57,11 @@ export class GameEngine {
   setSessionMode(mode = this.modes.SINGLE) {
     this.currentSession.mode = mode;
   }
+  recordScore(id, ballid) {
+    this.currentSession.recordScore(id, ballid);
 
+    // console.log(player);
+  }
   // changeSessionMode(mode) {
   //   const activePlayers = this.currentSession.players.filter(
   //     (player) => player.isActive === true,
