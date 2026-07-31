@@ -59,6 +59,7 @@ export class Player {
 
 // ------- round file
 import { Ball } from "./balls.js";
+import { Player } from "./player.js";
 
 export class Round {
   constructor(players, mode, roundNumber) {
@@ -94,10 +95,46 @@ export class Round {
     this.isEnded = true;
   }
 
-  addPlayerPoints() {}
+  recordScore(playerId, ball) {
+    // console.log(ball);
+    const player = this.players.find((player) => player.id === playerId);
+    // Object.setPrototypeOf(player, Player);
+    console.log(player);
+
+    player.potBall(ball);
+    player.calculateScore();
+    this.setPottedBall(ball);
+
+    console.log();
+  }
+
+  setPottedBall(balltoPott) {
+    let ball = this.balls.find((ball) => ball.id === balltoPott.id);
+    ball.potted();
+
+    console.log(this.balls);
+  }
 
   setMode(mode) {
     return mode;
+  }
+
+  getAvailableBalls() {
+    return this.balls.filter((ball) => ball.isPotted === false);
+  }
+  getSnapshot() {
+    return Object.freeze({
+      roundID: this.roundID,
+      roundNumber: this.roundNumber,
+      players: this.players.map((player) => ({
+        id: player.id,
+        name: player.name,
+        state: structuredClone(player.state),
+      })),
+      winner: this.roundWinner,
+      mode: this.mode,
+      ended: this.isEnded,
+    });
   }
 }
 

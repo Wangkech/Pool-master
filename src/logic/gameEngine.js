@@ -59,8 +59,17 @@ export class GameEngine {
   }
   recordScore(id, ballid) {
     this.currentSession.recordScore(id, ballid);
+  }
 
-    // console.log(player);
+  recordCueScratch(playerId) {
+    this.currentSession.recordCueScratch(playerId);
+  }
+  recordWrongHit(playerId, ballId) {
+    this.currentSession.recordWrongHit(playerId, ballId);
+  }
+
+  getRoundWinner() {
+    this.currentSession.getRoundWinner();
   }
   // changeSessionMode(mode) {
   //   const activePlayers = this.currentSession.players.filter(

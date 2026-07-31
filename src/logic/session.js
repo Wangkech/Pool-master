@@ -61,6 +61,16 @@ export class Session {
   recordScore(playerId, ball) {
     this.currentRound.recordScore(playerId, ball);
   }
+
+  recordCueScratch(playerId) {
+    this.currentRound.recordCueScratch(playerId);
+  }
+  recordWrongHit(playerId, ballId) {
+    this.currentRound.recordWrongHit(playerId, ballId);
+  }
+  getRoundWinner() {
+    this.currentRound.getRoundWinner();
+  }
   // changeMode(mode) {
   //   const playerSum = this.currentRound.players.length;
   //   if (mode === "TWOPLAYER" && playerSum > 2) {

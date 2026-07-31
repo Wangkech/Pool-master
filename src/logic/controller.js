@@ -26,6 +26,12 @@ export const controller = {
   recordScore(playerID, ballID) {
     engine.recordScore(playerID, ballID);
   },
+  recordCueScratch(playerId) {
+    engine.recordCueScratch(playerId);
+  },
+  recordWrongHit(playerId, ballId) {
+    engine.recordWrongHit(playerId, ballId);
+  },
   //getters
   getSession() {
     return engine.sessions;
@@ -48,11 +54,19 @@ controller.addPlayer("big");
 controller.startNewSession(modes.SINGLE);
 controller.startNewRound();
 const playerIDs = controller.getRoundPlayer().map((player) => player.id);
-const balls = controller.getBalls();
+const balls = controller.getBalls().sort((a, b) => a.ballNo - b.ballNo);
 // console.log(ballIDs);
 
-controller.recordScore(playerIDs[1], balls[4].id);
+controller.recordScore(playerIDs[1], balls[0].id);
 controller.recordScore(playerIDs[0], balls[10].id);
+controller.recordCueScratch(playerIDs[0]);
+controller.recordCueScratch(playerIDs[0]);
+controller.recordWrongHit(playerIDs[0], balls[0].id);
+controller.recordWrongHit(playerIDs[0], balls[8].id);
+controller.recordWrongHit(playerIDs[0], balls[10].id);
+controller.recordWrongHit(playerIDs[0], balls[11].id);
+controller.recordCueScratch(playerIDs[0]);
+controller.recordCueScratch(playerIDs[0]);
 // console.log(controller.getCurrentRoundStatus());
 controller.endCurrentRound();
 

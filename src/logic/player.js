@@ -40,7 +40,21 @@ export class Player {
       isActive: false,
     };
   }
+
   potBall(ball) {
+    this.addToBasket(ball);
+  }
+  potCueBall(ball) {
+    let Cueball = { ...ball };
+    Cueball.value *= -1;
+    this.addToBasket(Cueball);
+  }
+  hitWrongBall(ball) {
+    const wrongBall = { ...ball };
+    wrongBall.value *= -1;
+    this.addToBasket(wrongBall);
+  }
+  addToBasket(ball) {
     this.state.ballBasket.push(ball);
   }
   calculateScore() {
