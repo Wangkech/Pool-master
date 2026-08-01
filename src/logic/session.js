@@ -33,10 +33,11 @@ export class Session {
 
   endSession() {
     this.isEnded = true;
+    // this.resetCurrentRound();
   }
 
   saveCurrentRound() {
-    this.rounds.push(this.currentRound);
+    this.rounds.push(this.currentRound.getSnapshot());
     this.currentRoundNumber++;
   }
 
@@ -81,13 +82,29 @@ export class Session {
   //     // this.currentRound.setMode(mode);
   //   }
   // }
-  getSessionSnapshot() {
-    return Object.freeze({
-      rounds: this.rounds,
-      players: structuredClone(this.players),
-      currentRound: this.currentRound.getSnapshot,
-      isEnded: this.isEnded,
-      mode: this.mode,
-    });
+  UIsnapshot() {
+    return Object.freeze(
+      structuredClone({
+        rounds: this.rounds.map((round) => round),
+        players: structuredClone(
+          this.players.map((player) => structuredClone(player)),
+        ),
+        currentRound: this.currentRound.getUISnapshot(),
+        isEnded: this.isEnded,
+        mode: this.mode,
+      }),
+    );
+  }
+  saveSnapshot() {
+    return Object.freeze(
+      structuredClone({
+        rounds: this.rounds,
+        players: structuredClone(
+          this.players.map((player) => structuredClone(player)),
+        ),
+        isEnded: this.isEnded,
+        mode: this.mode,
+      }),
+    );
   }
 }

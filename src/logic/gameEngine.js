@@ -47,9 +47,12 @@ export class GameEngine {
       throw new Error("Current Round not finished");
     }
   }
+  clearPlayer() {
+    this.players.length = 0;
+  }
 
   #saveCurrentSession() {
-    this.sessions.push(Object.freeze(this.currentSession));
+    this.sessions.push(this.currentSession.saveSnapshot());
   }
   #resetCurrentSession() {
     this.currentSession = null;

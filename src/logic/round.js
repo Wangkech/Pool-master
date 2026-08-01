@@ -39,14 +39,16 @@ export class Round {
     const player = this.getPlayerById(playerId);
 
     const ball = this.getBallbyId(ballid);
-    if (!ball.isPotted) {
-      ball.potted();
-      player.potBall(ball);
-      player.calculateScore();
-    } else {
-      console.warn(
-        `Cannot pot ball no '${ball.ballNo}' because it is already potted.`,
-      );
+    if (ball) {
+      if (!ball.isPotted) {
+        ball.potted();
+        player.potBall(ball);
+        player.calculateScore();
+      } else {
+        console.warn(
+          `Cannot pot ball no '${ball.ballNo}' because it is already potted.`,
+        );
+      }
     }
   }
 
@@ -84,13 +86,13 @@ export class Round {
 
     if (highScorers.length === 1) {
       this.roundWinner = highScorers[0];
-      console.log(this.roundWinner);
+      // console.log(this.roundWinner);
     } else {
       const chosenWinner = Math.floor(Math.random() * highScorers.length);
       this.roundWinner = highScorers[chosenWinner];
-      console.log(this.roundWinner);
+      // console.log(this.roundWinner);
     }
-    console.log(heighestScore);
+    // console.log(heighestScore);
 
     // console.log(highScorers);
   }
@@ -137,17 +139,20 @@ export class Round {
       .sort((a, b) => a.ballNo - b.ballNo);
   }
   getSnapshot() {
-    return structuredClone({
-      roundID: this.roundID,
-      roundNumber: this.roundNumber,
-      players: this.players.map((player) => ({
-        id: player.id,
-        name: player.name,
-        state: structuredClone(player.state),
-      })),
-      winner: this.roundWinner,
-      mode: this.mode,
-      ended: this.isEnded,
-    });
+    return Object.freeze(
+      structuredClone({
+        roundID: this.roundID,
+        roundNumber: this.roundNumber,
+        players: this.players.map((player) => ({
+          id: player.id,
+          name: player.name,
+          state: structuredClone(player.state),
+        })),
+        availableBalls: this.getAvailableBalls(),
+        winner: this.roundWinner,
+        mode: this.mode,
+        ended: this.isEnded,
+      }),
+    );
   }
 }
