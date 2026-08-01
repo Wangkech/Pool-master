@@ -45,6 +45,9 @@ export const controller = {
   getBalls() {
     return engine.currentSession.currentRound.balls;
   },
+  getSnapshot() {
+    return engine.getSnapshot();
+  },
 };
 
 // test for Round ImmutabilitY
@@ -89,6 +92,8 @@ controller.recordWrongHit(playerIDs[1], balls[11].id);
 
 controller.endCurrentRound();
 controller.startNewRound();
+
+console.log(controller.getSnapshot());
 // controller.endCurrentSession();
 
 // controller.clearPlayers();

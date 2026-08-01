@@ -7,7 +7,7 @@ export class Session {
     this.players = players;
     this.currentRound = null;
     this.currentRoundNumber = this.rounds.length + 1;
-    this.isEnded = false;
+    this.ended = false;
     this.mode = null;
   }
 
@@ -106,28 +106,15 @@ export class Session {
     return this.rounds[this.rounds.length - 1] ?? null;
   }
 
-  UIsnapshot() {
+  getSnapshot() {
     return Object.freeze(
       structuredClone({
         rounds: this.rounds.map((round) => round),
         players: structuredClone(
-          this.players.map((player) => structuredClone(player)),
+          this.players.map((player) => player.getSnapshot()),
         ),
-        currentRound: this.currentRound.getUISnapshot(),
-        isEnded: this.isEnded,
-        mode: this.mode,
-      }),
-    );
-  }
-
-  saveSnapshot() {
-    return Object.freeze(
-      structuredClone({
-        rounds: this.rounds,
-        players: structuredClone(
-          this.players.map((player) => structuredClone(player)),
-        ),
-        isEnded: this.isEnded,
+        currentRound: this.currentRound.getSnapshot() ?? null,
+        ended: this.ended,
         mode: this.mode,
       }),
     );

@@ -9,7 +9,7 @@ export class Round {
     this.balls = this.#setBalls();
     this.roundWinner = null;
     this.mode = this.setMode(mode);
-    this.isEnded = false;
+    this.ended = false;
   }
 
   setParticipants() {
@@ -100,7 +100,7 @@ export class Round {
   }
 
   getCurrentBall() {
-    const remainingBalls = this.getAvailableBalls();
+    const remainingBalls = this.getBallsSnapshot();
     let currentBall;
     const breaker = this.getBallByNum(3);
     if (!breaker.isPotted) {
@@ -112,35 +112,31 @@ export class Round {
     return currentBall;
   }
 
-  // #PottedBall(balltoPott) {
-  //   let ball = this.balls.find((ball) => ball.id === balltoPott.id);
-  //   ball.potted();
-
-  //   console.log(this.balls);
-  // }
-
   setMode(mode) {
     return mode;
   }
 
-  getAvailableBalls() {
+  getBallsSnapshot() {
     return this.balls
       .filter((ball) => !ball.isPotted)
       .sort((a, b) => a.ballNo - b.ballNo);
   }
+
   playersHighLow() {}
   getSnapshot() {
     return Object.freeze(
       structuredClone({
         roundID: this.roundID,
         roundNumber: this.roundNumber,
-        players: this.players.map((player) => ({
-          id: player.id,
-          name: player.name,
-          state: structuredClone(player.state),
-        })),
-        availableBalls: this.getAvailableBalls(),
-        winner: this.roundWinner,
+        players: this.players.map((player) => player.getSnapshot()),
+        availableBalls: this.getBallsSnapshot(),
+        winner: this.roundWinner
+          ? {
+              id: this.roundWinner.id,
+              name: this.roundWinner.name,
+              score: this.roundWinner.state.score,
+            }
+          : null,
         mode: this.mode,
         ended: this.isEnded,
       }),

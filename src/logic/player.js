@@ -65,4 +65,11 @@ export class Player {
       );
     }
   }
+  getSnapshot() {
+    return Object.freeze({
+      id: this.id,
+      name: this.name,
+      state: structuredClone(this.state),
+    });
+  }
 }

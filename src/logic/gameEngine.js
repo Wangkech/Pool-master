@@ -52,7 +52,7 @@ export class GameEngine {
   }
 
   #saveCurrentSession() {
-    this.sessions.push(this.currentSession.saveSnapshot());
+    this.sessions.push(this.currentSession.getSnapshot());
   }
   #resetCurrentSession() {
     this.currentSession = null;
@@ -71,33 +71,16 @@ export class GameEngine {
     this.currentSession.recordWrongHit(playerId, ballId);
   }
 
-  // getRoundWinner() {
-  //   this.currentSession.getRoundWinner();
-  // }
-  // changeSessionMode(mode) {
-  //   const activePlayers = this.currentSession.players.filter(
-  //     (player) => player.isActive === true,
-  //   );
-  // console.log(mode, activePlayers);
-
-  // if (mode != this.modes.TWOPLAYER && activePlayers.length > 2) {
-  //   throw new Error("Cannot change mode");
-
-  //   // console.log("cannot change the mode");
-  //   // console.log(`mode: ${mode}`);
-  //   // console.log(`players: ${activePlayers}`);
-  // }
-  // else {
-  //   this.setSessionMode(mode);
-  //   console.log(this.currentSession.mode);
-  // }
-
-  // if(this.currentSession.mode != this.modes.twoPlayer){
-
-  // }
-  // }
-
   startNewRound() {
     this.currentSession.startNewRound();
+  }
+
+  getSnapshot() {
+    return Object.freeze({
+      players: structuredClone(this.players),
+      currentSession: this.currentSession.getSnapshot(),
+      sessions: this.sessions,
+      modes: this.modes,
+    });
   }
 }
