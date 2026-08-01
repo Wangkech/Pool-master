@@ -25,10 +25,9 @@ export class Session {
       this.mode,
       this.currentRoundNumber,
     );
+
     newRound.isEnded = false;
-
     this.currentRound = newRound;
-
     this.currentRound.setParticipants();
   }
 
@@ -82,4 +81,13 @@ export class Session {
   //     // this.currentRound.setMode(mode);
   //   }
   // }
+  getSessionSnapshot() {
+    return Object.freeze({
+      rounds: this.rounds,
+      players: structuredClone(this.players),
+      currentRound: this.currentRound.getSnapshot,
+      isEnded: this.isEnded,
+      mode: this.mode,
+    });
+  }
 }

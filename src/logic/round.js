@@ -39,11 +39,17 @@ export class Round {
     const player = this.getPlayerById(playerId);
 
     const ball = this.getBallbyId(ballid);
-
-    ball.potted();
-    player.potBall(ball);
-    player.calculateScore();
+    if (!ball.isPotted) {
+      ball.potted();
+      player.potBall(ball);
+      player.calculateScore();
+    } else {
+      console.warn(
+        `Cannot pot ball no '${ball.ballNo}' because it is already potted.`,
+      );
+    }
   }
+
   recordCueScratch(playerId) {
     const player = this.getPlayerById(playerId);
     // console.log(player);
@@ -55,8 +61,16 @@ export class Round {
   recordWrongHit(playerId, ballId) {
     const player = this.getPlayerById(playerId);
     const ball = this.getBallbyId(ballId);
-    player.hitWrongBall(ball);
-    player.calculateScore();
+    if (ball) {
+      if (!ball.isPotted) {
+        player.hitWrongBall(ball);
+        player.calculateScore();
+      } else {
+        console.warn(
+          `Cannot record foul for ball no '${ball.ballNo} because it was already potted'`,
+        );
+      }
+    }
   }
 
   determineWinner() {
@@ -123,7 +137,7 @@ export class Round {
       .sort((a, b) => a.ballNo - b.ballNo);
   }
   getSnapshot() {
-    return {
+    return structuredClone({
       roundID: this.roundID,
       roundNumber: this.roundNumber,
       players: this.players.map((player) => ({
@@ -134,6 +148,6 @@ export class Round {
       winner: this.roundWinner,
       mode: this.mode,
       ended: this.isEnded,
-    };
+    });
   }
 }
