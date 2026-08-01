@@ -13,21 +13,20 @@ export class Round {
   }
 
   setParticipants() {
-    this.players.map((player) => {
-      player.roundState();
-    });
+    if (this.players) {
+      this.players.map((player) => {
+        player.roundState();
+      });
+    }
   }
 
   #setBalls() {
     let balls = [];
     const breaker = 3;
-
     for (let i = breaker; i <= 15; i++) {
       let newBall = new Ball(i);
-
       balls.push(newBall);
     }
-
     return balls;
   }
 
@@ -37,8 +36,8 @@ export class Round {
 
   recordScore(playerId, ballid) {
     const player = this.getPlayerById(playerId);
-
     const ball = this.getBallbyId(ballid);
+
     if (ball) {
       if (!ball.isPotted) {
         ball.potted();
@@ -54,11 +53,8 @@ export class Round {
 
   recordCueScratch(playerId) {
     const player = this.getPlayerById(playerId);
-    // console.log(player);
     player.potCueBall(this.getCurrentBall());
     player.calculateScore();
-
-    // console.log("CurrenBall", this.getCurrentBall());
   }
   recordWrongHit(playerId, ballId) {
     const player = this.getPlayerById(playerId);
@@ -76,25 +72,19 @@ export class Round {
   }
 
   determineWinner() {
-    let heighestScore = this.players.sort(
-      (low, high) => high.state.score - low.state.score,
-    )[0].state.score;
+    const playerScores = this.players.map((player) => player.state.score);
+    let highScore = Math.max(...playerScores);
 
     let highScorers = this.players.filter(
-      (player) => player.state.score === heighestScore,
+      (player) => player.state.score === highScore,
     );
 
     if (highScorers.length === 1) {
       this.roundWinner = highScorers[0];
-      // console.log(this.roundWinner);
     } else {
       const chosenWinner = Math.floor(Math.random() * highScorers.length);
       this.roundWinner = highScorers[chosenWinner];
-      // console.log(this.roundWinner);
     }
-    // console.log(heighestScore);
-
-    // console.log(highScorers);
   }
   //helpers
   getPlayerById(id) {
@@ -138,6 +128,7 @@ export class Round {
       .filter((ball) => !ball.isPotted)
       .sort((a, b) => a.ballNo - b.ballNo);
   }
+  playersHighLow() {}
   getSnapshot() {
     return Object.freeze(
       structuredClone({

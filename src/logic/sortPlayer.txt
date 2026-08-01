@@ -1,0 +1,62 @@
+// round file 
+reverts back to default and remains unchanged
+
+//session file
+export class Session {
+  constructor(players) {
+    this.rounds = [];
+    this.players = players;
+    this.currentRound = null;
+    this.currentRoundNumber = this.rounds.length + 1;
+    this.isEnded = false;
+    this.mode = null;
+  } 
+ startNewRound() {
+    this.resetCurrentRound();
+    const players = this.getPlayersInOrder();
+    if (!players) {
+      let newRound = new Round(
+        this.players,
+        this.mode,
+        this.currentRoundNumber,
+      );
+
+      newRound.isEnded = false;
+      this.currentRound = newRound;
+      this.currentRound.setParticipants();
+    } else {
+      let newRound = new Round(players, this.mode, this.currentRoundNumber);
+
+      newRound.isEnded = false;
+      this.currentRound = newRound;
+      this.currentRound.setParticipants();
+    }
+  }
+
+  getPreviousRound() {
+    return (
+      Object.freeze(structuredClone(this.rounds[this.rounds.length - 1])) ??
+      null
+    );
+  }
+
+  getPlayersInOrder() {
+    const previous = this.getPreviousRound();
+    console.log(previous);
+    if (previous) {
+      const sortedPlayers = previous.players.sort(
+        (a, b) => b.state.score - a.state.score,
+      );
+      sortedPlayers.map((player, index) =>
+        console.log(index + 1, player.name, player.state.score),
+      );
+      sortedPlayers.forEach((player) => {
+        Object.setPrototypeOf(player, Player.prototype);
+      });
+      return sortedPlayers;
+    }
+    return null;
+  }
+
+}
+

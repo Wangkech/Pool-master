@@ -16,19 +16,35 @@ export class Session {
       player.sessionMemberState();
     });
   }
+  // #initializePlayers(players) {
+  //   return this.getPlayersInOrder() ?? players;
+  // }
 
   startNewRound() {
     this.resetCurrentRound();
+    const players = this.getPlayersInOrder() ?? this.players;
 
-    const newRound = new Round(
-      this.players,
-      this.mode,
-      this.currentRoundNumber,
-    );
+    let newRound = new Round(players, this.mode, this.currentRoundNumber);
 
     newRound.isEnded = false;
     this.currentRound = newRound;
     this.currentRound.setParticipants();
+  }
+
+  getPlayersInOrder() {
+    const previous = this.getPreviousRound();
+
+    if (!previous) return null;
+
+    const sortedPlayers = [...previous.players].sort(
+      (a, b) => b.state.score - a.state.score,
+    );
+
+    const players = sortedPlayers.map((sortedPlayer) =>
+      this.players.find((player) => player.id === sortedPlayer.id),
+    );
+
+    return players;
   }
 
   endSession() {
@@ -39,6 +55,8 @@ export class Session {
   saveCurrentRound() {
     this.rounds.push(this.currentRound.getSnapshot());
     this.currentRoundNumber++;
+    // this.getPlayersInOrder();
+    // console.log(this.getPreviousRound());
   }
 
   resetCurrentRound() {
@@ -65,6 +83,7 @@ export class Session {
   recordCueScratch(playerId) {
     this.currentRound.recordCueScratch(playerId);
   }
+
   recordWrongHit(playerId, ballId) {
     this.currentRound.recordWrongHit(playerId, ballId);
   }
@@ -82,6 +101,11 @@ export class Session {
   //     // this.currentRound.setMode(mode);
   //   }
   // }
+
+  getPreviousRound() {
+    return this.rounds[this.rounds.length - 1] ?? null;
+  }
+
   UIsnapshot() {
     return Object.freeze(
       structuredClone({
@@ -95,6 +119,7 @@ export class Session {
       }),
     );
   }
+
   saveSnapshot() {
     return Object.freeze(
       structuredClone({

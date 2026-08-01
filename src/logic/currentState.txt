@@ -102,21 +102,29 @@ export class Round {
   }
 
   setParticipants() {
-    this.players.map((player) => {
-      player.roundState();
-    });
+    // console.log(this.players);
+
+    if (this.players) {
+      console.log(this.players);
+
+      this.players.sort((low, high) => high.state.score - low.state.score);
+      this.players.map((player, index) =>
+        console.log(index + 1, player.name, player.state.score),
+      );
+
+      this.players.map((player) => {
+        player.roundState();
+      });
+    }
   }
 
   #setBalls() {
     let balls = [];
     const breaker = 3;
-
     for (let i = breaker; i <= 15; i++) {
       let newBall = new Ball(i);
-
       balls.push(newBall);
     }
-
     return balls;
   }
 
@@ -126,48 +134,56 @@ export class Round {
 
   recordScore(playerId, ballid) {
     const player = this.getPlayerById(playerId);
-
     const ball = this.getBallbyId(ballid);
 
-    ball.potted();
-    player.potBall(ball);
-    player.calculateScore();
+    if (ball) {
+      if (!ball.isPotted) {
+        ball.potted();
+        player.potBall(ball);
+        player.calculateScore();
+      } else {
+        console.warn(
+          `Cannot pot ball no '${ball.ballNo}' because it is already potted.`,
+        );
+      }
+    }
   }
+
   recordCueScratch(playerId) {
     const player = this.getPlayerById(playerId);
-    // console.log(player);
     player.potCueBall(this.getCurrentBall());
     player.calculateScore();
-
-    // console.log("CurrenBall", this.getCurrentBall());
   }
   recordWrongHit(playerId, ballId) {
     const player = this.getPlayerById(playerId);
     const ball = this.getBallbyId(ballId);
-    player.hitWrongBall(ball);
-    player.calculateScore();
+    if (ball) {
+      if (!ball.isPotted) {
+        player.hitWrongBall(ball);
+        player.calculateScore();
+      } else {
+        console.warn(
+          `Cannot record foul for ball no '${ball.ballNo} because it was already potted'`,
+        );
+      }
+    }
   }
 
   determineWinner() {
-    let heighestScore = this.players.sort(
-      (low, high) => high.state.score - low.state.score,
-    )[0].state.score;
+    const playerScores = this.players.map((player) => player.state.score);
+    let highScore = Math.max(...playerScores);
+    console.log(highScore);
 
     let highScorers = this.players.filter(
-      (player) => player.state.score === heighestScore,
+      (player) => player.state.score === highScore,
     );
 
     if (highScorers.length === 1) {
       this.roundWinner = highScorers[0];
-      console.log(this.roundWinner);
     } else {
       const chosenWinner = Math.floor(Math.random() * highScorers.length);
       this.roundWinner = highScorers[chosenWinner];
-      console.log(this.roundWinner);
     }
-    console.log(heighestScore);
-
-    // console.log(highScorers);
   }
   //helpers
   getPlayerById(id) {
@@ -211,21 +227,26 @@ export class Round {
       .filter((ball) => !ball.isPotted)
       .sort((a, b) => a.ballNo - b.ballNo);
   }
+  playersHighLow() {}
   getSnapshot() {
-    return {
-      roundID: this.roundID,
-      roundNumber: this.roundNumber,
-      players: this.players.map((player) => ({
-        id: player.id,
-        name: player.name,
-        state: structuredClone(player.state),
-      })),
-      winner: this.roundWinner,
-      mode: this.mode,
-      ended: this.isEnded,
-    };
+    return Object.freeze(
+      structuredClone({
+        roundID: this.roundID,
+        roundNumber: this.roundNumber,
+        players: this.players.map((player) => ({
+          id: player.id,
+          name: player.name,
+          state: structuredClone(player.state),
+        })),
+        availableBalls: this.getAvailableBalls(),
+        winner: this.roundWinner,
+        mode: this.mode,
+        ended: this.isEnded,
+      }),
+    );
   }
 }
+
 
 
 
@@ -251,25 +272,42 @@ export class Session {
 
   startNewRound() {
     this.resetCurrentRound();
+    if (this.rounds.length === 0) {
+      let newRound = new Round(
+        this.players,
+        this.mode,
+        this.currentRoundNumber,
+      );
 
-    const newRound = new Round(
-      this.players,
-      this.mode,
-      this.currentRoundNumber,
-    );
-    newRound.isEnded = false;
+      newRound.isEnded = false;
+      this.currentRound = newRound;
+      this.currentRound.setParticipants();
+    } else {
+      console.log();
+      let newGamePlayers = this.rounds[this.rounds.length - 1].players;
+      console.log(newGamePlayers);
 
-    this.currentRound = newRound;
+      // let sortedPlayers ];
+      let newRound = new Round(
+        this.players,
+        this.mode,
+        this.currentRoundNumber,
+      );
 
-    this.currentRound.setParticipants();
+      newRound.isEnded = false;
+      this.currentRound = newRound;
+      this.currentRound.setParticipants();
+      console.log(this.currentRound.balls);
+    }
   }
 
   endSession() {
     this.isEnded = true;
+    // this.resetCurrentRound();
   }
 
   saveCurrentRound() {
-    this.rounds.push(this.currentRound);
+    this.rounds.push(this.currentRound.getSnapshot());
     this.currentRoundNumber++;
   }
 
@@ -314,8 +352,32 @@ export class Session {
   //     // this.currentRound.setMode(mode);
   //   }
   // }
+  UIsnapshot() {
+    return Object.freeze(
+      structuredClone({
+        rounds: this.rounds.map((round) => round),
+        players: structuredClone(
+          this.players.map((player) => structuredClone(player)),
+        ),
+        currentRound: this.currentRound.getUISnapshot(),
+        isEnded: this.isEnded,
+        mode: this.mode,
+      }),
+    );
+  }
+  saveSnapshot() {
+    return Object.freeze(
+      structuredClone({
+        rounds: this.rounds,
+        players: structuredClone(
+          this.players.map((player) => structuredClone(player)),
+        ),
+        isEnded: this.isEnded,
+        mode: this.mode,
+      }),
+    );
+  }
 }
-
 
 
 
@@ -369,9 +431,12 @@ export class GameEngine {
       throw new Error("Current Round not finished");
     }
   }
+  clearPlayer() {
+    this.players.length = 0;
+  }
 
   #saveCurrentSession() {
-    this.sessions.push(Object.freeze(this.currentSession));
+    this.sessions.push(this.currentSession.saveSnapshot());
   }
   #resetCurrentSession() {
     this.currentSession = null;
@@ -424,6 +489,7 @@ export class GameEngine {
 
 
 
+
 //----------- controller.js file
 // import { Modes } from "./modes.js";
 import { GameEngine } from "./gameEngine.js";
@@ -449,6 +515,9 @@ export const controller = {
   endCurrentSession() {
     engine.endCurrentSession();
   },
+  clearPlayers() {
+    engine.clearPlayer();
+  },
   //   scores
   recordScore(playerID, ballID) {
     engine.recordScore(playerID, ballID);
@@ -464,41 +533,107 @@ export const controller = {
     return engine.sessions;
   },
   getRoundPlayer() {
-    let players = engine.currentSession.currentRound.players;
-    return players;
+    return engine.currentSession.currentRound.players;
   },
   getBalls() {
-    const ballIDs = engine.currentSession.currentRound.balls;
-    return ballIDs;
+    return engine.currentSession.currentRound.balls;
   },
 };
 
+// test for Round ImmutabilitY
 controller.addPlayer("wangkech");
 controller.addPlayer("Hothnyang");
 controller.addPlayer("big");
 
 controller.startNewSession(modes.SINGLE);
 controller.startNewRound();
-const playerIDs = controller.getRoundPlayer().map((player) => player.id);
-const balls = controller.getBalls().sort((a, b) => a.ballNo - b.ballNo);
-// console.log(ballIDs);
+
+let playerIDs = controller.getRoundPlayer().map((player) => player.id);
+let balls = controller.getBalls().sort((a, b) => a.ballNo - b.ballNo);
 
 controller.recordScore(playerIDs[1], balls[0].id);
 controller.recordScore(playerIDs[0], balls[10].id);
+
+controller.recordCueScratch(playerIDs[2]);
 controller.recordCueScratch(playerIDs[0]);
-controller.recordCueScratch(playerIDs[0]);
-controller.recordWrongHit(playerIDs[0], balls[0].id);
+
 controller.recordWrongHit(playerIDs[0], balls[8].id);
-controller.recordWrongHit(playerIDs[0], balls[10].id);
-controller.recordWrongHit(playerIDs[0], balls[11].id);
+controller.recordWrongHit(playerIDs[2], balls[9].id);
+controller.recordWrongHit(playerIDs[1], balls[11].id);
+
+controller.endCurrentRound();
+
+controller.startNewRound();
+balls = controller.getBalls().sort((a, b) => a.ballNo - b.ballNo);
+console.log(balls.map((ball) => ball.ballNo));
+console.log(playerIDs);
+
+controller.recordScore(playerIDs[0], balls[0].id);
+controller.recordScore(playerIDs[1], balls[5].id);
+controller.recordScore(playerIDs[0], balls[7].id);
+controller.recordScore(playerIDs[1], balls[10].id);
+
+controller.recordCueScratch(playerIDs[2]);
 controller.recordCueScratch(playerIDs[0]);
-controller.recordCueScratch(playerIDs[0]);
-// console.log(controller.getCurrentRoundStatus());
+
+controller.recordWrongHit(playerIDs[0], balls[8].id);
+controller.recordWrongHit(playerIDs[2], balls[9].id);
+controller.recordWrongHit(playerIDs[1], balls[11].id);
+
 controller.endCurrentRound();
 
 controller.endCurrentSession();
 
-// console.log(controller.getSession());
+controller.clearPlayers();
+
+controller.addPlayer("lily");
+controller.addPlayer("bro");
+controller.addPlayer("kelly");
+
+controller.startNewSession(modes.SINGLE);
+
+controller.startNewRound();
+
+playerIDs = controller.getRoundPlayer().map((player) => player.id);
+balls = controller.getBalls().sort((a, b) => a.ballNo - b.ballNo);
+
+controller.recordScore(playerIDs[1], balls[0].id);
+controller.recordScore(playerIDs[0], balls[10].id);
+
+controller.recordCueScratch(playerIDs[2]);
+controller.recordCueScratch(playerIDs[0]);
+
+controller.recordWrongHit(playerIDs[0], balls[8].id);
+controller.recordWrongHit(playerIDs[2], balls[9].id);
+controller.recordWrongHit(playerIDs[1], balls[11].id);
+
+controller.endCurrentRound();
+controller.startNewRound();
+balls = controller.getBalls().sort((a, b) => a.ballNo - b.ballNo);
+
+controller.recordScore(playerIDs[1], balls[0].id);
+controller.recordScore(playerIDs[0], balls[10].id);
+
+controller.recordCueScratch(playerIDs[2]);
+controller.recordCueScratch(playerIDs[0]);
+
+controller.recordWrongHit(playerIDs[0], balls[8].id);
+controller.recordWrongHit(playerIDs[2], balls[9].id);
+controller.recordWrongHit(playerIDs[1], balls[11].id);
+
+controller.endCurrentRound();
+controller.endCurrentSession();
+
+console.log(
+  "session 1: ",
+  controller.getSession()[0],
+  // .map((session, index) => console.log(`session ${index + 1}: ${session}`)),
+);
+console.log(
+  "session 2: ",
+  controller.getSession()[1],
+  // .map((session, index) => console.log(`session ${index + 1}: ${session}`)),
+);
 
 
 

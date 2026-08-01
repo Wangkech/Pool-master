@@ -40,12 +40,10 @@ export const controller = {
     return engine.sessions;
   },
   getRoundPlayer() {
-    let players = engine.currentSession.currentRound.players;
-    return players;
+    return engine.currentSession.currentRound.players;
   },
   getBalls() {
-    const ballIDs = engine.currentSession.currentRound.balls;
-    return ballIDs;
+    return engine.currentSession.currentRound.balls;
   },
 };
 
@@ -74,8 +72,8 @@ controller.endCurrentRound();
 
 controller.startNewRound();
 balls = controller.getBalls().sort((a, b) => a.ballNo - b.ballNo);
-console.log(balls.map((ball) => ball.ballNo));
-console.log(playerIDs);
+// console.log(balls.map((ball) => ball.ballNo));
+// console.log(playerIDs);
 
 controller.recordScore(playerIDs[0], balls[0].id);
 controller.recordScore(playerIDs[1], balls[5].id);
@@ -90,56 +88,56 @@ controller.recordWrongHit(playerIDs[2], balls[9].id);
 controller.recordWrongHit(playerIDs[1], balls[11].id);
 
 controller.endCurrentRound();
-
-controller.endCurrentSession();
-
-controller.clearPlayers();
-
-controller.addPlayer("lily");
-controller.addPlayer("bro");
-controller.addPlayer("kelly");
-
-controller.startNewSession(modes.SINGLE);
-
 controller.startNewRound();
+// controller.endCurrentSession();
 
-playerIDs = controller.getRoundPlayer().map((player) => player.id);
-balls = controller.getBalls().sort((a, b) => a.ballNo - b.ballNo);
+// controller.clearPlayers();
 
-controller.recordScore(playerIDs[1], balls[0].id);
-controller.recordScore(playerIDs[0], balls[10].id);
+// controller.addPlayer("lily");
+// controller.addPlayer("bro");
+// controller.addPlayer("kelly");
 
-controller.recordCueScratch(playerIDs[2]);
-controller.recordCueScratch(playerIDs[0]);
+// controller.startNewSession(modes.SINGLE);
 
-controller.recordWrongHit(playerIDs[0], balls[8].id);
-controller.recordWrongHit(playerIDs[2], balls[9].id);
-controller.recordWrongHit(playerIDs[1], balls[11].id);
+// controller.startNewRound();
 
-controller.endCurrentRound();
-controller.startNewRound();
-balls = controller.getBalls().sort((a, b) => a.ballNo - b.ballNo);
+// playerIDs = controller.getRoundPlayer().map((player) => player.id);
+// balls = controller.getBalls().sort((a, b) => a.ballNo - b.ballNo);
 
-controller.recordScore(playerIDs[1], balls[0].id);
-controller.recordScore(playerIDs[0], balls[10].id);
+// controller.recordScore(playerIDs[1], balls[0].id);
+// controller.recordScore(playerIDs[0], balls[10].id);
 
-controller.recordCueScratch(playerIDs[2]);
-controller.recordCueScratch(playerIDs[0]);
+// controller.recordCueScratch(playerIDs[2]);
+// controller.recordCueScratch(playerIDs[0]);
 
-controller.recordWrongHit(playerIDs[0], balls[8].id);
-controller.recordWrongHit(playerIDs[2], balls[9].id);
-controller.recordWrongHit(playerIDs[1], balls[11].id);
+// controller.recordWrongHit(playerIDs[0], balls[8].id);
+// controller.recordWrongHit(playerIDs[2], balls[9].id);
+// controller.recordWrongHit(playerIDs[1], balls[11].id);
 
-controller.endCurrentRound();
-controller.endCurrentSession();
+// controller.endCurrentRound();
+// controller.startNewRound();
+// balls = controller.getBalls().sort((a, b) => a.ballNo - b.ballNo);
 
-console.log(
-  "session 1: ",
-  controller.getSession()[0],
-  // .map((session, index) => console.log(`session ${index + 1}: ${session}`)),
-);
-console.log(
-  "session 2: ",
-  controller.getSession()[1],
-  // .map((session, index) => console.log(`session ${index + 1}: ${session}`)),
-);
+// controller.recordScore(playerIDs[1], balls[0].id);
+// controller.recordScore(playerIDs[0], balls[10].id);
+
+// controller.recordCueScratch(playerIDs[2]);
+// controller.recordCueScratch(playerIDs[0]);
+
+// controller.recordWrongHit(playerIDs[0], balls[8].id);
+// controller.recordWrongHit(playerIDs[2], balls[9].id);
+// controller.recordWrongHit(playerIDs[1], balls[11].id);
+
+// controller.endCurrentRound();
+// controller.endCurrentSession();
+
+// console.log(
+//   "session 1: ",
+//   controller.getSession()[0],
+//   // .map((session, index) => console.log(`session ${index + 1}: ${session}`)),
+// );
+// console.log(
+//   "session 2: ",
+//   controller.getSession()[1],
+//   // .map((session, index) => console.log(`session ${index + 1}: ${session}`)),
+// );
