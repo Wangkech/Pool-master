@@ -100,7 +100,9 @@ export class Session {
         players: structuredClone(
           this.players.map((player) => player.getSnapshot()),
         ),
-        currentRound: this.currentRound.getSnapshot() ?? null,
+        currentRound: this.currentRound
+          ? this.currentRound.getSnapshot()
+          : null,
         ended: this.ended,
         mode: this.mode,
       }),

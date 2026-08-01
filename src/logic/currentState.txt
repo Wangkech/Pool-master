@@ -81,7 +81,15 @@ export class Player {
       );
     }
   }
+  getSnapshot() {
+    return Object.freeze({
+      id: this.id,
+      name: this.name,
+      state: structuredClone(this.state),
+    });
+  }
 }
+
 
 
 
@@ -98,20 +106,11 @@ export class Round {
     this.balls = this.#setBalls();
     this.roundWinner = null;
     this.mode = this.setMode(mode);
-    this.isEnded = false;
+    this.ended = false;
   }
 
   setParticipants() {
-    // console.log(this.players);
-
     if (this.players) {
-      console.log(this.players);
-
-      this.players.sort((low, high) => high.state.score - low.state.score);
-      this.players.map((player, index) =>
-        console.log(index + 1, player.name, player.state.score),
-      );
-
       this.players.map((player) => {
         player.roundState();
       });
@@ -129,7 +128,7 @@ export class Round {
   }
 
   endRound() {
-    this.isEnded = true;
+    this.ended = true;
   }
 
   recordScore(playerId, ballid) {
@@ -172,7 +171,6 @@ export class Round {
   determineWinner() {
     const playerScores = this.players.map((player) => player.state.score);
     let highScore = Math.max(...playerScores);
-    console.log(highScore);
 
     let highScorers = this.players.filter(
       (player) => player.state.score === highScore,
@@ -199,7 +197,7 @@ export class Round {
   }
 
   getCurrentBall() {
-    const remainingBalls = this.getAvailableBalls();
+    const remainingBalls = this.getBallsSnapshot();
     let currentBall;
     const breaker = this.getBallByNum(3);
     if (!breaker.isPotted) {
@@ -211,35 +209,31 @@ export class Round {
     return currentBall;
   }
 
-  // #PottedBall(balltoPott) {
-  //   let ball = this.balls.find((ball) => ball.id === balltoPott.id);
-  //   ball.potted();
-
-  //   console.log(this.balls);
-  // }
-
   setMode(mode) {
     return mode;
   }
 
-  getAvailableBalls() {
+  getBallsSnapshot() {
     return this.balls
       .filter((ball) => !ball.isPotted)
       .sort((a, b) => a.ballNo - b.ballNo);
   }
+
   playersHighLow() {}
   getSnapshot() {
     return Object.freeze(
       structuredClone({
         roundID: this.roundID,
         roundNumber: this.roundNumber,
-        players: this.players.map((player) => ({
-          id: player.id,
-          name: player.name,
-          state: structuredClone(player.state),
-        })),
-        availableBalls: this.getAvailableBalls(),
-        winner: this.roundWinner,
+        players: this.players.map((player) => player.getSnapshot()),
+        availableBalls: this.getBallsSnapshot(),
+        winner: this.roundWinner
+          ? {
+              id: this.roundWinner.id,
+              name: this.roundWinner.name,
+              score: this.roundWinner.state.score,
+            }
+          : null,
         mode: this.mode,
         ended: this.isEnded,
       }),
@@ -260,7 +254,7 @@ export class Session {
     this.players = players;
     this.currentRound = null;
     this.currentRoundNumber = this.rounds.length + 1;
-    this.isEnded = false;
+    this.ended = false;
     this.mode = null;
   }
 
@@ -269,36 +263,35 @@ export class Session {
       player.sessionMemberState();
     });
   }
+  // #initializePlayers(players) {
+  //   return this.getPlayersInOrder() ?? players;
+  // }
 
   startNewRound() {
     this.resetCurrentRound();
-    if (this.rounds.length === 0) {
-      let newRound = new Round(
-        this.players,
-        this.mode,
-        this.currentRoundNumber,
-      );
+    const players = this.getPlayersInOrder() ?? this.players;
 
-      newRound.isEnded = false;
-      this.currentRound = newRound;
-      this.currentRound.setParticipants();
-    } else {
-      console.log();
-      let newGamePlayers = this.rounds[this.rounds.length - 1].players;
-      console.log(newGamePlayers);
+    let newRound = new Round(players, this.mode, this.currentRoundNumber);
 
-      // let sortedPlayers ];
-      let newRound = new Round(
-        this.players,
-        this.mode,
-        this.currentRoundNumber,
-      );
+    newRound.isEnded = false;
+    this.currentRound = newRound;
+    this.currentRound.setParticipants();
+  }
 
-      newRound.isEnded = false;
-      this.currentRound = newRound;
-      this.currentRound.setParticipants();
-      console.log(this.currentRound.balls);
-    }
+  getPlayersInOrder() {
+    const previous = this.getPreviousRound();
+
+    if (!previous) return null;
+
+    const sortedPlayers = [...previous.players].sort(
+      (a, b) => b.state.score - a.state.score,
+    );
+
+    const players = sortedPlayers.map((sortedPlayer) =>
+      this.players.find((player) => player.id === sortedPlayer.id),
+    );
+
+    return players;
   }
 
   endSession() {
@@ -309,6 +302,9 @@ export class Session {
   saveCurrentRound() {
     this.rounds.push(this.currentRound.getSnapshot());
     this.currentRoundNumber++;
+    this.resetCurrentRound();
+    // this.getPlayersInOrder();
+    // console.log(this.getPreviousRound());
   }
 
   resetCurrentRound() {
@@ -325,7 +321,7 @@ export class Session {
   }
 
   currentRoundEnded() {
-    return this.currentRound.isEnded;
+    return this.currentRound.ended;
   }
 
   recordScore(playerId, ball) {
@@ -335,49 +331,32 @@ export class Session {
   recordCueScratch(playerId) {
     this.currentRound.recordCueScratch(playerId);
   }
+
   recordWrongHit(playerId, ballId) {
     this.currentRound.recordWrongHit(playerId, ballId);
   }
-  // getRoundWinner() {
-  //   this.currentRound.roundWinner;
-  // }
-  // changeMode(mode) {
-  //   const playerSum = this.currentRound.players.length;
-  //   if (mode === "TWOPLAYER" && playerSum > 2) {
-  //     console.log("cannot change the mode");
-  //     console.log(`mode: ${mode}`);
-  //     console.log(`players: ${playerSum}`);
-  //   } else {
-  //     this.setGameMode(mode);
-  //     // this.currentRound.setMode(mode);
-  //   }
-  // }
-  UIsnapshot() {
+
+  getPreviousRound() {
+    return this.rounds[this.rounds.length - 1] ?? null;
+  }
+
+  getSnapshot() {
     return Object.freeze(
       structuredClone({
         rounds: this.rounds.map((round) => round),
         players: structuredClone(
-          this.players.map((player) => structuredClone(player)),
+          this.players.map((player) => player.getSnapshot()),
         ),
-        currentRound: this.currentRound.getUISnapshot(),
-        isEnded: this.isEnded,
-        mode: this.mode,
-      }),
-    );
-  }
-  saveSnapshot() {
-    return Object.freeze(
-      structuredClone({
-        rounds: this.rounds,
-        players: structuredClone(
-          this.players.map((player) => structuredClone(player)),
-        ),
-        isEnded: this.isEnded,
+        currentRound: this.currentRound
+          ? this.currentRound.getSnapshot()
+          : null,
+        ended: this.ended,
         mode: this.mode,
       }),
     );
   }
 }
+
 
 
 
@@ -428,7 +407,9 @@ export class GameEngine {
       this.#saveCurrentSession();
       this.#resetCurrentSession();
     } else {
-      throw new Error("Current Round not finished");
+      throw new Error(
+        " Could not end current session. Current Round not finished",
+      );
     }
   }
   clearPlayer() {
@@ -436,7 +417,7 @@ export class GameEngine {
   }
 
   #saveCurrentSession() {
-    this.sessions.push(this.currentSession.saveSnapshot());
+    this.sessions.push(this.currentSession.getSnapshot());
   }
   #resetCurrentSession() {
     this.currentSession = null;
@@ -455,37 +436,21 @@ export class GameEngine {
     this.currentSession.recordWrongHit(playerId, ballId);
   }
 
-  // getRoundWinner() {
-  //   this.currentSession.getRoundWinner();
-  // }
-  // changeSessionMode(mode) {
-  //   const activePlayers = this.currentSession.players.filter(
-  //     (player) => player.isActive === true,
-  //   );
-  // console.log(mode, activePlayers);
-
-  // if (mode != this.modes.TWOPLAYER && activePlayers.length > 2) {
-  //   throw new Error("Cannot change mode");
-
-  //   // console.log("cannot change the mode");
-  //   // console.log(`mode: ${mode}`);
-  //   // console.log(`players: ${activePlayers}`);
-  // }
-  // else {
-  //   this.setSessionMode(mode);
-  //   console.log(this.currentSession.mode);
-  // }
-
-  // if(this.currentSession.mode != this.modes.twoPlayer){
-
-  // }
-  // }
-
   startNewRound() {
     this.currentSession.startNewRound();
   }
-}
 
+  getSnapshot() {
+    return Object.freeze({
+      players: structuredClone(this.players),
+      currentSession: this.currentSession
+        ? this.currentSession.getSnapshot()
+        : null,
+      sessions: this.sessions ?? null,
+      modes: this.modes,
+    });
+  }
+}
 
 
 
