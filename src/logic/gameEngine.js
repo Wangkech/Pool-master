@@ -44,7 +44,9 @@ export class GameEngine {
       this.#saveCurrentSession();
       this.#resetCurrentSession();
     } else {
-      throw new Error("Current Round not finished");
+      throw new Error(
+        " Could not end current session. Current Round not finished",
+      );
     }
   }
   clearPlayer() {
@@ -78,8 +80,10 @@ export class GameEngine {
   getSnapshot() {
     return Object.freeze({
       players: structuredClone(this.players),
-      currentSession: this.currentSession.getSnapshot(),
-      sessions: this.sessions,
+      currentSession: this.currentSession
+        ? this.currentSession.getSnapshot()
+        : null,
+      sessions: this.sessions ?? null,
       modes: this.modes,
     });
   }

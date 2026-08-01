@@ -55,6 +55,7 @@ export class Session {
   saveCurrentRound() {
     this.rounds.push(this.currentRound.getSnapshot());
     this.currentRoundNumber++;
+    this.resetCurrentRound();
     // this.getPlayersInOrder();
     // console.log(this.getPreviousRound());
   }
@@ -73,7 +74,7 @@ export class Session {
   }
 
   currentRoundEnded() {
-    return this.currentRound.isEnded;
+    return this.currentRound.ended;
   }
 
   recordScore(playerId, ball) {
@@ -87,20 +88,6 @@ export class Session {
   recordWrongHit(playerId, ballId) {
     this.currentRound.recordWrongHit(playerId, ballId);
   }
-  // getRoundWinner() {
-  //   this.currentRound.roundWinner;
-  // }
-  // changeMode(mode) {
-  //   const playerSum = this.currentRound.players.length;
-  //   if (mode === "TWOPLAYER" && playerSum > 2) {
-  //     console.log("cannot change the mode");
-  //     console.log(`mode: ${mode}`);
-  //     console.log(`players: ${playerSum}`);
-  //   } else {
-  //     this.setGameMode(mode);
-  //     // this.currentRound.setMode(mode);
-  //   }
-  // }
 
   getPreviousRound() {
     return this.rounds[this.rounds.length - 1] ?? null;

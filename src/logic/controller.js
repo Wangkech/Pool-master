@@ -91,50 +91,49 @@ controller.recordWrongHit(playerIDs[2], balls[9].id);
 controller.recordWrongHit(playerIDs[1], balls[11].id);
 
 controller.endCurrentRound();
+
+controller.endCurrentSession();
+
+controller.clearPlayers();
+
+controller.addPlayer("lily");
+controller.addPlayer("bro");
+controller.addPlayer("kelly");
+
+controller.startNewSession(modes.SINGLE);
+
 controller.startNewRound();
 
+playerIDs = controller.getRoundPlayer().map((player) => player.id);
+balls = controller.getBalls().sort((a, b) => a.ballNo - b.ballNo);
+
+controller.recordScore(playerIDs[1], balls[0].id);
+controller.recordScore(playerIDs[0], balls[10].id);
+
+controller.recordCueScratch(playerIDs[2]);
+controller.recordCueScratch(playerIDs[0]);
+
+controller.recordWrongHit(playerIDs[0], balls[8].id);
+controller.recordWrongHit(playerIDs[2], balls[9].id);
+controller.recordWrongHit(playerIDs[1], balls[11].id);
+
+controller.endCurrentRound();
+controller.startNewRound();
+balls = controller.getBalls().sort((a, b) => a.ballNo - b.ballNo);
+
+controller.recordScore(playerIDs[1], balls[0].id);
+controller.recordScore(playerIDs[0], balls[10].id);
+
+controller.recordCueScratch(playerIDs[2]);
+controller.recordCueScratch(playerIDs[0]);
+
+controller.recordWrongHit(playerIDs[0], balls[8].id);
+controller.recordWrongHit(playerIDs[2], balls[9].id);
+controller.recordWrongHit(playerIDs[1], balls[11].id);
+
+controller.endCurrentRound();
+controller.endCurrentSession();
 console.log(controller.getSnapshot());
-// controller.endCurrentSession();
-
-// controller.clearPlayers();
-
-// controller.addPlayer("lily");
-// controller.addPlayer("bro");
-// controller.addPlayer("kelly");
-
-// controller.startNewSession(modes.SINGLE);
-
-// controller.startNewRound();
-
-// playerIDs = controller.getRoundPlayer().map((player) => player.id);
-// balls = controller.getBalls().sort((a, b) => a.ballNo - b.ballNo);
-
-// controller.recordScore(playerIDs[1], balls[0].id);
-// controller.recordScore(playerIDs[0], balls[10].id);
-
-// controller.recordCueScratch(playerIDs[2]);
-// controller.recordCueScratch(playerIDs[0]);
-
-// controller.recordWrongHit(playerIDs[0], balls[8].id);
-// controller.recordWrongHit(playerIDs[2], balls[9].id);
-// controller.recordWrongHit(playerIDs[1], balls[11].id);
-
-// controller.endCurrentRound();
-// controller.startNewRound();
-// balls = controller.getBalls().sort((a, b) => a.ballNo - b.ballNo);
-
-// controller.recordScore(playerIDs[1], balls[0].id);
-// controller.recordScore(playerIDs[0], balls[10].id);
-
-// controller.recordCueScratch(playerIDs[2]);
-// controller.recordCueScratch(playerIDs[0]);
-
-// controller.recordWrongHit(playerIDs[0], balls[8].id);
-// controller.recordWrongHit(playerIDs[2], balls[9].id);
-// controller.recordWrongHit(playerIDs[1], balls[11].id);
-
-// controller.endCurrentRound();
-// controller.endCurrentSession();
 
 // console.log(
 //   "session 1: ",

@@ -31,7 +31,7 @@ export class Round {
   }
 
   endRound() {
-    this.isEnded = true;
+    this.ended = true;
   }
 
   recordScore(playerId, ballid) {
