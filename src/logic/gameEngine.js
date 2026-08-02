@@ -77,6 +77,9 @@ export class GameEngine {
     this.currentSession.startNewRound();
   }
 
+  getAllBalls() {
+    this.currentSession.getAllBalls();
+  }
   getSnapshot() {
     return Object.freeze({
       players: this.players.map((player) => player.getSnapshot()),

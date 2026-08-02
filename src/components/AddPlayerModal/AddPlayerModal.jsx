@@ -1,67 +1,45 @@
 import { useState } from "react";
-import { Player } from "../../logic/player.js";
 
 import PlayerNameInput from "./PlayerNameInput.jsx";
 import PlayerNameListContainer from "./PlayerNameListContainer.jsx";
 import Actionbtn from "./Actionbtn.jsx";
-function AddPlayerModal({
-  playerList,
-  setPlayerList,
-  setIsAddingPlayers,
-  setGameOn,
-  getCurrentGamePlayers,
-}) {
-  const [players, setPlayers] = useState(playerList);
+import { useGameContext } from "../../context/useGameContext.js";
+function AddPlayerModal({ setIsAddingPlayers, setGameOn }) {
+  const { addPlayer, startNewGame, playerList } = useGameContext();
+  // const players = useState(gameState.players);
   const [playerName, setPlayerName] = useState("");
-
+  // const { addPlayer } = useGame();
   function getPlayerName(e) {
     let newPlayerName = e.target.value;
     setPlayerName(newPlayerName.toLowerCase().trim());
-
-    return newPlayerName;
   }
 
   function addPlayerToList(e) {
     e.preventDefault();
-
-    const playerNames = [];
-
-    players.map((player) => playerNames.push(player.name));
-    if (playerName != "") {
-      if (!playerNames.includes(playerName)) {
-        const newPlayer = new Player(playerName);
-        let newPlayerList = [...players, newPlayer];
-
-        setPlayers(newPlayerList);
-        setPlayerName("");
-      } else {
-        alert(`${playerName} has already been added`);
-      }
-    }
+    if (playerName != "") addPlayer(playerName);
+    setPlayerName("");
   }
 
   function removePlayer(id) {
-    let currentPlayers = players.filter((player) => player.id != id);
-    setPlayers(currentPlayers);
-    console.log("after: ", players);
+    //   let currentPlayers = players.filter((player) => player.id != id);
+    //   currentPlayers;
+    //   console.log("after: ", players);
   }
   function editPlayerName(id) {
-    console.log("edit Player: ", id);
+    // console.log("edit Player: ", id);
   }
 
   function saveList() {
-    if (players.length > 1) {
-      setPlayerList(players);
+    if (playerList.length > 1) {
       setIsAddingPlayers(false);
+      startNewGame();
       setGameOn(true);
-      getCurrentGamePlayers(players);
     } else {
-      alert(`Add more than ${players.length} Players to Proceed`);
+      alert(`Add more than ${playerList.length} Players to Proceed`);
     }
   }
 
   function cancelList() {
-    setPlayers(playerList);
     setIsAddingPlayers(false);
   }
 
@@ -76,7 +54,7 @@ function AddPlayerModal({
         cancelList={cancelList}
       />
       <PlayerNameListContainer
-        players={players}
+        playerList={playerList}
         editPlayerName={editPlayerName}
         removePlayer={removePlayer}
       />

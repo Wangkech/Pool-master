@@ -1,10 +1,25 @@
-import ActivePlayerCard from "./ActivePlayerCardContainer";
+import { useGameContext } from "../../context/useGameContext";
+import ActivePlayerCard from "./ActivePlayerCard";
 
 function ActivePlayersList() {
+  const { availableBalls, roundPlayers } = useGameContext();
+
   return (
     <div className="overflow-hidden">
       <ul className="player-card-container flex h-full w-full scrollbar-none flex-col gap-y-4 overflow-auto p-2">
-        <ActivePlayerCard />
+        {roundPlayers.map((player) => (
+          <ActivePlayerCard
+            // addPoints={addPoints}
+            // potBall={potBall}
+            balls={availableBalls}
+            key={player.id}
+            id={player.id}
+            name={player.name}
+            score={player.state.score}
+            // basket={balls}
+            basket={player.state.ballBasket}
+          />
+        ))}
       </ul>
     </div>
   );

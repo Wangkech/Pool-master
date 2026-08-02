@@ -100,7 +100,7 @@ export class Round {
   }
 
   getCurrentBall() {
-    const remainingBalls = this.getBallsSnapshot();
+    const remainingBalls = this.getAvailableBalls();
     let currentBall;
     const breaker = this.getBallByNum(3);
     if (!breaker.isPotted) {

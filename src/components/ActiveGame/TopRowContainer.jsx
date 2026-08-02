@@ -5,6 +5,7 @@ function TopRowContainer({
   plusIcon,
   deleteIcon,
   disableIcon,
+  roundNumber,
   // setIsAddingPlayers,
   addMorePlayers,
 }) {
@@ -17,7 +18,7 @@ function TopRowContainer({
         // setIsAddingPlayers={setIsAddingPlayers}
         addMorePlayers={addMorePlayers}
       />
-      <GamesCountTracker />
+      <GamesCountTracker roundNumber={roundNumber} />
     </div>
   );
 }

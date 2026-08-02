@@ -1,5 +1,7 @@
-import { controller } from "./logic/controller.js";
-import { useState, useEffect, use } from "react";
+// import { controller } from "./logic/controller.js";
+import { useState, useEffect } from "react";
+// import { useGame } from "./hooks/useGame.js";
+import { useGameContext } from "./context/useGameContext.js";
 import Header from "./components/Header";
 import "./css/App.css";
 import Navbar from "./components/Navbar";
@@ -10,15 +12,26 @@ import ActiveGameContainer from "./components/ActiveGame/ActiveGameContainer.jsx
 // import { InGamePlayer } from "./logic/players.js";
 
 function App() {
-  const [gameState, setGameState] = useState(controller.getSnapshot);
-  const [isAddingPlayers, setIsAddingPlayers] = useState(false);
-  const [gameOn, setGameOn] = useState(true);
+  const {
+    gameState,
+    // playerList,
+    // currentRound,
+    // addPlayer,
+    // startNewGame,
+    // startNewRound,
+    // potBall,
+  } = useGameContext();
 
-  console.log(gameState);
+  const [isAddingPlayers, setIsAddingPlayers] = useState(true);
+  const [gameOn, setGameOn] = useState(false);
+
+  // console.log(playerList);
 
   function getCurrentGamePlayers(playersList) {}
 
-  function handleStartNewGame() {}
+  function handleStartNewGame() {
+    setIsAddingPlayers(true);
+  }
 
   return (
     <div className="relative grid h-screen w-screen grid-rows-[75px_1fr_76px] flex-col bg-[#1f1f1f] text-white">
@@ -26,12 +39,28 @@ function App() {
       <Container
         child={
           <>
-            {isAddingPlayers && <AddPlayerModal />}
+            {isAddingPlayers && (
+              <AddPlayerModal
+                // addPlayer={addPlayer}
+                // playerList={playerList}
+                // startNewGame={startNewGame}
+                // setPlayerList={setPlayerList}
+                setIsAddingPlayers={setIsAddingPlayers}
+                // setGameState={setGameState}
+                setGameOn={setGameOn}
+                gameState={gameState}
+                // controller={controller}
+              />
+            )}
             {isAddingPlayers === false && gameOn === false && (
               <StartNewGame handleStartNewGame={handleStartNewGame} />
             )}
             {gameOn === true && isAddingPlayers === false && (
-              <ActiveGameContainer />
+              <ActiveGameContainer
+              // currentRound={currentRound}
+              // potBall={potBall}
+              // startNewRound={startNewRound}
+              />
             )}
           </>
         }

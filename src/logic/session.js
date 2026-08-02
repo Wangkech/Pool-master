@@ -92,7 +92,9 @@ export class Session {
   getPreviousRound() {
     return this.rounds[this.rounds.length - 1] ?? null;
   }
-
+  getAllBalls() {
+    this.currentRound.balls;
+  }
   getSnapshot() {
     return Object.freeze(
       structuredClone({

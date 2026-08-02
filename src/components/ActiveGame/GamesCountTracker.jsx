@@ -1,9 +1,9 @@
-function GamesCountTracker() {
-    return (
-        <div className="game-number-holder bg-amber-50 p-1 px-2 rounded-2xl text-black  ">
-            <p className="text-[0.785rem] game-number">Game No: 5</p>
-        </div>
-    )
+function GamesCountTracker({ roundNumber }) {
+  return (
+    <div className="game-number-holder rounded-2xl bg-amber-50 p-1 px-2 text-black">
+      <p className="game-number text-[0.785rem]">Game No: {roundNumber}</p>
+    </div>
+  );
 }
 
-export default GamesCountTracker
+export default GamesCountTracker;

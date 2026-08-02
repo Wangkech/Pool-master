@@ -1,16 +1,62 @@
+import { useState } from "react";
 import plusIcon from "../../assets/icons/Plus.svg";
+import AddPointsDropdown from "./AddPointsDropdown";
+import MinusPointsDropdown from "./MinusPointsDropDown";
 
-function PointsBtns() {
+function PointsBtns({ id }) {
+  const [isAdding, setIsAdding] = useState(null);
+  const [isFouling, setIsFlouling] = useState(null);
+  const [timeout, settimeout] = useState(5000);
+  window.addEventListener("click", (e) => {
+    if (!e.target.parentElement.classList.contains("points-btn")) {
+      setIsAdding(false);
+      setIsFlouling(false);
+    }
+  });
   return (
-    <div class="points-btns">
-      {/* <button class="add-points-btn adding points-btn"> */}
-      <button class="add-points-btn points-btn cursor-pointer">
+    <div className="points-btns">
+      {/* <button className="add-points-btn adding points-btn"> */}
+      <button
+        onClick={() => {
+          if (isAdding) {
+            setIsAdding(false);
+          } else {
+            setIsAdding(true);
+            // setTimeout(() => {
+            //   setIsAdding(false);
+            // }, );
+          }
+        }}
+        className="add-points-btn points-btn cursor-pointer"
+      >
         <img src={plusIcon} />
       </button>
-      {/* <button class="minus-points-btn points-btn not-negating"> */}
-      <button class="minus-points-btn points-btn cursor-pointer">
+      {/* <button className="minus-points-btn points-btn not-negating"> */}
+      <button
+        onClick={() => {
+          if (!isFouling) {
+            setIsFlouling(true);
+            // setTimeout(() => {
+            //   setIsFlouling(false);
+            // }, timeout);
+          } else {
+            setIsFlouling(false);
+          }
+        }}
+        className="minus-points-btn points-btn cursor-pointer"
+      >
         <img src={plusIcon} alt="Deduct Points" />
       </button>
+      {isAdding && (
+        <AddPointsDropdown
+          settimeout={settimeout}
+          id={id}
+          setIsAdding={setIsAdding}
+        />
+      )}
+      {isFouling && (
+        <MinusPointsDropdown id={id} setIsFouling={setIsFlouling} />
+      )}
     </div>
   );
 }

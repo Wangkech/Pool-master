@@ -1,10 +1,13 @@
-function PlayerNameList({ players, editPlayerName, removePlayer, ref }) {
+import { useGameContext } from "../../context/useGameContext";
+
+function PlayerNameList({ editPlayerName, removePlayer, ref }) {
+  const { playerList } = useGameContext();
   return (
     <ul
       ref={ref}
       className="list grid h-auto scrollbar-none grid-rows-[repeat(auto,minmax(0,50px))] gap-2 overflow-x-auto p-2"
     >
-      {players.map((player, index) => (
+      {playerList.map((player, index) => (
         <li
           key={player.id}
           className="my-auto grid h-12 w-full grid-cols-[150px_1fr_1fr] items-center justify-around"

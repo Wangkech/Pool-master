@@ -62,6 +62,7 @@ button {
   border-top: none;
   grid-auto-columns: 1fr;
   list-style: none;
+  z-index: 5;
 }
 
 .positive-ball {
@@ -92,7 +93,8 @@ button {
   border-top: none;
   grid-auto-columns: 1fr;
   list-style: none;
-  display: none;
+  z-index: 6;
+  /* display: none; */
 }
 
 .negative-ball {
