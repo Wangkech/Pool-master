@@ -1,0 +1,29 @@
+{
+  "name": "pool-master",
+  "version": "1.0.0",
+  "description": "Pool Master - Game Session Manager",
+  "main": "app.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wangkech/Pool-master.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Wangkech/Pool-master/issues"
+  },
+  "homepage": "https://github.com/Wangkech/Pool-master#readme",
+  "dependencies": {
+    "@vercel/speed-insights": "^2.0.0"
+  },
+  "devDependencies": {
+    "vite": "^8.2.0"
+  }
+}

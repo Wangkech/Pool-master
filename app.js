@@ -1,3 +1,8 @@
+import { injectSpeedInsights } from '@vercel/speed-insights';
+
+// Initialize Vercel Speed Insights
+injectSpeedInsights();
+
 const newGame = document.querySelector(".new-game-btn");
 
 // Player input elements and variables
