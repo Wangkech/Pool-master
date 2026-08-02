@@ -6,11 +6,8 @@ import deleteIcon from "../../assets/icons/Home.svg";
 import disableIcon from "../../assets/icons/History.svg";
 import "./ActiveGame.css";
 
-function ActiveGameContainer({ playerList, setIsAddingPlayers }) {
-  function addMorePlayers() {
-    setIsAddingPlayers(true);
-    console.log("set");
-  }
+function ActiveGameContainer() {
+  function addMorePlayers() {}
 
   return (
     <div className="grid h-full w-[90vw] grid-rows-[50px_1fr_50px] gap-1 rounded-2xl bg-(--accent-bg) p-2">
@@ -21,7 +18,7 @@ function ActiveGameContainer({ playerList, setIsAddingPlayers }) {
         // setIsAddingPlayers={setIsAddingPlayers}
         addMorePlayers={addMorePlayers}
       />
-      <ActivePlayersList playerList={playerList} />
+      <ActivePlayersList />
       <BottomRowContainer />
     </div>
   );
