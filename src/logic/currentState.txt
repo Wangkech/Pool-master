@@ -235,7 +235,7 @@ export class Round {
             }
           : null,
         mode: this.mode,
-        ended: this.isEnded,
+        ended: this.ended,
       }),
     );
   }
@@ -273,7 +273,7 @@ export class Session {
 
     let newRound = new Round(players, this.mode, this.currentRoundNumber);
 
-    newRound.isEnded = false;
+    newRound.ended = false;
     this.currentRound = newRound;
     this.currentRound.setParticipants();
   }
@@ -295,7 +295,7 @@ export class Session {
   }
 
   endSession() {
-    this.isEnded = true;
+    this.ended = true;
     // this.resetCurrentRound();
   }
 
@@ -396,7 +396,7 @@ export class GameEngine {
 
   endCurrentRound() {
     this.currentSession.endCurrentRound();
-    if (this.currentSession.currentRound.isEnded) {
+    if (this.currentSession.currentRound.ended) {
       this.currentSession.saveCurrentRound();
     }
   }

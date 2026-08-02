@@ -33,7 +33,7 @@ export class GameEngine {
 
   endCurrentRound() {
     this.currentSession.endCurrentRound();
-    if (this.currentSession.currentRound.isEnded) {
+    if (this.currentSession.currentRound.ended) {
       this.currentSession.saveCurrentRound();
     }
   }
@@ -79,7 +79,7 @@ export class GameEngine {
 
   getSnapshot() {
     return Object.freeze({
-      players: structuredClone(this.players),
+      players: this.players.map((player) => player.getSnapshot()),
       currentSession: this.currentSession
         ? this.currentSession.getSnapshot()
         : null,

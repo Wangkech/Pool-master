@@ -52,6 +52,9 @@ export const controller = {
   getBalls() {
     return engine.getSnapshot().currentSession.currentRound.availableBalls;
   },
+  getCurrentRoundSnapshot() {
+    return this.getSnapshot().currentSession.currentRound;
+  },
   getSnapshot() {
     return engine.getSnapshot();
   },
@@ -72,7 +75,7 @@ controller.startNewSession(modes.SINGLE);
 // console.log(controller.getSnapshot());
 
 state = controller.startNewRound();
-// console.log(controller.getSnapshot());
+console.log(controller.getCurrentRoundSnapshot());
 
 // let playerIDs = controller.getRoundPlayer().map((player) => player.id);
 // let balls = controller.getBalls().sort((a, b) => a.ballNo - b.ballNo);

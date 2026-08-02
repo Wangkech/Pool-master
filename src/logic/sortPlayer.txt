@@ -8,7 +8,7 @@ export class Session {
     this.players = players;
     this.currentRound = null;
     this.currentRoundNumber = this.rounds.length + 1;
-    this.isEnded = false;
+    this.ended = false;
     this.mode = null;
   } 
  startNewRound() {
@@ -21,13 +21,13 @@ export class Session {
         this.currentRoundNumber,
       );
 
-      newRound.isEnded = false;
+      newRound.ended = false;
       this.currentRound = newRound;
       this.currentRound.setParticipants();
     } else {
       let newRound = new Round(players, this.mode, this.currentRoundNumber);
 
-      newRound.isEnded = false;
+      newRound.ended = false;
       this.currentRound = newRound;
       this.currentRound.setParticipants();
     }

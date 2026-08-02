@@ -116,7 +116,7 @@ export class Round {
     return mode;
   }
 
-  getBallsSnapshot() {
+  getAvailableBalls() {
     return this.balls
       .filter((ball) => !ball.isPotted)
       .sort((a, b) => a.ballNo - b.ballNo);
@@ -129,7 +129,7 @@ export class Round {
         roundID: this.roundID,
         roundNumber: this.roundNumber,
         players: this.players.map((player) => player.getSnapshot()),
-        availableBalls: this.getBallsSnapshot(),
+        availableBalls: this.getAvailableBalls(),
         winner: this.roundWinner
           ? {
               id: this.roundWinner.id,
@@ -138,7 +138,7 @@ export class Round {
             }
           : null,
         mode: this.mode,
-        ended: this.isEnded,
+        ended: this.ended,
       }),
     );
   }

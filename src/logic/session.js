@@ -26,7 +26,7 @@ export class Session {
 
     let newRound = new Round(players, this.mode, this.currentRoundNumber);
 
-    newRound.isEnded = false;
+    newRound.ended = false;
     this.currentRound = newRound;
     this.currentRound.setParticipants();
   }
@@ -48,7 +48,7 @@ export class Session {
   }
 
   endSession() {
-    this.isEnded = true;
+    this.ended = true;
     // this.resetCurrentRound();
   }
 
