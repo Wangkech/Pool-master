@@ -1,3 +1,4 @@
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 
 import { twMerge } from "tailwind-merge";
@@ -13,6 +14,7 @@ function Actionbtn({ id, text, imgURL, style, action }) {
         style,
       )}
     >
+      {/* <FontAwesomeIcon icon={icon} /> */}
       {imgURL != "" && <img src={imgURL} alt={alt} className=" " />}
       {text}
     </button>

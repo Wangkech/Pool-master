@@ -1,4 +1,5 @@
 import { useGameContext } from "../../context/useGameContext";
+import DeleteBtn from "./DeleteBtn";
 import PlayerNameHolder from "./PlayerNameHolder";
 import PlayerPointsHolder from "./PlayerPointsHolder";
 import PointsBtns from "./PointsBtns";
@@ -12,7 +13,7 @@ function ActivePlayerCard({
   balls,
   // addPoints,
 }) {
-  const { potBall } = useGameContext();
+  const { potBall, deletePlayer } = useGameContext();
   // const ballid = balls[7].id;
   function addPoints(playerId, ballId) {
     potBall(playerId, ballId);
@@ -34,6 +35,7 @@ function ActivePlayerCard({
             potBall={potBall}
             id={id}
           />
+          <DeleteBtn deletePlayer={deletePlayer} id={id} />
         </span>
       </div>
 

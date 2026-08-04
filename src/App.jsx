@@ -1,5 +1,5 @@
 // import { controller } from "./logic/controller.js";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 // import { useGame } from "./hooks/useGame.js";
 import { useGameContext } from "./context/useGameContext.js";
 import Header from "./components/Header";
@@ -12,29 +12,19 @@ import ActiveGameContainer from "./components/ActiveGame/ActiveGameContainer.jsx
 // import { InGamePlayer } from "./logic/players.js";
 
 function App() {
-  const {
-    gameState,
-    // playerList,
-    // currentRound,
-    // addPlayer,
-    // startNewGame,
-    // startNewRound,
-    // potBall,
-  } = useGameContext();
+  const { gameState } = useGameContext();
 
-  const [isAddingPlayers, setIsAddingPlayers] = useState(true);
+  const [isAddingPlayers, setIsAddingPlayers] = useState(false);
   const [gameOn, setGameOn] = useState(false);
 
   // console.log(playerList);
-
-  function getCurrentGamePlayers(playersList) {}
 
   function handleStartNewGame() {
     setIsAddingPlayers(true);
   }
 
   return (
-    <div className="relative grid h-screen w-screen grid-rows-[75px_1fr_76px] flex-col bg-[#1f1f1f] text-white">
+    <div className="relative grid h-screen w-screen grid-rows-[75px_1fr_76px] flex-col bg-[--primary-bg] text-white">
       <Header />
       <Container
         child={
@@ -57,9 +47,10 @@ function App() {
             )}
             {gameOn === true && isAddingPlayers === false && (
               <ActiveGameContainer
-              // currentRound={currentRound}
-              // potBall={potBall}
-              // startNewRound={startNewRound}
+                // currentRound={currentRound}
+                setIsAddingPlayers={setIsAddingPlayers}
+                // potBall={potBall}
+                // startNewRound={startNewRound}
               />
             )}
           </>

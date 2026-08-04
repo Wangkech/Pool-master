@@ -1,4 +1,5 @@
 import Actionbtn from "./Actionbtn.jsx";
+import AddPlayerBtn from "./AddPlayerBtn.jsx";
 // import AddIcon from ".src/assets/icons/plus.svg";
 
 function PlayerNameInput({ playerName, getPlayerName, addPlayerToList }) {
@@ -14,13 +15,14 @@ function PlayerNameInput({ playerName, getPlayerName, addPlayerToList }) {
         onChange={getPlayerName}
         value={playerName}
       />
-      <Actionbtn
+      <AddPlayerBtn addPlayer={addPlayerToList} />
+      {/* <Actionbtn
         id="add-player"
-        style="text-[12px] shadow-[0_0_4px_20px_rgb(20_33_23_0.5)] "
+        style=""
         text="Add"
         action={addPlayerToList}
         imgURL={""}
-      />
+      /> */}
     </form>
   );
 }

@@ -20,6 +20,10 @@ export const controller = {
     engine.addPlayer(player);
     return engine.getSnapshot();
   },
+  addLatePlayer(name) {
+    engine.addLatePlayer(name);
+    return engine.getSnapshot();
+  },
   startNewGame(mode) {
     this.startNewSession(mode);
     this.startNewRound();
@@ -54,6 +58,10 @@ export const controller = {
   endSession() {
     engine.endCurrentRound();
     engine.endCurrentSession();
+    return engine.getSnapshot();
+  },
+  deletePlayer(id) {
+    engine.deletePlayer(id);
     return engine.getSnapshot();
   },
   clearPlayers() {

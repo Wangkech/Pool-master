@@ -20,6 +20,9 @@ export class Round {
       });
     }
   }
+  deletePlayer(id) {
+    this.players = this.players.filter((player) => player.id != id);
+  }
 
   #setBalls() {
     let balls = [];

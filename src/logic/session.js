@@ -17,7 +17,10 @@ export class Session {
       player.sessionMemberState();
     });
   }
-
+  deletePlayer(id) {
+    this.players = this.players.filter((player) => player.id != id);
+    this.currentRound.deletePlayer(id);
+  }
   startNewRound() {
     this.resetCurrentRound();
     const players = this.getPlayersInOrder() ?? this.players;
