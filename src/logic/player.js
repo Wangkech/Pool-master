@@ -72,4 +72,9 @@ export class Player {
       state: structuredClone(this.state),
     });
   }
+  restorePlayer(id, name, state) {
+    this.id = id;
+    this.name = name;
+    this.state = state;
+  }
 }

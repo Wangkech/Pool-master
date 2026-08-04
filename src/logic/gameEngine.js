@@ -90,4 +90,15 @@ export class GameEngine {
       modes: this.modes,
     });
   }
+  restoreEngine(data) {
+    this.players = data.players.map((player) => player);
+    this.players.map((player) =>
+      Object.setPrototypeOf(player, Player.prototype),
+    );
+    this.sessions = data.sessions;
+    this.currentSession = data.currentSession ? data.currentSession : null;
+
+    Object.setPrototypeOf(this.currentSession, Session.prototype);
+    this.currentSession.restoreSession(data.currentSession);
+  }
 }

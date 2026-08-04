@@ -1,4 +1,5 @@
 import { Ball } from "./balls.js";
+import { Player } from "./player.js";
 // import { Player } from "./player.js";
 
 export class Round {
@@ -141,5 +142,24 @@ export class Round {
         ended: this.ended,
       }),
     );
+  }
+  restoreRound(data) {
+    this.roundID = data.roundID;
+    this.roundNumber = data.roundNumber;
+    this.players = data.players.map((player) => player);
+    this.players.map((player) => {
+      Object.setPrototypeOf(player, Player.prototype);
+      player.restorePlayer(player.id, player.name, player.state);
+    });
+
+    this.balls = data.availableBalls;
+    this.balls.map((ball) => {
+      Object.setPrototypeOf(ball, Ball.prototype);
+      return ball.restoreBall(ball.ballNo, ball.id, ball.value, ball.isPotted);
+    });
+
+    this.roundWinner = data.roundWinner;
+    this.mode = data.mode;
+    this.ended = data.ended;
   }
 }

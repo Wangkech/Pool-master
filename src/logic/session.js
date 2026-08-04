@@ -1,4 +1,5 @@
 // import { Modes } from "./modes.js";
+import { Player } from "./player.js";
 import { Round } from "./round.js";
 
 export class Session {
@@ -168,5 +169,22 @@ export class Session {
         mode: this.mode,
       }),
     );
+  }
+  restoreSession(data) {
+    this.rounds = data.rounds;
+    this.players = data.players.map((player) => player);
+    this.players.map((player) => {
+      Object.setPrototypeOf(player, Player.prototype);
+      player.restorePlayer(player.id, player.name, player.state);
+    });
+
+    this.currentRound = data.currentRound ? data.currentRound : null;
+
+    Object.setPrototypeOf(this.currentRound, Round.prototype);
+    this.currentRound.restoreRound(data.currentRound);
+
+    this.mode = data.mode;
+    this.ended = data.ended;
+    return;
   }
 }

@@ -8,4 +8,10 @@ export class Ball {
   potted() {
     this.isPotted = true;
   }
+  restoreBall(number, id, value, isPotted) {
+    this.ballNo = number;
+    this.id = id;
+    this.value = value;
+    this.isPotted = isPotted;
+  }
 }

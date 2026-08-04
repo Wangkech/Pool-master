@@ -5,6 +5,17 @@ const engine = new GameEngine();
 // const modes = engine.modes;
 
 export const controller = {
+  restoreData() {
+    const data = localStorage.getItem("gameState");
+
+    if (!data) return this.getSnapshot();
+
+    const gameState = JSON.parse(data);
+
+    engine.restoreEngine(gameState);
+
+    return this.getSnapshot();
+  },
   addPlayer(player) {
     engine.addPlayer(player);
     return engine.getSnapshot();
@@ -85,4 +96,12 @@ export const controller = {
   getSnapshot() {
     return engine.getSnapshot();
   },
+
+  saveGameState() {
+    const snapshot = JSON.stringify(this.getSnapshot());
+    localStorage.setItem("gameState", snapshot);
+  },
 };
+
+// const data = localStorage.getItem("gameState");
+// if (data) controller.restoreData();

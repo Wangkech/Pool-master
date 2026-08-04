@@ -1,10 +1,16 @@
 import { useState } from "react";
 import { controller } from "../logic/controller";
 
-const snapshot = controller.getSnapshot();
-console.log(snapshot.currentSession);
+const snapshot = controller.restoreData();
+
+// console.log(snapshot);
+
+// console.log(controller.restoreData());
 
 export function useGame() {
+  const saveGameState = () => {
+    controller.saveGameState();
+  };
   const [gameState, setGameState] = useState(snapshot);
 
   const [playerList, setPlayerList] = useState(gameState.players);
@@ -16,16 +22,19 @@ export function useGame() {
     let snapshot = controller.addPlayer(name);
     setGameState(snapshot);
     setPlayerList(snapshot.players);
+    saveGameState();
   };
   const startNewGame = (mode) => {
     let snapshot = controller.startNewGame(mode);
     setCurrentRound(snapshot.currentSession.currentRound);
     setGameState(snapshot);
+    saveGameState();
   };
   const startNewRound = () => {
     let snapshot = controller.startNewRound();
     setCurrentRound(snapshot.currentSession.currentRound);
     setGameState(snapshot);
+    saveGameState();
   };
   const allBalls = controller.getAllBalls();
   const availableBalls = currentRound ? currentRound.availableBalls : null;
@@ -34,23 +43,28 @@ export function useGame() {
     let snapshot = controller.recordScore(playerId, ballId);
     setGameState(snapshot);
     setCurrentRound(controller.getCurrentRoundSnapshot());
+    saveGameState();
   };
 
   const recordCueScratch = (playerId) => {
     let snapshot = controller.recordCueScratch(playerId);
     setGameState(snapshot);
     setCurrentRound(controller.getCurrentRoundSnapshot());
+    saveGameState();
   };
 
   const recordWrongHit = (playerId, ballId) => {
     let snapshot = controller.recordWrongHit(playerId, ballId);
     setGameState(snapshot);
     setCurrentRound(controller.getCurrentRoundSnapshot());
+    saveGameState();
   };
 
   const endSession = () => {
     let snapshot = controller.endSession();
     setGameState(snapshot);
+    saveGameState();
+
     console.log(snapshot);
   };
   // const recordScore = (type, playerId, ballId) => {
