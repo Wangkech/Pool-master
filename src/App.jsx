@@ -12,12 +12,10 @@ import ActiveGameContainer from "./components/ActiveGame/ActiveGameContainer.jsx
 // import { InGamePlayer } from "./logic/players.js";
 
 function App() {
-  const { gameState } = useGameContext();
+  const { gameState, currentRound } = useGameContext();
 
   const [isAddingPlayers, setIsAddingPlayers] = useState(false);
   const [gameOn, setGameOn] = useState(false);
-
-  // console.log(playerList);
 
   function handleStartNewGame() {
     setIsAddingPlayers(true);
@@ -31,26 +29,18 @@ function App() {
           <>
             {isAddingPlayers && (
               <AddPlayerModal
-                // addPlayer={addPlayer}
-                // playerList={playerList}
-                // startNewGame={startNewGame}
-                // setPlayerList={setPlayerList}
                 setIsAddingPlayers={setIsAddingPlayers}
-                // setGameState={setGameState}
                 setGameOn={setGameOn}
                 gameState={gameState}
-                // controller={controller}
               />
             )}
             {isAddingPlayers === false && gameOn === false && (
               <StartNewGame handleStartNewGame={handleStartNewGame} />
             )}
-            {gameOn === true && isAddingPlayers === false && (
+            {currentRound && gameOn === true && isAddingPlayers === false && (
               <ActiveGameContainer
-                // currentRound={currentRound}
                 setIsAddingPlayers={setIsAddingPlayers}
-                // potBall={potBall}
-                // startNewRound={startNewRound}
+                setGameOn={setGameOn}
               />
             )}
           </>

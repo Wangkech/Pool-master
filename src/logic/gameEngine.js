@@ -43,15 +43,10 @@ export class GameEngine {
   }
 
   endCurrentSession() {
-    if (this.currentSession.currentRoundEnded()) {
-      this.currentSession.endSession();
-      this.#saveCurrentSession();
-      this.#resetCurrentSession();
-    } else {
-      throw new Error(
-        " Could not end current session. Current Round not finished",
-      );
-    }
+    console.log(this.currentSession);
+    this.currentSession.endSession();
+    this.#saveCurrentSession();
+    this.#resetCurrentSession();
   }
 
   deletePlayer(id) {

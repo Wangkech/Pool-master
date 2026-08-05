@@ -3,10 +3,6 @@ import { controller } from "../logic/controller";
 
 const snapshot = controller.restoreData();
 
-// console.log(snapshot);
-
-// console.log(controller.restoreData());
-
 export function useGame() {
   const saveGameState = () => {
     controller.saveGameState();
@@ -21,8 +17,12 @@ export function useGame() {
   const roundPlayers = currentRound && currentRound.players;
 
   const addPlayer = (name) => {
+    saveGameState();
     let snapshot = controller.addPlayer(name);
+    setPlayerList(snapshot.players);
+
     setGameState(snapshot);
+    saveGameState();
   };
   const addLatePlayer = (name) => {
     let snapshot = controller.addLatePlayer(name);
@@ -53,9 +53,9 @@ export function useGame() {
     saveGameState();
   };
 
-  const currentRoundExists = () => {
-    return controller.getCurrentRoundSnapshot();
-  };
+  const [currentRoundExists, setCurrentRoundExists] = useState(
+    gameState.currentSession ? controller.getCurrentRoundSnapshot() : null,
+  );
 
   const allBalls = controller.getAllBalls();
   const availableBalls = currentRound ? currentRound.availableBalls : null;
@@ -70,7 +70,7 @@ export function useGame() {
   const recordCueScratch = (playerId) => {
     let snapshot = controller.recordCueScratch(playerId);
     setGameState(snapshot);
-    setCurrentRound(controller.getCurrentRoundSnapshot());
+    setCurrentRoundExists(null);
     saveGameState();
   };
 
@@ -84,6 +84,7 @@ export function useGame() {
   const endSession = () => {
     let snapshot = controller.endSession();
     setGameState(snapshot);
+    setCurrentRound(null);
     saveGameState();
 
     console.log(snapshot);

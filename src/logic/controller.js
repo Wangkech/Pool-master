@@ -7,10 +7,12 @@ const engine = new GameEngine();
 export const controller = {
   restoreData() {
     const data = localStorage.getItem("gameState");
+    console.log(data);
 
     if (!data) return this.getSnapshot();
-
     const gameState = JSON.parse(data);
+
+    if (!gameState.currentSession) return this.getSnapshot();
 
     engine.restoreEngine(gameState);
 
@@ -31,10 +33,11 @@ export const controller = {
     return this.getSnapshot();
   },
   startNewSession(mode) {
-    if (engine.sessions.length != 0) this.clearPlayers();
+    // if (engine.sessions.length != 0) this.clearPlayers();
     engine.startNewSession();
     engine.setSessionPlayers();
     engine.setSessionMode(mode);
+    this.startNewRound();
     return engine.getSnapshot();
   },
   startNewRound() {
@@ -56,8 +59,7 @@ export const controller = {
     return engine.getSnapshot();
   },
   endSession() {
-    engine.endCurrentRound();
-    engine.endCurrentSession();
+    this.endCurrentSession();
     return engine.getSnapshot();
   },
   deletePlayer(id) {

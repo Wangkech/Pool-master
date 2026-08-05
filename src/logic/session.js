@@ -98,7 +98,6 @@ export class Session {
   handleTieOrder() {
     const playerScores = this.players.map((player) => player.state.score);
     let highScore = Math.max(...playerScores);
-
     let highScorers = this.players.filter(
       (player) => player.state.score === highScore,
     );
@@ -108,16 +107,19 @@ export class Session {
   }
 
   endSession() {
-    this.ended = true;
-    // this.resetCurrentRound();
+    console.log(this.currentRound);
+    if (!this.currentRound) {
+      this.ended = true;
+    } else {
+      this.endCurrentRound();
+      this.ended = true;
+    }
   }
 
   saveCurrentRound() {
     this.rounds.push(this.currentRound.getSnapshot());
     this.currentRoundNumber++;
     this.resetCurrentRound();
-    // this.getPlayersInOrder();
-    // console.log(this.getPreviousRound());
   }
 
   resetCurrentRound() {
@@ -125,7 +127,8 @@ export class Session {
   }
 
   endCurrentRound() {
-    this.currentRound.determineWinner();
+    // console.log(this.currentRound);
+
     this.currentRound.endRound();
   }
 
@@ -134,7 +137,7 @@ export class Session {
   }
 
   currentRoundEnded() {
-    return this.currentRound.ended;
+    return this.currentRound ? this.currentRound.ended : null;
   }
 
   recordScore(playerId, ball) {

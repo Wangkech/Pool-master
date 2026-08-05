@@ -46,6 +46,7 @@ function AddPlayerModal({ setIsAddingPlayers, setGameOn }) {
   function saveList() {
     if (playerList.length > 1) {
       if (currentGameExists) {
+        startNewGame();
         setIsAddingPlayers(false);
         setGameOn(true);
       } else {
