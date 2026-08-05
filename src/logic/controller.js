@@ -33,7 +33,6 @@ export const controller = {
     return this.getSnapshot();
   },
   startNewSession(mode) {
-    // if (engine.sessions.length != 0) this.clearPlayers();
     engine.startNewSession();
     engine.setSessionPlayers();
     engine.setSessionMode(mode);
