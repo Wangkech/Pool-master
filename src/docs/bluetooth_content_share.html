@@ -1,0 +1,153 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+    Pool Master Engine Documentation (v<a href="tel:1.0">1.0</a
+    >)<br /><br />Project overview<br /><br />Pool Master is a local-first pool
+    score tracking application built around a domain-driven game engine. The
+    engine is intentionally separated from the React UI so that gameplay rules,
+    session management, scoring, persistence, and history remain independent of
+    rendering.<br /><br />The architecture follows a layered model:<br /><br />React
+    UI<br />&nbsp;&nbsp;&nbsp; ↓<br />Game Context / useGame<br />&nbsp;&nbsp;&nbsp;
+    ↓<br />Controller<br />&nbsp;&nbsp;&nbsp; ↓<br />GameEngine<br />&nbsp;&nbsp;&nbsp;
+    ↓<br />Session<br />&nbsp;&nbsp;&nbsp; ↓<br />Round<br />&nbsp;&nbsp;&nbsp;
+    ↓<br />Player / Ball<br /><br />The UI issues commands through the
+    controller. The engine mutates live objects internally and returns immutable
+    snapshots that React renders.<br /><br />---<br /><br />Core design
+    principles<br /><br />Single source of truth<br /><br />The game engine owns
+    all gameplay state.<br /><br />React never calculates scores, determines
+    winners, tracks available balls, or decides player order. It only renders
+    snapshots returned by the engine.<br /><br />Immutable snapshots<br /><br />The
+    engine operates on mutable class instances during gameplay.<br /><br />Whenever
+    the UI needs data, the engine returns a deeply cloned immutable snapshot.<br /><br />Snapshots
+    are used for:<br /><br />- React rendering<br />- History<br />-
+    Persistence<br />- Session archives<br />- Restore operations<br /><br />Layered
+    ownership<br /><br />GameEngine<br /><br />Owns:<br /><br />- player
+    repository<br />- session history<br />- active session<br />- available
+    game modes<br /><br />Coordinates high-level operations.<br /><br />Session<br /><br />Owns:<br /><br />-
+    participating players<br />- rounds<br />- current round<br />- player
+    ordering between rounds<br />- session lifecycle<br /><br />Round<br /><br />Owns:<br /><br />-
+    scoring<br />- fouls<br />- scratches<br />- available balls<br />- winner
+    determination<br />- round ordering data<br /><br />Player<br /><br />Owns
+    intrinsic identity:<br /><br />- id<br />- name<br /><br />Holds contextual
+    state during active gameplay.<br /><br />Ball<br /><br />Represents a single
+    ball and its availability.<br /><br />---<br /><br />Entity documentation<br /><br />Ball<br /><br />Purpose<br /><br />Represents
+    one playable ball.<br /><br />Properties<br /><br />- ballNo<br />- id<br />-
+    value<br />- isPotted<br /><br />Value rules<br /><br />Ball values equal
+    their number except:<br /><br />Ball 3 → value 6<br /><br />Methods<br /><br />potted()<br /><br />Marks
+    the ball as unavailable.<br /><br />restoreBall(...)<br /><br />Reconstructs
+    a Ball instance from persisted snapshot data.<br /><br />---<br /><br />Player<br /><br />Purpose<br /><br />Represents
+    a persistent player identity.<br /><br />Properties<br /><br />- id<br />-
+    name<br />- state<br /><br />Runtime state<br /><br />During an active
+    round:<br /><br />{<br />&nbsp; isKnocked,<br />&nbsp; isActive,<br />&nbsp;
+    ballBasket,<br />&nbsp; score<br />}<br /><br />State transitions<br /><br />sessionMemberState()<br /><br />Initial
+    session participation.<br /><br />roundState()<br /><br />Fresh round
+    state.<br /><br />knockedState()<br /><br />Player eliminated.<br /><br />archivedState()<br /><br />Player
+    disabled.<br /><br />Scoring methods<br /><br />potBall(ball)<br /><br />Adds
+    a positive scoring ball.<br /><br />potCueBall(ball)<br /><br />Adds a
+    negative version of the current ball.<br /><br />hitWrongBall(ball)<br /><br />Adds
+    a negative version of a selected ball.<br /><br />calculateScore()<br /><br />Recalculates
+    score from the basket.<br /><br />Score is always derived from the
+    basket.<br /><br />Serialization<br /><br />getSnapshot()<br /><br />Returns
+    immutable player snapshot.<br /><br />restorePlayer(...)<br /><br />Restores
+    a player from persisted data.<br /><br />---<br /><br />Round<br /><br />Responsibility<br /><br />A
+    Round is the authoritative owner of gameplay rules.<br /><br />It
+    controls:<br /><br />- scoring<br />- fouls<br />- scratches<br />-
+    available balls<br />- winner determination<br /><br />Construction<br /><br />new
+    Round(players, mode, roundNumber)<br /><br />Player initialization<br /><br />setParticipants()<br /><br />Resets
+    every participant into fresh round state.<br /><br />Ball management<br /><br />getAvailableBalls()<br /><br />Returns
+    remaining unpotted balls sorted ascending.<br /><br />getCurrentBall()<br /><br />Returns
+    the current scoring ball.<br /><br />Rules:<br /><br />- if breaker (ball 3)
+    remains, current ball is breaker<br />- otherwise current ball is the lowest
+    available ball<br /><br />Scoring commands<br /><br />recordScore(playerId,
+    ballId)<br /><br />Validates availability.<br /><br />Marks ball potted.<br /><br />Adds
+    positive score.<br /><br />Recalculates player score.<br /><br />recordCueScratch(playerId)<br /><br />Applies
+    negative value of current ball.<br /><br />recordWrongHit(playerId,
+    ballId)<br /><br />Applies negative value of selected available ball.<br /><br />Winner
+    determination<br /><br />determineWinner()<br /><br />Highest score wins.<br /><br />Ties
+    are resolved randomly.<br /><br />Winner is stored before snapshot
+    generation.<br /><br />Snapshot generation<br /><br />getSnapshot()<br /><br />Returns
+    immutable round history object.<br /><br />Contains:<br /><br />- round
+    metadata<br />- player snapshots<br />- available balls<br />- winner<br />-
+    mode<br />- completion state<br /><br />Restoration<br /><br />restoreRound(data)<br /><br />Reconstructs:<br /><br />-
+    players<br />- balls<br />- winner<br />- mode<br />- completion state<br /><br />Reattaches
+    prototypes so restored objects regain class methods.<br /><br />---<br /><br />Session<br /><br />Responsibility<br /><br />Represents
+    one complete game session.<br /><br />Owns:<br /><br />- players<br />-
+    rounds<br />- current round<br />- player ordering<br />- mode<br />-
+    session lifecycle<br /><br />Player setup<br /><br />setPlayers()<br /><br />Places
+    every participant into session state.<br /><br />Round lifecycle<br /><br />startNewRound()<br /><br />Creates
+    a new Round.<br /><br />Player order comes from:<br /><br />getPlayersInOrder()<br /><br />If
+    no previous round exists, original player order is used.<br /><br />endCurrentRound()<br /><br />Delegates
+    winner determination and round completion.<br /><br />saveCurrentRound()<br /><br />Stores
+    immutable snapshot.<br /><br />Increments round counter.<br /><br />Clears
+    active round reference.<br /><br />Player ordering<br /><br />getPlayersInOrder()<br /><br />Returns
+    live Player instances ordered according to previous round results.<br /><br />fullSort()<br /><br />Implements
+    Pool Master ordering rules.<br /><br />Rules:<br /><br />1. Previous round
+    winner breaks first.<br />2. Remaining players ordered by descending
+    score.<br />3. Equal scores randomized.<br />4. Ordering affects next round
+    only.<br /><br />Session lifecycle<br /><br />endSession()<br /><br />If a
+    round is active:<br /><br />- ends the round<br />- marks session
+    complete<br /><br />Otherwise simply marks session complete.<br /><br />Snapshot
+    generation<br /><br />getSnapshot()<br /><br />Returns immutable session
+    object containing:<br /><br />- completed rounds<br />- player snapshots<br />-
+    current round snapshot<br />- mode<br />- completion state<br /><br />Restoration<br /><br />restoreSession(data)<br /><br />Restores:<br /><br />-
+    players<br />- completed rounds<br />- current round<br />- mode<br />-
+    completion state<br /><br />Reconstructs nested Round, Player, and Ball
+    instances.<br /><br />---<br /><br />GameEngine<br /><br />Responsibility<br /><br />Top-level
+    coordinator.<br /><br />Owns:<br /><br />- player repository<br />- session
+    history<br />- active session<br />- available modes<br /><br />Player
+    management<br /><br />addPlayer(name)<br /><br />Creates persistent
+    player.<br /><br />addLatePlayer(name)<br /><br />Registers a player during
+    an active session.<br /><br />Currently equivalent to addPlayer.<br /><br />deletePlayer(id)<br /><br />Removes
+    player from repository and active session.<br /><br />Session management<br /><br />startNewSession()<br /><br />Creates
+    active Session.<br /><br />startNewRound()<br /><br />Delegates to
+    session.<br /><br />endCurrentRound()<br /><br />Ends round and archives
+    snapshot.<br /><br />endCurrentSession()<br /><br />Ends session.<br /><br />Stores
+    session snapshot.<br /><br />Clears active session.<br /><br />Persistence<br /><br />getSnapshot()<br /><br />Returns
+    complete application snapshot.<br /><br />Contains:<br /><br />- players<br />-
+    current session<br />- archived sessions<br />- modes<br /><br />restoreEngine(data)<br /><br />Reconstructs
+    entire engine state from persisted snapshot.<br /><br />---<br /><br />Controller<br /><br />Purpose<br /><br />Public
+    API between React and the engine.<br /><br />The UI never communicates
+    directly with GameEngine.<br /><br />Characteristics<br /><br />Every
+    mutating command returns a fresh snapshot.<br /><br />Examples:<br /><br />addPlayer()<br />recordScore()<br />startNewRound()<br />endSession()<br />deletePlayer()<br /><br />Read
+    operations expose engine state without allowing mutation.<br /><br />Persistence<br /><br />saveGameState()<br /><br />Serializes
+    engine snapshot to localStorage.<br /><br />restoreData()<br /><br />Loads
+    localStorage.<br /><br />Reconstructs engine.<br /><br />Returns initial
+    snapshot for React.<br /><br />---<br /><br />React integration<br /><br />useGame
+    hook<br /><br />Acts as the bridge between React and the controller.<br /><br />Responsibilities:<br /><br />-
+    holds current snapshot<br />- dispatches controller commands<br />- updates
+    React state<br />- persists after mutations<br /><br />Data flow<br /><br />User
+    clicks button<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↓<br />useGame command<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    ↓<br />Controller<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↓<br />GameEngine<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    ↓<br />Session<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↓<br />Round<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    ↓<br />Player / Ball mutation<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↓<br />Snapshot
+    generated<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↓<br />React state updated<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    ↓<br />Components re-render<br /><br />---<br /><br />Persistence model<br /><br />Storage
+    location<br /><br />localStorage<br /><br />Stored object<br /><br />Complete
+    GameEngine snapshot.<br /><br />Includes:<br /><br />- players<br />- active
+    session<br />- archived sessions<br />- current round<br />- round
+    history<br />- scores<br />- winners<br />- available balls<br /><br />Restoration
+    process<br /><br />JSON<br />&nbsp;&nbsp; ↓<br />plain objects<br />&nbsp;&nbsp;
+    ↓<br />prototype reassignment<br />&nbsp;&nbsp; ↓<br />restore methods<br />&nbsp;&nbsp;
+    ↓<br />live class instances<br /><br />This allows gameplay to continue
+    seamlessly after a browser reload.<br /><br />---<br /><br />Current feature
+    status<br /><br />Completed<br /><br />- Player management<br />- Session
+    lifecycle<br />- Multiple rounds<br />- Multiple sessions<br />- Scoring<br />-
+    Cue scratches<br />- Wrong-ball fouls<br />- Available ball tracking<br />-
+    Winner determination<br />- Next-round ordering<br />- Immutable
+    snapshots<br />- Local persistence<br />- Engine restoration<br />- React
+    integration<br />- Context integration<br /><br />Planned<br /><br />-
+    History display<br />- Leaderboard<br />- Temporary player disable<br />-
+    Late-player session integration<br />- Team mode<br />- Rotation mode<br />-
+    Statistics / analytics<br /><br />---<br /><br />Architectural summary<br /><br />Pool
+    Master is designed around a headless game engine.<br /><br />The engine
+    contains all business logic and can operate independently of React.<br /><br />React
+    is treated as a rendering layer that consumes immutable snapshots and issues
+    commands through a controller.<br /><br />This separation allows future
+    migration to:<br /><br />- <a href="http://Next.js">Next.js</a><br />-
+    mobile applications<br />- desktop applications<br />- multiplayer
+    networking<br />- server-side persistence<br /><br />without requiring a
+    rewrite of the gameplay engine itself.
+  </body>
+</html>

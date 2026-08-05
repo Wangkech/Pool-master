@@ -42,9 +42,9 @@ export const controller = {
   startNewRound() {
     if (!this.getSnapshot().currentSession.currentRound) {
       engine.startNewRound();
-
       return engine.getSnapshot();
     }
+
     this.endCurrentRound();
     engine.startNewRound();
     return this.getSnapshot();
@@ -71,15 +71,15 @@ export const controller = {
   //   scores
   recordScore(playerID, ballID) {
     engine.recordScore(playerID, ballID);
-    return this.getCurrentRoundSnapshot();
+    return this.getSnapshot();
   },
   recordCueScratch(playerId) {
     engine.recordCueScratch(playerId);
-    return this.getCurrentRoundSnapshot();
+    return this.getSnapshot();
   },
   recordWrongHit(playerId, ballId) {
     engine.recordWrongHit(playerId, ballId);
-    return this.getCurrentRoundSnapshot();
+    return this.getSnapshot();
   },
   //getters
   getSession() {

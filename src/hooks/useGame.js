@@ -48,21 +48,18 @@ export function useGame() {
     saveGameState();
   };
 
-  const [currentRoundExists, setCurrentRoundExists] = useState(
-    gameState.currentSession ? controller.getCurrentRoundSnapshot() : null,
-  );
+  const currentRoundExists = gameState?.currentSession?.currentRound ?? null;
 
   const addPoints = (playerId, ballId) => {
     let snapshot = controller.recordScore(playerId, ballId);
     setGameState(snapshot);
-
     saveGameState();
   };
 
   const recordCueScratch = (playerId) => {
     let snapshot = controller.recordCueScratch(playerId);
     setGameState(snapshot);
-    setCurrentRoundExists(null);
+    // setCurrentRoundExists(null);
     saveGameState();
   };
 
@@ -76,9 +73,8 @@ export function useGame() {
   const endSession = () => {
     let snapshot = controller.endSession();
     setGameState(snapshot);
+    // setCurrentRoundExists(null);
     saveGameState();
-
-    console.log(snapshot);
   };
 
   return {

@@ -35,6 +35,8 @@ function PointsBtns({ id }) {
   };
   window.addEventListener("click", (e) => {
     if (!e.target.parentElement.classList.contains("points-btn")) {
+      console.log(e.target.parentElement.classList);
+
       setIsAdding(false);
       setIsFouling(false);
     }
