@@ -7,15 +7,38 @@ export class Session {
     this.rounds = [];
     this.players = players;
     this.currentRound = null;
-    this.currentRoundNumber = this.rounds.length + 1;
+    // this.currentRoundNumber = this.rounds?.length + 1;
     this.ended = false;
     this.mode = null;
   }
 
   setPlayers() {
+    console.log(this.players);
     this.players.map((player) => {
       player.sessionMemberState();
     });
+  }
+  getCurrentRoundNumber() {
+    return this.rounds.length + 1;
+  }
+  addLatePlayer(player) {
+    this.players.push(player);
+    console.log(player);
+    this.currentRound.addLatePlayer(player);
+  }
+  updatePlayers(players) {
+    this.players = players.map((player) => {
+      // console.log(player);
+
+      if (!player.state) {
+        console.log(player.sessionMemberState());
+        return player.sessionMemberState();
+      } else {
+        return player;
+      }
+    });
+
+    console.log(this.players);
   }
   deletePlayer(id) {
     this.players = this.players.filter((player) => player.id != id);
@@ -23,11 +46,12 @@ export class Session {
   }
   startNewRound() {
     this.resetCurrentRound();
+    // console.log(this.players);
+    // const sortedPlayers = this.
     const players = this.getPlayersInOrder() ?? this.players;
 
-    let newRound = new Round(players, this.mode, this.currentRoundNumber);
+    let newRound = new Round(players, this.mode, this.getCurrentRoundNumber());
 
-    newRound.ended = false;
     this.currentRound = newRound;
     this.currentRound.setParticipants();
     // this.fullSort();

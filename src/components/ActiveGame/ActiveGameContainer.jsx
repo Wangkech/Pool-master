@@ -9,7 +9,11 @@ import disableIcon from "../../assets/icons/History.svg";
 import "./ActiveGame.css";
 import { useGameContext } from "../../context/useGameContext";
 
-function ActiveGameContainer({ setGameOn, setIsAddingPlayers }) {
+function ActiveGameContainer({
+  setAdditionType,
+  setGameOn,
+  setIsAddingPlayers,
+}) {
   const { currentRound, potBall } = useGameContext();
   const [showDeletePlayer, setShowDeletePlayer] = useState(null);
   function addMorePlayers() {}
@@ -22,6 +26,7 @@ function ActiveGameContainer({ setGameOn, setIsAddingPlayers }) {
         deleteIcon={deleteIcon}
         disableIcon={disableIcon}
         plusIcon={plusIcon}
+        setAdditionType={setAdditionType}
         setIsAddingPlayers={setIsAddingPlayers}
         setShowDeletePlayer={setShowDeletePlayer}
         addMorePlayers={addMorePlayers}
@@ -33,6 +38,7 @@ function ActiveGameContainer({ setGameOn, setIsAddingPlayers }) {
         roundPlayers={currentRound && currentRound.players}
       />
       <BottomRowContainer
+        setAdditionType={setAdditionType}
         setGameOn={setGameOn}
         setIsAddingPlayers={setIsAddingPlayers}
       />

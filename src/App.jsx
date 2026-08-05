@@ -13,7 +13,7 @@ import ActiveGameContainer from "./components/ActiveGame/ActiveGameContainer.jsx
 
 function App() {
   const { gameState, currentRound } = useGameContext();
-
+  const [additionType, setAdditionType] = useState("regular");
   const [isAddingPlayers, setIsAddingPlayers] = useState(false);
   const [gameOn, setGameOn] = useState(false);
 
@@ -29,16 +29,21 @@ function App() {
           <>
             {isAddingPlayers && (
               <AddPlayerModal
+                additionType={additionType}
                 setIsAddingPlayers={setIsAddingPlayers}
                 setGameOn={setGameOn}
                 gameState={gameState}
               />
             )}
             {isAddingPlayers === false && gameOn === false && (
-              <StartNewGame handleStartNewGame={handleStartNewGame} />
+              <StartNewGame
+                setAdditionType={setAdditionType}
+                handleStartNewGame={handleStartNewGame}
+              />
             )}
             {currentRound && gameOn === true && isAddingPlayers === false && (
               <ActiveGameContainer
+                setAdditionType={setAdditionType}
                 setIsAddingPlayers={setIsAddingPlayers}
                 setGameOn={setGameOn}
               />

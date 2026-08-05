@@ -1,12 +1,17 @@
 import { useGameContext } from "../../context/useGameContext";
 
-function BottomRowContainer({ setGameOn, setIsAddingPlayers }) {
+function BottomRowContainer({
+  setAdditionType,
+  setGameOn,
+  setIsAddingPlayers,
+}) {
   const { startNewRound, endSession } = useGameContext();
   return (
     <div className="flex items-center justify-around">
       <button
         onClick={() => {
           endSession();
+          setAdditionType("regular");
           setGameOn(false);
           setIsAddingPlayers(false);
         }}

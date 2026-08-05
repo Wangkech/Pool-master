@@ -19,10 +19,13 @@ export class GameEngine {
   addPlayer(name) {
     let newPlayer = new Player(name);
     this.players.push(newPlayer);
+    return newPlayer;
   }
 
   addLatePlayer(name) {
-    this.addPlayer(name);
+    let latePlayer = new Player(name);
+    this.players.push(latePlayer);
+    this.currentSession.addLatePlayer(latePlayer);
   }
 
   removePlayer() {}
@@ -33,6 +36,7 @@ export class GameEngine {
 
   startNewSession() {
     this.currentSession = new Session(this.players);
+    this.setSessionPlayers();
   }
 
   endCurrentRound() {
@@ -53,7 +57,6 @@ export class GameEngine {
     this.players = this.players.filter((player) => player.id != id);
     this.currentSession.deletePlayer(id);
   }
-  updatePlayerList() {}
   clearPlayer() {
     this.players.length = 0;
   }

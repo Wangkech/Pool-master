@@ -20,6 +20,14 @@ export class Round {
       });
     }
   }
+
+  addLatePlayer(player) {
+    console.log("ran");
+    console.log(player.roundState());
+
+    this.players.push(player.roundState());
+  }
+
   deletePlayer(id) {
     this.players = this.players.filter((player) => player.id != id);
   }

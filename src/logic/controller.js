@@ -7,7 +7,6 @@ const engine = new GameEngine();
 export const controller = {
   restoreData() {
     const data = localStorage.getItem("gameState");
-    console.log(data);
 
     if (!data) return this.getSnapshot();
     const gameState = JSON.parse(data);
@@ -28,7 +27,6 @@ export const controller = {
   },
   startNewGame(mode) {
     this.startNewSession(mode);
-    this.startNewRound();
 
     return this.getSnapshot();
   },
@@ -111,6 +109,3 @@ export const controller = {
     localStorage.setItem("gameState", snapshot);
   },
 };
-
-// const data = localStorage.getItem("gameState");
-// if (data) controller.restoreData();

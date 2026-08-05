@@ -4,7 +4,7 @@ import PlayerNameInput from "./PlayerNameInput.jsx";
 import PlayerNameListContainer from "./PlayerNameListContainer.jsx";
 import Actionbtn from "./Actionbtn.jsx";
 import { useGameContext } from "../../context/useGameContext.js";
-function AddPlayerModal({ setIsAddingPlayers, setGameOn }) {
+function AddPlayerModal({ additionType, setIsAddingPlayers, setGameOn }) {
   const {
     addPlayer,
     startNewGame,
@@ -23,14 +23,16 @@ function AddPlayerModal({ setIsAddingPlayers, setGameOn }) {
   function addPlayerToList(e) {
     e.preventDefault();
 
-    if (playerName != "") addLatePlayer(playerName);
-    //    {
-    //   if (currentGameExists) {
-    //     addLatePlayer(playerName);
-    //   } else {
-    //     addPlayer(playerName);
-    //   }
-    // }
+    if (playerName != "") {
+      if (additionType === "regular") {
+        addPlayer(playerName);
+        console.log("reg add");
+      } else {
+        console.log("late add");
+        addLatePlayer(playerName);
+      }
+    }
+
     setPlayerName("");
   }
 
@@ -45,15 +47,9 @@ function AddPlayerModal({ setIsAddingPlayers, setGameOn }) {
 
   function saveList() {
     if (playerList.length > 1) {
-      if (currentGameExists) {
-        startNewGame();
-        setIsAddingPlayers(false);
-        setGameOn(true);
-      } else {
-        startNewGame();
-        setIsAddingPlayers(false);
-        setGameOn(true);
-      }
+      startNewGame();
+      setIsAddingPlayers(false);
+      setGameOn(true);
     } else {
       alert(`Add more than ${playerList.length} Players to Proceed`);
     }

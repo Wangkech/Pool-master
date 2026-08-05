@@ -12,6 +12,7 @@ export class Player {
       ballBasket: [],
       score: 0,
     };
+    return this;
   }
 
   roundSEndtate() {
@@ -26,6 +27,7 @@ export class Player {
       isActive: true,
       isKnocked: false,
     };
+    return this;
   }
 
   knockedState() {
@@ -33,6 +35,7 @@ export class Player {
       isActive: true,
       isKnocked: true,
     };
+    return this;
   }
 
   archivedState() {
@@ -69,7 +72,7 @@ export class Player {
     return Object.freeze({
       id: this.id,
       name: this.name,
-      state: structuredClone(this.state),
+      state: this.state ? structuredClone(this.state) : null,
     });
   }
   restorePlayer(id, name, state) {

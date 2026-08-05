@@ -8,6 +8,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function PlayerManagementBtns({
+  setAdditionType,
   setIsAddingPlayers,
   setShowDeletePlayer,
   showDeletePlayer,
@@ -16,7 +17,10 @@ function PlayerManagementBtns({
     <div className="active-game-action-btns grid max-w-25 grid-cols-3 items-center justify-center gap-x-1">
       <button
         className="active-game-action-btn add-more-player-btn px-2"
-        onClick={() => setIsAddingPlayers(true)}
+        onClick={() => {
+          setIsAddingPlayers(true);
+          setAdditionType("late");
+        }}
       >
         <FontAwesomeIcon icon={faUserPlus} className="" />
         {/* <FontAwesomeIcon icon={faUserPlus} /> */}

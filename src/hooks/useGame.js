@@ -15,65 +15,53 @@ export function useGame() {
   const availableBalls = currentRound?.availableBalls ?? [];
 
   const roundPlayers = currentRound && currentRound.players;
+  const currentRoundExists = currentRound ? true : false;
+  console.log(currentRoundExists);
 
   const addPlayer = (name) => {
-    saveGameState();
-    let snapshot = controller.addPlayer(name);
-
-    setGameState(snapshot);
+    setGameState(controller.addPlayer(name));
     saveGameState();
   };
   const addLatePlayer = (name) => {
-    let snapshot = controller.addLatePlayer(name);
-    setGameState(snapshot);
-
+    saveGameState(controller.addLatePlayer(name));
     saveGameState();
   };
   const deletePlayer = (id) => {
-    let snapshot = controller.deletePlayer(id);
+    setGameState(controller.deletePlayer(id));
     saveGameState();
-    setGameState(snapshot);
 
     console.log(snapshot);
   };
   const startNewGame = (mode) => {
-    let snapshot = controller.startNewGame(mode);
-    setGameState(snapshot);
+    if (!currentRoundExists) {
+      controller.startNewGame(mode);
+    }
+    setGameState(controller.getSnapshot());
     saveGameState();
   };
 
   const startNewRound = () => {
-    let snapshot = controller.startNewRound();
-    setGameState(snapshot);
+    setGameState(controller.startNewRound());
     saveGameState();
   };
 
-  const currentRoundExists = gameState?.currentSession?.currentRound ?? null;
-
   const addPoints = (playerId, ballId) => {
-    let snapshot = controller.recordScore(playerId, ballId);
-    setGameState(snapshot);
+    setGameState(controller.recordScore(playerId, ballId));
     saveGameState();
   };
 
   const recordCueScratch = (playerId) => {
-    let snapshot = controller.recordCueScratch(playerId);
-    setGameState(snapshot);
-    // setCurrentRoundExists(null);
+    setGameState(controller.recordCueScratch(playerId));
     saveGameState();
   };
 
   const recordWrongHit = (playerId, ballId) => {
-    let snapshot = controller.recordWrongHit(playerId, ballId);
-    setGameState(snapshot);
-
+    setGameState(controller.recordWrongHit(playerId, ballId));
     saveGameState();
   };
 
   const endSession = () => {
-    let snapshot = controller.endSession();
-    setGameState(snapshot);
-    // setCurrentRoundExists(null);
+    setGameState(controller.endSession());
     saveGameState();
   };
 
