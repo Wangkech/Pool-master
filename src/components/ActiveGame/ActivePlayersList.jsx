@@ -1,7 +1,7 @@
 import { useGameContext } from "../../context/useGameContext";
 import ActivePlayerCard from "./ActivePlayerCard";
 
-function ActivePlayersList() {
+function ActivePlayersList({ showDeletePlayer }) {
   const { availableBalls, roundPlayers } = useGameContext();
 
   return (
@@ -9,8 +9,7 @@ function ActivePlayersList() {
       <ul className="player-card-container flex h-full w-full scrollbar-none flex-col gap-y-4 overflow-auto p-2">
         {roundPlayers.map((player) => (
           <ActivePlayerCard
-            // addPoints={addPoints}
-            // potBall={potBall}
+            showDeletePlayer={showDeletePlayer}
             balls={availableBalls}
             key={player.id}
             id={player.id}

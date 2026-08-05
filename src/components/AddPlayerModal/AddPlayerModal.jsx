@@ -22,14 +22,15 @@ function AddPlayerModal({ setIsAddingPlayers, setGameOn }) {
 
   function addPlayerToList(e) {
     e.preventDefault();
-    if (playerName != "") {
-      if (currentGameExists) {
-        addLatePlayer(name);
-      } else {
-        addPlayer(playerName);
-      }
-    }
 
+    if (playerName != "") addLatePlayer(playerName);
+    //    {
+    //   if (currentGameExists) {
+    //     addLatePlayer(playerName);
+    //   } else {
+    //     addPlayer(playerName);
+    //   }
+    // }
     setPlayerName("");
   }
 
@@ -43,9 +44,15 @@ function AddPlayerModal({ setIsAddingPlayers, setGameOn }) {
   }
 
   function saveList() {
-    if (playerList.length > 1 && !currentGameExists) {
-      setIsAddingPlayers(false);
-      setGameOn(true);
+    if (playerList.length > 1) {
+      if (currentGameExists) {
+        setIsAddingPlayers(false);
+        setGameOn(true);
+      } else {
+        startNewGame();
+        setIsAddingPlayers(false);
+        setGameOn(true);
+      }
     } else {
       alert(`Add more than ${playerList.length} Players to Proceed`);
     }
@@ -56,7 +63,7 @@ function AddPlayerModal({ setIsAddingPlayers, setGameOn }) {
   }
 
   return (
-    <div className="add-player-modal-container justify-self-cent grid h-[90%] min-h-[60vh] w-[90vw] grid-rows-[40px_1fr_40px] self-center rounded-2xl border bg-[--accent-bg] px-2 py-4">
+    <div className="grid h-[90%] min-h-[60vh] w-[90vw] grid-rows-[40px_1fr_40px] self-center rounded-2xl border bg-[--accent-bg] px-2 py-4">
       <PlayerNameInput
         playerName={playerName}
         setPlayerName={setPlayerName}

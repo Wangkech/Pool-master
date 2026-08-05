@@ -1,7 +1,9 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useGameContext } from "../../context/useGameContext";
+import { faTrash, faUserPen } from "@fortawesome/free-solid-svg-icons";
 
 function PlayerNameList({ editPlayerName, removePlayer, ref }) {
-  const { playerList } = useGameContext();
+  const { playerList, deletePlayer } = useGameContext();
   return (
     <ul
       ref={ref}
@@ -18,8 +20,13 @@ function PlayerNameList({ editPlayerName, removePlayer, ref }) {
             </p>
             <p> {player.name}</p>
           </span>
-          <button onClick={() => editPlayerName(player.id)}>edit</button>
-          <button onClick={() => removePlayer(player.id)}>del</button>
+          <button onClick={() => editPlayerName(player.id)}>
+            {" "}
+            <FontAwesomeIcon icon={faUserPen} />
+          </button>
+          <button onClick={() => deletePlayer(player.id)}>
+            <FontAwesomeIcon icon={faTrash} />
+          </button>
         </li>
       ))}
     </ul>

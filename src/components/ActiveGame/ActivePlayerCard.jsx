@@ -9,9 +9,8 @@ function ActivePlayerCard({
   score,
   id,
   basket,
-  // potBall,
+  showDeletePlayer,
   balls,
-  // addPoints,
 }) {
   const { potBall, deletePlayer } = useGameContext();
   // const ballid = balls[7].id;
@@ -26,17 +25,20 @@ function ActivePlayerCard({
       {/* <p>{id}</p> */}
       <div className="player-card-top my-auto">
         <PlayerNameHolder name={name} />
-        <span className="points-area">
-          <PlayerPointsHolder score={score} />
-          <PointsBtns
-            // ballId={ballid}
-            addPoints={addPoints}
-            balls={balls}
-            potBall={potBall}
-            id={id}
-          />
+        {!showDeletePlayer ? (
+          <span className="points-area">
+            <PlayerPointsHolder score={score} />
+            <PointsBtns
+              // ballId={ballid}
+              addPoints={addPoints}
+              balls={balls}
+              potBall={potBall}
+              id={id}
+            />
+          </span>
+        ) : (
           <DeleteBtn deletePlayer={deletePlayer} id={id} />
-        </span>
+        )}
       </div>
 
       <div className="player-card-bottom">
@@ -47,23 +49,6 @@ function ActivePlayerCard({
               {ball.ballNo}
             </li>
           ))}
-          {/* <li className="potted-ball">5</li>
-          <li className="potted-ball">5</li>
-          <li className="potted-ball">5</li> */}
-          {/* <li className="potted-ball">5</li>
-          <li className="potted-ball">12</li>
-          <li className="potted-ball">5</li>
-          <li className="potted-ball">5</li>
-          <!-- <li className="potted-ball">5</li>
-                            <li className="potted-ball">5</li>
-                            <li className="potted-ball">5</li>
-                            <li className="potted-ball">5</li>
-                            <li className="potted-ball">5</li>
-                            <li className="potted-ball">5</li>
-                            <li className="potted-ball">5</li> --> 
-          <li className="potted-ball">5</li>
-          <li className="potted-ball">5</li>
-          <li className="potted-ball">5</li> */}
         </ul>
       </div>
     </li>

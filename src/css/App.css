@@ -1,7 +1,9 @@
 /*# sourceMappingURL=App.css.map */
+@import "tailwindcss";
+
 :root {
   /* --accent-bg: #da1c1c; */
-  --accent-bg: #161515;
-  --primary-bg: #121212;
+  --accent-bg: #161616;
+  --primary-bg: #1e1e1e;
   --bro: #1f1f1f;
 }

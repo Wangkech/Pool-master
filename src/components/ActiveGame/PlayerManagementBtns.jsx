@@ -7,7 +7,11 @@ import {
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function PlayerManagementBtns({ setIsAddingPlayers }) {
+function PlayerManagementBtns({
+  setIsAddingPlayers,
+  setShowDeletePlayer,
+  showDeletePlayer,
+}) {
   return (
     <div className="active-game-action-btns grid max-w-25 grid-cols-3 items-center justify-center gap-x-1">
       <button
@@ -23,7 +27,16 @@ function PlayerManagementBtns({ setIsAddingPlayers }) {
         <FontAwesomeIcon icon={faCancel} />
         {/* <img className="h-6" src={deleteIcon} alt="Delete-player" /> */}
       </button>
-      <button className="active-game-action-btn px-2">
+      <button
+        onClick={() => {
+          if (showDeletePlayer) {
+            setShowDeletePlayer(false);
+          } else {
+            setShowDeletePlayer(true);
+          }
+        }}
+        className="active-game-action-btn px-2"
+      >
         <FontAwesomeIcon icon={faTrash} />
         {/* <img className="h-6" src={disableIcon} alt="Disable-player-btn" /> */}
       </button>

@@ -1,7 +1,8 @@
 import { useState } from "react";
-import plusIcon from "../../assets/icons/Plus.svg";
 import AddPointsDropdown from "./AddPointsDropdown";
 import MinusPointsDropdown from "./MinusPointsDropDown";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMinusCircle, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
 function PointsBtns({ id }) {
   const [isAdding, setIsAdding] = useState(null);
@@ -27,9 +28,11 @@ function PointsBtns({ id }) {
             // }, );
           }
         }}
-        className="add-points-btn points-btn cursor-pointer"
+        className="add-points-btn points-btn flex cursor-pointer items-center justify-center text-[#3f813f]"
       >
-        <img src={plusIcon} />
+        <FontAwesomeIcon icon={faPlusCircle} />
+
+        {/* <img src={plusIcon} /> */}
       </button>
       {/* <button className="minus-points-btn points-btn not-negating"> */}
       <button
@@ -43,9 +46,10 @@ function PointsBtns({ id }) {
             setIsFlouling(false);
           }
         }}
-        className="minus-points-btn points-btn cursor-pointer"
+        className="minus-points-btn points-btn flex cursor-pointer items-center justify-center text-[#a12626]"
       >
-        <img src={plusIcon} alt="Deduct Points" />
+        <FontAwesomeIcon icon={faMinusCircle} />
+        {/* <img src={plusIcon} alt="Deduct Points" /> */}
       </button>
       {isAdding && (
         <AddPointsDropdown

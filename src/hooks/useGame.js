@@ -30,7 +30,15 @@ export function useGame() {
     setPlayerList(snapshot.players);
     saveGameState();
   };
+  const deletePlayer = (id) => {
+    let snapshot = controller.deletePlayer(id);
+    saveGameState();
+    setGameState(snapshot);
+    setPlayerList(snapshot.players);
+    setCurrentRound(controller.getCurrentRoundSnapshot());
 
+    console.log(snapshot);
+  };
   const startNewGame = (mode) => {
     let snapshot = controller.startNewGame(mode);
     setCurrentRound(snapshot.currentSession.currentRound);
@@ -81,14 +89,6 @@ export function useGame() {
     console.log(snapshot);
   };
 
-  const deletePlayer = (id) => {
-    let snapshot = controller.deletePlayer(id);
-    saveGameState();
-    setGameState(snapshot);
-    setCurrentRound(controller.getCurrentRoundSnapshot());
-
-    console.log(snapshot);
-  };
   // const recordScore = (type, playerId, ballId) => {
   //   const types = {
   //     POT: controller.recordScore(playerId, ballId),
