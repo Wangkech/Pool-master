@@ -9,17 +9,16 @@ export function useGame() {
   };
 
   const [gameState, setGameState] = useState(snapshot);
-  const [playerList, setPlayerList] = useState(gameState.players);
-  const [currentRound, setCurrentRound] = useState(
-    gameState.currentSession ? gameState.currentSession.currentRound : null,
-  );
+  const playerList = gameState.players;
+  const currentRound = gameState.currentSession?.currentRound ?? null;
+  const allBalls = controller.getAllBalls();
+  const availableBalls = currentRound?.availableBalls ?? [];
 
   const roundPlayers = currentRound && currentRound.players;
 
   const addPlayer = (name) => {
     saveGameState();
     let snapshot = controller.addPlayer(name);
-    setPlayerList(snapshot.players);
 
     setGameState(snapshot);
     saveGameState();
@@ -27,28 +26,24 @@ export function useGame() {
   const addLatePlayer = (name) => {
     let snapshot = controller.addLatePlayer(name);
     setGameState(snapshot);
-    setPlayerList(snapshot.players);
+
     saveGameState();
   };
   const deletePlayer = (id) => {
     let snapshot = controller.deletePlayer(id);
     saveGameState();
     setGameState(snapshot);
-    setPlayerList(snapshot.players);
-    setCurrentRound(controller.getCurrentRoundSnapshot());
 
     console.log(snapshot);
   };
   const startNewGame = (mode) => {
     let snapshot = controller.startNewGame(mode);
-    setCurrentRound(snapshot.currentSession.currentRound);
     setGameState(snapshot);
     saveGameState();
   };
 
   const startNewRound = () => {
     let snapshot = controller.startNewRound();
-    setCurrentRound(snapshot.currentSession.currentRound);
     setGameState(snapshot);
     saveGameState();
   };
@@ -57,13 +52,10 @@ export function useGame() {
     gameState.currentSession ? controller.getCurrentRoundSnapshot() : null,
   );
 
-  const allBalls = controller.getAllBalls();
-  const availableBalls = currentRound ? currentRound.availableBalls : null;
-
   const addPoints = (playerId, ballId) => {
     let snapshot = controller.recordScore(playerId, ballId);
     setGameState(snapshot);
-    setCurrentRound(controller.getCurrentRoundSnapshot());
+
     saveGameState();
   };
 
@@ -77,32 +69,17 @@ export function useGame() {
   const recordWrongHit = (playerId, ballId) => {
     let snapshot = controller.recordWrongHit(playerId, ballId);
     setGameState(snapshot);
-    setCurrentRound(controller.getCurrentRoundSnapshot());
+
     saveGameState();
   };
 
   const endSession = () => {
     let snapshot = controller.endSession();
     setGameState(snapshot);
-    setCurrentRound(null);
     saveGameState();
 
     console.log(snapshot);
   };
-
-  // const recordScore = (type, playerId, ballId) => {
-  //   const types = {
-  //     POT: controller.recordScore(playerId, ballId),
-  //     FOUL: controller.recordWrongHit(playerId, ballId),
-  //     SCRATCH: controller.recordCueScratch(playerId),
-  //   };
-  //   let snapshot = types.type;
-  //   console.log("After Recording: ", snapshot);
-
-  //   // setGameState(snapshot);
-  //   setCurrentRound(snapshot);
-  //   // setPlayerList(snapshot.players);
-  // };
 
   return {
     currentRoundExists,

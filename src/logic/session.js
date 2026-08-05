@@ -184,10 +184,14 @@ export class Session {
       player.restorePlayer(player.id, player.name, player.state);
     });
 
-    this.currentRound = data.currentRound ? data.currentRound : null;
+    if (data.currentRound) {
+      this.currentRound = data.currentRound;
+      Object.setPrototypeOf(this.currentRound, Round.prototype);
 
-    Object.setPrototypeOf(this.currentRound, Round.prototype);
-    this.currentRound.restoreRound(data.currentRound);
+      this.currentRound.restoreRound(data.currentRound);
+    } else {
+      this.currentRound = null;
+    }
 
     this.mode = data.mode;
     this.ended = data.ended;

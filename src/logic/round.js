@@ -155,12 +155,18 @@ export class Round {
       Object.setPrototypeOf(player, Player.prototype);
       player.restorePlayer(player.id, player.name, player.state);
     });
-
-    this.balls = data.availableBalls;
-    this.balls.map((ball) => {
-      Object.setPrototypeOf(ball, Ball.prototype);
-      return ball.restoreBall(ball.ballNo, ball.id, ball.value, ball.isPotted);
-    });
+    if (data.availableBalls) {
+      this.balls = data.availableBalls;
+      this.balls.map((ball) => {
+        Object.setPrototypeOf(ball, Ball.prototype);
+        return ball.restoreBall(
+          ball.ballNo,
+          ball.id,
+          ball.value,
+          ball.isPotted,
+        );
+      });
+    }
 
     this.roundWinner = data.roundWinner;
     this.mode = data.mode;

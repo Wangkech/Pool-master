@@ -88,9 +88,7 @@ export class GameEngine {
   getSnapshot() {
     return Object.freeze({
       players: this.players.map((player) => player.getSnapshot()),
-      currentSession: this.currentSession
-        ? this.currentSession.getSnapshot()
-        : null,
+      currentSession: this.currentSession?.getSnapshot() ?? null,
       sessions: this.sessions ?? null,
       modes: this.modes,
     });
@@ -101,9 +99,13 @@ export class GameEngine {
       Object.setPrototypeOf(player, Player.prototype),
     );
     this.sessions = data.sessions;
-    this.currentSession = data.currentSession ? data.currentSession : null;
 
-    Object.setPrototypeOf(this.currentSession, Session.prototype);
-    this.currentSession.restoreSession(data.currentSession);
+    if (data.currentSession) {
+      this.currentSession = data.currentSession;
+      Object.setPrototypeOf(this.currentSession, Session.prototype);
+      this.currentSession.restoreSession(data.currentSession);
+    } else {
+      this.currentSession = null;
+    }
   }
 }
