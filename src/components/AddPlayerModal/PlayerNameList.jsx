@@ -20,8 +20,7 @@ function PlayerNameList({ editPlayerName, removePlayer, ref }) {
             </p>
             <p> {player.name}</p>
           </span>
-          <button onClick={() => editPlayerName(player.id)}>
-            {" "}
+          <button onClick={() => editPlayerName(player.id)} className="h-10">
             <FontAwesomeIcon icon={faUserPen} />
           </button>
           <button onClick={() => deletePlayer(player.id)}>
