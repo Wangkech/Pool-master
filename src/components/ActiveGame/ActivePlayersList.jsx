@@ -5,8 +5,8 @@ function ActivePlayersList({ showDeletePlayer }) {
   const { availableBalls, roundPlayers } = useGameContext();
 
   return (
-    <div className="overflow-hidden">
-      <ul className="player-card-container flex h-full min-h-[500px] w-full scrollbar-none flex-col gap-y-4 overflow-y-auto p-2">
+    <div className="h-full max-h-[cal(100%-11rem)] overflow-hidden">
+      <ul className="player-card-container flex h-full w-full scrollbar-none flex-col gap-y-4 overflow-y-auto p-2">
         {roundPlayers &&
           roundPlayers.map((player) => (
             <ActivePlayerCard
@@ -16,7 +16,6 @@ function ActivePlayersList({ showDeletePlayer }) {
               id={player.id}
               name={player.name}
               score={player.state.score}
-              // basket={balls}
               basket={player.state.ballBasket}
             />
           ))}

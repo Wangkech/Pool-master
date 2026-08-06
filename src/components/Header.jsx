@@ -2,7 +2,7 @@
 
 function Header() {
   return (
-    <nav className="top-nav fixed top-0 flex h-18.75 w-full items-center justify-around bg-[--primary-bg]">
+    <nav className="top-nav row-1 flex h-18.75 w-full items-center justify-around bg-[--primary-bg]">
       <div className="nav-content flex h-11.25 w-[90vw] items-center justify-around">
         <div className="burger-btn flex h-8 w-8 cursor-pointer flex-col items-center justify-around">
           <div

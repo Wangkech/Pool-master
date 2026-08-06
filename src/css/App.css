@@ -11,15 +11,17 @@
 
 body {
   background-color: var(--primary-bg);
+  height: 100dvh;
+  overflow: hidden;
 }
 
 #root {
   /* background: red; */
   position: relative;
   display: grid;
-  grid-template-rows: 75px 1fr 76px;
-  height: 100vh;
+  grid-template-rows: 5rem 1fr 6rem;
   color: var(--primary-color);
+  height: 100%;
   width: 100vw;
-  background-color: var(--primary-bg);
+  /* background-color: var(--primary-bg); */
 }
