@@ -6,32 +6,31 @@ import StartNewGame from "../components/StartNewGame.jsx";
 import ActiveGameContainer from "../components/ActiveGame/ActiveGameContainer.jsx";
 
 function GamePage() {
-  const { gameState, currentRound, gameOn } = useGameContext();
+  const {
+    gameState,
+    currentRound,
+    gameOn,
+    // isAddingPlayers,
+    // setIsAddingPlayers,
+  } = useGameContext();
   const [additionType, setAdditionType] = useState("regular");
   const [isAddingPlayers, setIsAddingPlayers] = useState(false);
-  // const [gameOn, setGameOn] = useState(false);
 
-  function handleStartNewGame() {
-    setIsAddingPlayers(true);
-  }
+  // const [gameOn, setGameOn] = useState(false);
 
   return (
     <Container
       child={
         <>
-          {isAddingPlayers && (
+          {isAddingPlayers === true && (
             <AddPlayerModal
               additionType={additionType}
               setIsAddingPlayers={setIsAddingPlayers}
-              // setGameOn={setGameOn}
               gameState={gameState}
             />
           )}
           {isAddingPlayers === false && gameOn === false && (
-            <StartNewGame
-              setAdditionType={setAdditionType}
-              handleStartNewGame={handleStartNewGame}
-            />
+            <StartNewGame setIsAddingPlayers={setIsAddingPlayers} />
           )}
           {currentRound && gameOn === true && isAddingPlayers === false && (
             <ActiveGameContainer

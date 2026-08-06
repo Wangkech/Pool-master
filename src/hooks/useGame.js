@@ -15,8 +15,10 @@ export function useGame() {
   const availableBalls = currentRound?.availableBalls ?? [];
 
   const roundPlayers = currentRound && currentRound.players;
-  const currentRoundExists = currentRound ? true : false;
+  const currentRoundExists = Boolean(currentRound);
   const [gameOn, setGameOn] = useState(Boolean(currentRoundExists));
+  const pastRounds = gameState.currentSession?.rounds ?? null;
+  const pastSessions = gameState.sessions;
 
   const addPlayer = (name) => {
     setGameState(controller.addPlayer(name));
@@ -75,6 +77,8 @@ export function useGame() {
     roundPlayers,
     availableBalls,
     gameOn,
+    pastRounds,
+    pastSessions,
     setGameOn,
     allBalls,
     addPlayer,

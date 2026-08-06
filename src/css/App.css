@@ -1,15 +1,22 @@
 /*# sourceMappingURL=App.css.map */
 @import "tailwindcss";
 
+@font-face {
+  font-family: "poppins";
+  src: url("../assets/fonts/Poppins/Poppins-Regular.ttf");
+}
+
 :root {
   /* --accent-bg: #da1c1c; */
   --accent-bg: #1e1e1e;
   --primary-bg: #0f0f0f;
   --primary-color: #ffffff;
   --bro: #1f1f1f;
+  --primary-font: "poppins";
 }
 
 body {
+  font-family: var(--primary-font);
   background-color: var(--primary-bg);
   height: 100dvh;
   overflow: hidden;
