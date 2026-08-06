@@ -1,14 +1,20 @@
 // import react from "react";
 // import propTypes from "prop-types";
 
-function NavButton({ url, text }) {
-  const imgURL = url;
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router";
+function NavButton({ icon, url, text }) {
+  // const imgURL = url;
 
   return (
-    <button className="flex h-[65px] w-[65px] flex-col items-center justify-between rounded-[50%] border-none p-2 text-center">
-      <img src={imgURL} alt={text} className="h-[30px] w-[30px]" />
-      <p className="text-[0.875rem] capitalize">{text}</p>
-    </button>
+    <Link
+      to={url}
+      className="flex h-16.25 w-16.25 flex-col items-center justify-center rounded-[50%] border-none p-2 text-center text-2xl text-white"
+    >
+      <FontAwesomeIcon icon={icon} />
+      {/* <img src={imgURL} alt={text} className="h-[30px] w-[30px]" /> */}
+      {text && <p className="text-[0.75rem] capitalize">{text}</p>}{" "}
+    </Link>
   );
 }
 

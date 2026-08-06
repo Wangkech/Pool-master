@@ -2,9 +2,9 @@
 
 function Header() {
   return (
-    <nav className="top-nav fixed top-0 flex h-[75px] w-full items-center justify-around bg-[#1A1A1A] bg-transparent">
-      <div className="nav-content flex h-[45px] w-[90vw] items-center justify-around">
-        <div className="burger-btn flex h-[2rem] w-[2rem] cursor-pointer flex-col items-center justify-around">
+    <nav className="top-nav fixed top-0 flex h-18.75 w-full items-center justify-around bg-[--primary-bg]">
+      <div className="nav-content flex h-11.25 w-[90vw] items-center justify-around">
+        <div className="burger-btn flex h-8 w-8 cursor-pointer flex-col items-center justify-around">
           <div
             className="burger-btn-line br-[25px] h-[0.25rem] w-full rounded-sm bg-white"
             id="burger-btn-line1"

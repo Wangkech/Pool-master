@@ -3,7 +3,11 @@
 
 :root {
   /* --accent-bg: #da1c1c; */
-  --accent-bg: #161616;
-  --primary-bg: #1e1e1e;
+  --accent-bg: #1e1e1e;
+  --primary-bg: #0f0f0f;
   --bro: #1f1f1f;
+}
+
+body {
+  background-color: var(--primary-bg);
 }

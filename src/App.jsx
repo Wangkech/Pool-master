@@ -1,59 +1,20 @@
-// import { controller } from "./logic/controller.js";
-import { useState } from "react";
-// import { useGame } from "./hooks/useGame.js";
-import { useGameContext } from "./context/useGameContext.js";
+import { Routes, Route } from "react-router";
+import GamePage from "./GamePage";
+import HistoryPage from "./HistoryPage";
 import Header from "./components/Header";
-import "./css/App.css";
 import Navbar from "./components/Navbar";
-import Container from "./components/Container";
-import AddPlayerModal from "./components/AddPlayerModal/AddPlayerModal.jsx";
-import StartNewGame from "./components/StartNewGame.jsx";
-import ActiveGameContainer from "./components/ActiveGame/ActiveGameContainer.jsx";
-// import { InGamePlayer } from "./logic/players.js";
-
+import "./css/App.css";
+// import "./components/ActiveGame/active";
 function App() {
-  const { gameState, currentRound } = useGameContext();
-  const [additionType, setAdditionType] = useState("regular");
-  const [isAddingPlayers, setIsAddingPlayers] = useState(false);
-  const [gameOn, setGameOn] = useState(false);
-
-  function handleStartNewGame() {
-    setIsAddingPlayers(true);
-  }
-
   return (
-    <div className="relative grid h-screen w-screen grid-rows-[75px_1fr_76px] flex-col bg-[--primary-bg] text-white">
+    <>
       <Header />
-      <Container
-        child={
-          <>
-            {isAddingPlayers && (
-              <AddPlayerModal
-                additionType={additionType}
-                setIsAddingPlayers={setIsAddingPlayers}
-                setGameOn={setGameOn}
-                gameState={gameState}
-              />
-            )}
-            {isAddingPlayers === false && gameOn === false && (
-              <StartNewGame
-                setAdditionType={setAdditionType}
-                handleStartNewGame={handleStartNewGame}
-              />
-            )}
-            {currentRound && gameOn === true && isAddingPlayers === false && (
-              <ActiveGameContainer
-                setAdditionType={setAdditionType}
-                setIsAddingPlayers={setIsAddingPlayers}
-                setGameOn={setGameOn}
-              />
-            )}
-          </>
-        }
-      />
-
+      <Routes>
+        <Route path="/" element={<GamePage />} />
+        <Route path="/history" element={<HistoryPage />} />
+      </Routes>
       <Navbar />
-    </div>
+    </>
   );
 }
 
