@@ -105,7 +105,7 @@ export class Round {
   }
 
   getBallByNum(number) {
-    return this.balls.find((ball) => ball.ballNo === number);
+    return this.balls.find((ball) => ball.ballNo === number) ?? null;
   }
 
   getBallbyId(id) {
@@ -116,7 +116,7 @@ export class Round {
     const remainingBalls = this.getAvailableBalls();
     let currentBall;
     const breaker = this.getBallByNum(3);
-    if (!breaker.isPotted) {
+    if (!breaker.isPotted || breaker) {
       currentBall = breaker;
     } else {
       currentBall = remainingBalls[0];
