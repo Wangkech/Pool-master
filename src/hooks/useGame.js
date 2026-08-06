@@ -62,6 +62,7 @@ export function useGame() {
 
   const endSession = () => {
     setGameState(controller.endSession());
+
     saveGameState();
   };
 

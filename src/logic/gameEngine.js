@@ -51,13 +51,14 @@ export class GameEngine {
     this.currentSession.endSession();
     this.#saveCurrentSession();
     this.#resetCurrentSession();
+    this.clearPlayers();
   }
 
   deletePlayer(id) {
     this.players = this.players.filter((player) => player.id != id);
     this.currentSession.deletePlayer(id);
   }
-  clearPlayer() {
+  clearPlayers() {
     this.players.length = 0;
   }
 

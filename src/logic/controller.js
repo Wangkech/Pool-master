@@ -64,7 +64,7 @@ export const controller = {
     return engine.getSnapshot();
   },
   clearPlayers() {
-    engine.clearPlayer();
+    engine.clearPlayers();
   },
   //   scores
   recordScore(playerID, ballID) {
