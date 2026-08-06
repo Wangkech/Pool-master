@@ -6,28 +6,26 @@
 }
 
 :root {
-  /* --accent-bg: #161616; */
+  /* --accent-bg: #da1c1c; */
+  --accent-bg: #1e1e1e;
+  --primary-bg: #0f0f0f;
+  --primary-color: #ffffff;
+  --bro: #1f1f1f;
 }
 
-/* * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-} */
-
 body {
-  font-family: "poppins", sans-serif;
-  background-color: #000000;
-  /* height: 100vh;
-
-  width: 100vw; */
+  background-color: red;
+  /* background-color: var(--primary-bg); */
+  height: 100vh;
 }
 
 #root {
-  /* display: grid; */
-  /* grid-template-rows: 75px 1fr 76px; */
-  /* height: 100vh; */
-  /* margin: 0;
-  width: 100%;
-  height: 100%; */
+  background: red;
+  position: relative;
+  display: grid;
+  grid-template-rows: 75px 1fr 76px;
+  height: 100vh;
+  color: var(--primary-color);
+  width: 100vw;
+  background-color: var(--primary-bg);
 }

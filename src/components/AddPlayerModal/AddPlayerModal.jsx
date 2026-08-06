@@ -10,7 +10,7 @@ function AddPlayerModal({ additionType, setIsAddingPlayers }) {
     startNewGame,
     playerList,
     setGameOn,
-    currentGameExists,
+    // currentGameExists,
     addLatePlayer,
   } = useGameContext();
   // const players = useState(gameState.players);
@@ -61,7 +61,7 @@ function AddPlayerModal({ additionType, setIsAddingPlayers }) {
   }
 
   return (
-    <div className="grid h-[90%] min-h-[60vh] w-[90vw] grid-rows-[40px_1fr_40px] self-center rounded-2xl border bg-[--accent-bg] px-2 py-4">
+    <div className="grid h-[90%] min-h-[60vh] w-[90vw] grid-rows-[40px_1fr_40px] self-center rounded-2xl bg-[var(--accent-bg)] px-2 py-4">
       <PlayerNameInput
         playerName={playerName}
         setPlayerName={setPlayerName}
@@ -76,8 +76,20 @@ function AddPlayerModal({ additionType, setIsAddingPlayers }) {
         removePlayer={removePlayer}
       />
       <div className="flex justify-around">
-        <Actionbtn action={cancelList} id="btn2" text="Cancel" imgURL="" />
-        <Actionbtn action={saveList} id="btn1" text="Save" imgURL={""} />
+        <Actionbtn
+          action={cancelList}
+          id="btn2"
+          text="Cancel"
+
+          imgURL=""
+        />
+        <Actionbtn
+          action={saveList}
+          style={"bg-white border-none text-black"}
+          id="btn1"
+          text="Continue"
+          imgURL={""}
+        />
       </div>
     </div>
   );

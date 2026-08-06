@@ -5,9 +5,21 @@
   /* --accent-bg: #da1c1c; */
   --accent-bg: #1e1e1e;
   --primary-bg: #0f0f0f;
+  --primary-color: #ffffff;
   --bro: #1f1f1f;
 }
 
 body {
+  background-color: var(--primary-bg);
+}
+
+#root {
+  /* background: red; */
+  position: relative;
+  display: grid;
+  grid-template-rows: 75px 1fr 76px;
+  height: 100vh;
+  color: var(--primary-color);
+  width: 100vw;
   background-color: var(--primary-bg);
 }

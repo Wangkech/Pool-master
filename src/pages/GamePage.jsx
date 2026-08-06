@@ -1,14 +1,16 @@
 // import { controller } from "./logic/controller.js";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 // import { useGame } from "./hooks/useGame.js";
 import { useGameContext } from "../context/useGameContext.js";
 // import Header from "./components/Header.jsx";
-import "../css/App.css";
+// import "../css/App.css";
 // import Navbar from "./components/Navbar.jsx";
 import Container from "../components/Container.jsx";
 import AddPlayerModal from "../components/AddPlayerModal/AddPlayerModal.jsx";
 import StartNewGame from "../components/StartNewGame.jsx";
 import ActiveGameContainer from "../components/ActiveGame/ActiveGameContainer.jsx";
+import Header from "../components/Header.jsx";
+import Navbar from "../components/Navbar.jsx";
 // import { InGamePlayer } from "./logic/players.js";
 
 function GamePage() {
@@ -23,7 +25,7 @@ function GamePage() {
   }
 
   return (
-    <div className="relative grid h-screen w-screen grid-rows-[75px_1fr_76px] flex-col bg-[--primary-bg] text-white">
+    <>
       {/* <Header /> */}
       <Container
         child={
@@ -52,9 +54,8 @@ function GamePage() {
           </>
         }
       />
-
       {/* <Navbar /> */}
-    </div>
+    </>
   );
 }
 
