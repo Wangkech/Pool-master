@@ -4,11 +4,12 @@ import PlayerNameInput from "./PlayerNameInput.jsx";
 import PlayerNameListContainer from "./PlayerNameListContainer.jsx";
 import Actionbtn from "./Actionbtn.jsx";
 import { useGameContext } from "../../context/useGameContext.js";
-function AddPlayerModal({ additionType, setIsAddingPlayers, setGameOn }) {
+function AddPlayerModal({ additionType, setIsAddingPlayers }) {
   const {
     addPlayer,
     startNewGame,
     playerList,
+    setGameOn,
     currentGameExists,
     addLatePlayer,
   } = useGameContext();

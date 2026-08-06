@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router";
-import GamePage from "./GamePage";
-import HistoryPage from "./HistoryPage";
+import GamePage from "./pages/GamePage";
+import HistoryPage from "./pages/HistoryPage";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
 import "./css/App.css";

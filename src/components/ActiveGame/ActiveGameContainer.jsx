@@ -11,10 +11,10 @@ import { useGameContext } from "../../context/useGameContext";
 
 function ActiveGameContainer({
   setAdditionType,
-  setGameOn,
+
   setIsAddingPlayers,
 }) {
-  const { currentRound, potBall } = useGameContext();
+  const { currentRound, potBall, setGameOn } = useGameContext();
   const [showDeletePlayer, setShowDeletePlayer] = useState(null);
   function addMorePlayers() {}
 

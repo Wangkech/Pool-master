@@ -1,21 +1,22 @@
 // import { controller } from "./logic/controller.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import { useGame } from "./hooks/useGame.js";
-import { useGameContext } from "./context/useGameContext.js";
+import { useGameContext } from "../context/useGameContext.js";
 // import Header from "./components/Header.jsx";
-import "./css/App.css";
+import "../css/App.css";
 // import Navbar from "./components/Navbar.jsx";
-import Container from "./components/Container.jsx";
-import AddPlayerModal from "./components/AddPlayerModal/AddPlayerModal.jsx";
-import StartNewGame from "./components/StartNewGame.jsx";
-import ActiveGameContainer from "./components/ActiveGame/ActiveGameContainer.jsx";
+import Container from "../components/Container.jsx";
+import AddPlayerModal from "../components/AddPlayerModal/AddPlayerModal.jsx";
+import StartNewGame from "../components/StartNewGame.jsx";
+import ActiveGameContainer from "../components/ActiveGame/ActiveGameContainer.jsx";
 // import { InGamePlayer } from "./logic/players.js";
 
 function GamePage() {
-  const { gameState, currentRound } = useGameContext();
+  const { gameState, currentRound, currentRoundExists, gameOn } =
+    useGameContext();
   const [additionType, setAdditionType] = useState("regular");
   const [isAddingPlayers, setIsAddingPlayers] = useState(false);
-  const [gameOn, setGameOn] = useState(false);
+  // const [gameOn, setGameOn] = useState(false);
 
   function handleStartNewGame() {
     setIsAddingPlayers(true);
@@ -31,7 +32,7 @@ function GamePage() {
               <AddPlayerModal
                 additionType={additionType}
                 setIsAddingPlayers={setIsAddingPlayers}
-                setGameOn={setGameOn}
+                // setGameOn={setGameOn}
                 gameState={gameState}
               />
             )}
@@ -45,7 +46,7 @@ function GamePage() {
               <ActiveGameContainer
                 setAdditionType={setAdditionType}
                 setIsAddingPlayers={setIsAddingPlayers}
-                setGameOn={setGameOn}
+                // setGameOn={setGameOn}
               />
             )}
           </>
