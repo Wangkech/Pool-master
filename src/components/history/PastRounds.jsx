@@ -8,9 +8,9 @@ function PastRounds() {
   console.log(currentGameExists);
 
   return (
-    <div className="flex w-full scrollbar-none flex-col gap-y-2 overflow-y-auto">
-      {pastRounds.length === 0 && (
-        <div className="h-full self-center justify-self-center">
+    <ul className="flex h-full w-full scrollbar-none flex-col gap-y-2 overflow-y-auto">
+      {!pastRounds && (
+        <div className="flex h-full flex-col items-center justify-center gap-y-8 self-center justify-self-center">
           <h1>You Haven't Played Any Games Yet</h1>
           {currentGameExists && <h1>You Haven't Played Any Games Yet</h1>}
           {!currentGameExists && <StartNewGame />}
@@ -25,7 +25,7 @@ function PastRounds() {
             roundNumber={round.roundNumber}
           />
         ))}
-    </div>
+    </ul>
   );
 }
 

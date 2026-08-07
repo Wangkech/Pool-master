@@ -1,3 +1,6 @@
+import { faCrown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 function PastRound({ key, winner, players, roundNumber }) {
   return (
     <div
@@ -8,7 +11,10 @@ function PastRound({ key, winner, players, roundNumber }) {
         <p>Round {roundNumber}</p>
       </span>
 
-      <p>winner 👑: {winner.name} </p>
+      <p className="uppercase">
+        <FontAwesomeIcon icon={faCrown} className="text-amber-300" />{" "}
+        {winner.name}{" "}
+      </p>
 
       <div className="flex flex-col">
         {players.map((player, index) => (

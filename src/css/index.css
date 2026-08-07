@@ -1,3 +1,4 @@
+/*# sourceMappingURL=App.css.map */
 @import "tailwindcss";
 
 @font-face {
@@ -11,19 +12,24 @@
   --primary-bg: #0f0f0f;
   --primary-color: #ffffff;
   --bro: #1f1f1f;
+  /* --primary-font: "poppins"; */
 }
 
 body {
-  background-color: red;
-  /* background-color: var(--primary-bg); */
-  height: 100vh;
+  font-family: var(--primary-font), "Courier New", Courier, monospace;
+  background-color: var(--primary-bg);
+  height: 100dvh;
+  overflow: hidden;
+  color: var(--primary-color);
 }
 
-#root {
-  background: red;
+#app {
+  /* background: red; */
+  /* position: relative; */
   display: grid;
-  grid-template-rows: 75px 1fr 100px;
+  grid-template-rows: 5rem 1fr 6rem;
   color: var(--primary-color);
+  height: 100%;
   width: 100vw;
-  background-color: var(--primary-bg);
+  /* background-color: var(--primary-bg); */
 }

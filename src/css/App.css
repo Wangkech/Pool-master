@@ -16,17 +16,19 @@
 }
 
 body {
-  font-family: var(--primary-font);
+  font-family: var(--primary-font), "Courier New", Courier, monospace;
   background-color: var(--primary-bg);
   height: 100dvh;
-  overflow: hidden;
+  /* overflow: hidden; */
+  color: var(--primary-color);
 }
 
-#root {
+#app {
   /* background: red; */
-  position: relative;
+  /* position: relative; */
   display: grid;
   grid-template-rows: 5rem 1fr 6rem;
+  /* color: var(--color-amber-300); */
   color: var(--primary-color);
   height: 100%;
   width: 100vw;
