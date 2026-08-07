@@ -19,7 +19,7 @@ function AddPlayerModal({ additionType, setIsAddingPlayers }) {
     let newPlayerName = e.target.value;
     setPlayerName(newPlayerName.toLowerCase().trim());
   }
-  const [list, setList] = useState([]);
+  // const [list, setList] = useState([]);
 
   function addPlayerToList(e) {
     e.preventDefault();
@@ -27,7 +27,7 @@ function AddPlayerModal({ additionType, setIsAddingPlayers }) {
     if (playerName != "") {
       if (additionType === "regular") {
         addPlayer(playerName);
-        setList([...list, playerName]);
+        // setList([...list, playerName]);
         console.log("reg add");
       } else {
         console.log("late add");
@@ -36,15 +36,6 @@ function AddPlayerModal({ additionType, setIsAddingPlayers }) {
     }
 
     setPlayerName("");
-  }
-
-  function removePlayer(id) {
-    //   let currentPlayers = players.filter((player) => player.id != id);
-    //   currentPlayers;
-    //   console.log("after: ", players);
-  }
-  function editPlayerName(id) {
-    // console.log("edit Player: ", id);
   }
 
   function saveList() {
@@ -62,7 +53,7 @@ function AddPlayerModal({ additionType, setIsAddingPlayers }) {
   }
 
   return (
-    <div className="row-2 grid h-[60%] w-[90vw] grid-rows-[40px_1fr_40px] self-center overflow-y-hidden rounded-2xl bg-(--accent-bg) px-2 py-4">
+    <div className="grid h-full w-[90vw] grid-rows-[40px_1fr_40px] self-center overflow-y-hidden rounded-2xl bg-(--accent-bg) px-2 py-4">
       <PlayerNameInput
         playerName={playerName}
         setPlayerName={setPlayerName}
@@ -71,20 +62,9 @@ function AddPlayerModal({ additionType, setIsAddingPlayers }) {
         saveList={saveList}
         cancelList={cancelList}
       />
-      <PlayerNameListContainer
-        // playerList={playerList}
-        list={list}
-        editPlayerName={editPlayerName}
-        removePlayer={removePlayer}
-      />
+      <PlayerNameListContainer />
       <div className="flex justify-around">
-        <Actionbtn
-          action={cancelList}
-          id="btn2"
-          text="Cancel"
-
-          imgURL=""
-        />
+        <Actionbtn action={cancelList} id="btn2" text="Cancel" imgURL="" />
         <Actionbtn
           action={saveList}
           style={"bg-white border-none text-black"}

@@ -25,14 +25,12 @@ export function useGame() {
     saveGameState();
   };
   const addLatePlayer = (name) => {
-    saveGameState(controller.addLatePlayer(name));
+    setGameState(controller.addLatePlayer(name));
     saveGameState();
   };
   const deletePlayer = (id) => {
     setGameState(controller.deletePlayer(id));
     saveGameState();
-
-    console.log(snapshot);
   };
   const startNewGame = (mode) => {
     if (!currentRoundExists) {

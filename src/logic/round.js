@@ -22,9 +22,6 @@ export class Round {
   }
 
   addLatePlayer(player) {
-    console.log("ran");
-    console.log(player.roundState());
-
     this.players.push(player.roundState());
   }
 
