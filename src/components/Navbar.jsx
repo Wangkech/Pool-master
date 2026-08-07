@@ -7,16 +7,23 @@ import { faHouse, faHistory, faGear } from "@fortawesome/free-solid-svg-icons";
 import NavButton from "./NavButton.jsx";
 function Navbar() {
   return (
-    <div className="bottom-nav shadow] row-3 flex w-[80vw] items-center justify-evenly self-center justify-self-center rounded-[5rem] bg-(--accent-bg) bg-blend-color shadow">
-      <NavButton icon={faHouse} /*text="Home"*/ url={"/"} />
-      <NavButton icon={faHistory} /*text="records"*/ url={"/history"} />
-      <NavButton icon={faGear} /*text="settings"*/ />
+    <nav
+      aria-label="navigation"
+      className="bottom-nav shadow] row-3 flex w-[80vw] items-center justify-evenly self-center justify-self-center rounded-[5rem] bg-(--accent-bg) bg-blend-color shadow"
+    >
+      <NavButton icon={faHouse} label={"Home"} /*text="Home"*/ url={"/"} />
+      <NavButton
+        icon={faHistory}
+        label={"history"}
+        /*text="records"*/ url={"/history"}
+      />
+      <NavButton icon={faGear} label={"settings"} /*text="settings"*/ />
 
       {/* <button className="home-btn ">home</button>
       <button className="records-btn">records</button>
       <button className="settings-btn
       ">settings</button> */}
-    </div>
+    </nav>
   );
 }
 

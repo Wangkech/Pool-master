@@ -3,9 +3,18 @@ import GamePage from "./pages/GamePage";
 import HistoryPage from "./pages/HistoryPage";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
-import "./css/App.css";
+import { useEffect } from "react";
 // import "./components/ActiveGame/active";
 function App() {
+  useEffect(() => {
+    import("./css/App.css")
+      .then(() => {
+        console.log("CSS loaded");
+      })
+      .catch((err) => {
+        console.error("failed to load CSS", err);
+      });
+  }, []);
   return (
     <>
       <Header />

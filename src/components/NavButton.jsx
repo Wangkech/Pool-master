@@ -3,11 +3,12 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router";
-function NavButton({ icon, url, text }) {
+function NavButton({ icon, url, text, label }) {
   // const imgURL = url;
 
   return (
     <Link
+      aria-label={label}
       to={url}
       className="flex h-16.25 w-16.25 flex-col items-center justify-center rounded-[50%] border-none p-2 text-center text-2xl text-white"
     >

@@ -16,6 +16,7 @@ function PlayerManagementBtns({
   return (
     <div className="active-game-action-btns grid max-w-25 grid-cols-3 items-center justify-center gap-x-1">
       <button
+        aria-label="add-player"
         className="active-game-action-btn add-more-player-btn px-2"
         onClick={() => {
           setIsAddingPlayers(true);
@@ -27,11 +28,15 @@ function PlayerManagementBtns({
 
         {/* <img className="h-6" src={plusIcon} alt="Add More Player" /> */}
       </button>
-      <button className="active-game-action-btn delete-player-btn px-2">
+      <button
+        aria-label="archive-lpayer"
+        className="active-game-action-btn delete-player-btn px-2"
+      >
         <FontAwesomeIcon icon={faCancel} />
         {/* <img className="h-6" src={deleteIcon} alt="Delete-player" /> */}
       </button>
       <button
+        aria-label="delete-player"
         onClick={() => {
           if (showDeletePlayer) {
             setShowDeletePlayer(false);
