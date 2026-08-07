@@ -25,7 +25,7 @@ export class GameEngine {
   addLatePlayer(name) {
     let latePlayer = new Player(name);
     this.players.push(latePlayer);
-    this.currentSession.addLatePlayer(latePlayer);
+    this.currentSession?.addLatePlayer(latePlayer);
   }
 
   removePlayer() {}
@@ -56,7 +56,7 @@ export class GameEngine {
 
   deletePlayer(id) {
     this.players = this.players.filter((player) => player.id != id);
-    this.currentSession.deletePlayer(id);
+    this.currentSession?.deletePlayer(id);
   }
   clearPlayers() {
     this.players.length = 0;

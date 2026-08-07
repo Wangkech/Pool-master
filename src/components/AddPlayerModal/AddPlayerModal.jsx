@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import PlayerNameInput from "./PlayerNameInput.jsx";
 import PlayerNameListContainer from "./PlayerNameListContainer.jsx";
 import Actionbtn from "./Actionbtn.jsx";
@@ -20,6 +19,7 @@ function AddPlayerModal({ additionType, setIsAddingPlayers }) {
     let newPlayerName = e.target.value;
     setPlayerName(newPlayerName.toLowerCase().trim());
   }
+  const [list, setList] = useState([]);
 
   function addPlayerToList(e) {
     e.preventDefault();
@@ -27,6 +27,7 @@ function AddPlayerModal({ additionType, setIsAddingPlayers }) {
     if (playerName != "") {
       if (additionType === "regular") {
         addPlayer(playerName);
+        setList([...list, playerName]);
         console.log("reg add");
       } else {
         console.log("late add");
@@ -61,7 +62,7 @@ function AddPlayerModal({ additionType, setIsAddingPlayers }) {
   }
 
   return (
-    <div className="grid h-[90%] min-h-[60vh] w-[90vw] grid-rows-[40px_1fr_40px] self-center rounded-2xl bg-[var(--accent-bg)] px-2 py-4">
+    <div className="row-2 grid h-[60%] w-[90vw] grid-rows-[40px_1fr_40px] self-center overflow-y-hidden rounded-2xl bg-(--accent-bg) px-2 py-4">
       <PlayerNameInput
         playerName={playerName}
         setPlayerName={setPlayerName}
@@ -71,7 +72,8 @@ function AddPlayerModal({ additionType, setIsAddingPlayers }) {
         cancelList={cancelList}
       />
       <PlayerNameListContainer
-        playerList={playerList}
+        // playerList={playerList}
+        list={list}
         editPlayerName={editPlayerName}
         removePlayer={removePlayer}
       />

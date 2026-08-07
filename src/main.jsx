@@ -6,10 +6,10 @@ import { GameProvider } from "./context/GameProvider.jsx";
 
 createRoot(document.getElementById("app")).render(
   <StrictMode>
-    <GameProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <GameProvider>
         <App />
-      </BrowserRouter>
-    </GameProvider>
+      </GameProvider>
+    </BrowserRouter>
   </StrictMode>,
 );

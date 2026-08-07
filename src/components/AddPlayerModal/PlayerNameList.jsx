@@ -1,13 +1,25 @@
+import { useEffect, useRef, useState } from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useGameContext } from "../../context/useGameContext";
 import { faTrash, faUserPen } from "@fortawesome/free-solid-svg-icons";
 
-function PlayerNameList({ editPlayerName, removePlayer, ref }) {
+function PlayerNameList({ editPlayerName, list, removePlayer, ref }) {
   const { playerList, deletePlayer } = useGameContext();
+  const playerNameListRef = useRef(null);
+  useEffect(() => {
+    console.log(list);
+    const playerNameListElem = playerNameListRef.current;
+    console.log(playerNameListElem);
+
+    if (playerNameListElem) {
+      playerNameListElem.scrollTop = playerNameListElem.scrollHeight;
+    }
+  }, [list]);
   return (
     <ul
-      ref={ref}
-      className="list grid h-auto scrollbar-none grid-rows-[repeat(auto,minmax(0,50px))] gap-2 overflow-x-auto p-2"
+      ref={playerNameListRef}
+      className="list grid h-auto scrollbar-none grid-rows-[repeat(auto,minmax(0,50px))] gap-2 overflow-y-auto p-2"
     >
       {playerList.map((player, index) => (
         <li
