@@ -30,8 +30,6 @@ export class Session {
         return player;
       }
     });
-
-    console.log(this.players);
   }
   deletePlayer(id) {
     this.players = this.players.filter((player) => player.id != id);
@@ -122,7 +120,6 @@ export class Session {
   }
 
   endSession() {
-    console.log(this.currentRound);
     if (!this.currentRound) {
       this.ended = true;
     } else {
@@ -142,8 +139,6 @@ export class Session {
   }
 
   endCurrentRound() {
-    // console.log(this.currentRound);
-
     this.currentRound.endRound();
   }
 

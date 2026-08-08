@@ -9,36 +9,19 @@ function PointsBtns({ id }) {
   const [isFouling, setIsFouling] = useState(false);
   const [timeout, settimeout] = useState(5000);
   const handlePlusbtn = () => {
-    console.log("Clicked plus");
-    console.log(isAdding);
-
     if (isAdding) {
       setIsAdding(false);
-      console.log("set Plus off");
-      console.log(isAdding);
     } else {
-      console.log("set Plus on");
-      console.log(isAdding);
-
       setIsAdding(true);
     }
   };
   const handleMinusBtn = () => {
-    console.log("Clicked minus");
-    // console.log(e.target);
-
     if (!isFouling) {
       setIsFouling(true);
     } else {
       setIsFouling(false);
     }
   };
-  // window.addEventListener("click", (e) => {
-  //   if (e.target.parentElement.classList.contains("points-btn")) {
-  //     setIsAdding(false);
-  //     setIsFouling(false);
-  //   }
-  // });
   return (
     <div className="points-btns">
       <FontAwesomeIcon

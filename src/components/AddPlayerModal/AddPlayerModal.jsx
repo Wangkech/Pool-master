@@ -27,10 +27,7 @@ function AddPlayerModal({ additionType, setIsAddingPlayers }) {
     if (playerName != "") {
       if (additionType === "regular") {
         addPlayer(playerName);
-        // setList([...list, playerName]);
-        console.log("reg add");
       } else {
-        console.log("late add");
         addLatePlayer(playerName);
       }
     }

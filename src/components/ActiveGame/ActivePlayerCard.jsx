@@ -43,7 +43,6 @@ function ActivePlayerCard({
 
       <div className="player-card-bottom">
         <ul className="potted-balls-container items-center text-black">
-          {/* {console.log(basket)} */}
           {basket.map((ball) => (
             <li key={crypto.randomUUID()} className="potted-ball">
               {ball.ballNo}

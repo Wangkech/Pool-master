@@ -47,7 +47,6 @@ export class GameEngine {
   }
 
   endCurrentSession() {
-    console.log(this.currentSession);
     this.currentSession.endSession();
     this.#saveCurrentSession();
     this.#resetCurrentSession();

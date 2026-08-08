@@ -4,8 +4,6 @@ import PastRound from "./PastRound";
 
 function PastRounds() {
   const { pastRounds, currentGameExists } = useGameContext();
-  console.log(pastRounds);
-  console.log(currentGameExists);
 
   return (
     <ul className="flex h-full w-full scrollbar-none flex-col gap-y-2 overflow-y-auto">
