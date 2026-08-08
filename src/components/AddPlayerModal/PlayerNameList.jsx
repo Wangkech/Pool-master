@@ -17,7 +17,7 @@ function PlayerNameList({ editPlayerName }) {
   return (
     <ul
       ref={playerNameListRef}
-      className="list grid h-full scrollbar-none grid-rows-[repeat(auto,minmax(0,50px))] gap-2 overflow-y-auto p-2"
+      className="list grid h-auto scrollbar-none grid-rows-[repeat(auto,minmax(0,50px))] gap-2 overflow-y-auto p-2"
     >
       {playerList.map((player, index) => (
         <li

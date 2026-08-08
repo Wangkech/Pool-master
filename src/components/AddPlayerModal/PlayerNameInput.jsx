@@ -1,11 +1,10 @@
-import Actionbtn from "./Actionbtn.jsx";
 import AddPlayerBtn from "./AddPlayerBtn.jsx";
 // import AddIcon from ".src/assets/icons/plus.svg";
 
 function PlayerNameInput({ playerName, getPlayerName, addPlayerToList }) {
   return (
     <form
-      action="submit"
+      onSubmit={addPlayerToList}
       className="add-player-form align-center grid grid-cols-[1fr_3rem] items-center justify-center gap-2 px-2"
     >
       <input
@@ -16,13 +15,6 @@ function PlayerNameInput({ playerName, getPlayerName, addPlayerToList }) {
         value={playerName}
       />
       <AddPlayerBtn addPlayer={addPlayerToList} />
-      {/* <Actionbtn
-        id="add-player"
-        style=""
-        text="Add"
-        action={addPlayerToList}
-        imgURL={""}
-      /> */}
     </form>
   );
 }
