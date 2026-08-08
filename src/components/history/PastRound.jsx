@@ -1,12 +1,9 @@
 import { faCrown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function PastRound({ key, winner, players, roundNumber }) {
+function PastRound({ winner, players, roundNumber }) {
   return (
-    <div
-      key={key}
-      className="flex flex-col gap-y-2 rounded-2xl bg-[#161616] p-4"
-    >
+    <li className="flex flex-col gap-y-2 rounded-2xl bg-[#161616] p-4">
       <span>
         <p>Round {roundNumber}</p>
       </span>
@@ -27,7 +24,7 @@ function PastRound({ key, winner, players, roundNumber }) {
           </span>
         ))}
       </div>
-    </div>
+    </li>
   );
 }
 
