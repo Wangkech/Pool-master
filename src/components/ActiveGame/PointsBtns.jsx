@@ -7,7 +7,6 @@ import { faMinusCircle, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 function PointsBtns({ id }) {
   const [isAdding, setIsAdding] = useState(false);
   const [isFouling, setIsFouling] = useState(false);
-  const [timeout, settimeout] = useState(5000);
   const handlePlusbtn = () => {
     if (isAdding) {
       setIsAdding(false);
@@ -35,13 +34,7 @@ function PointsBtns({ id }) {
 
         className="minus-points-btn points-btn relative cursor-pointer text-[#a12626]"
       />
-      {isAdding && (
-        <AddPointsDropdown
-          settimeout={settimeout}
-          id={id}
-          setIsAdding={setIsAdding}
-        />
-      )}
+      {isAdding && <AddPointsDropdown id={id} setIsAdding={setIsAdding} />}
       {isFouling && <MinusPointsDropdown id={id} setIsFouling={setIsFouling} />}
     </div>
   );
