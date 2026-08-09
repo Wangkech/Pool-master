@@ -166,7 +166,7 @@ export class Round {
     const remainingBalls = this.getAvailableBalls();
     let currentBall;
     const breaker = this.getBallByNum(3);
-    if (!breaker.isPotted || breaker) {
+    if (breaker && !breaker.isPotted) {
       currentBall = breaker;
     } else {
       currentBall = remainingBalls[0];

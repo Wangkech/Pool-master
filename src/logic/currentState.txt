@@ -86,6 +86,7 @@ export class Player {
       );
     }
   }
+
   getSnapshot() {
     return Object.freeze({
       id: this.id,
@@ -107,26 +108,30 @@ export class Player {
 // ------- round file
 import { Ball } from "./balls.js";
 import { Player } from "./player.js";
-// import { Player } from "./player.js";
 
 export class Round {
-  constructor(players, mode, roundNumber) {
+  constructor(mode, roundNumber) {
     this.roundID = crypto.randomUUID();
     this.roundNumber = roundNumber;
-    this.players = players;
+    this.players = [];
     this.balls = this.#setBalls();
     this.roundWinner = null;
     this.mode = this.setMode(mode);
     this.ended = false;
   }
 
-  setParticipants() {
-    if (this.players) {
-      this.players.map((player) => {
-        player.roundState();
+  setParticipants(players) {
+    if (players) {
+      players.forEach((player) => {
+        this.players.push(player.roundState());
       });
     }
   }
+
+  addLatePlayer(player) {
+    this.players.push(player.roundState());
+  }
+
   deletePlayer(id) {
     this.players = this.players.filter((player) => player.id != id);
   }
@@ -143,6 +148,7 @@ export class Round {
 
   endRound() {
     this.determineWinner();
+    this.players = this.getPlayersInOrder();
     this.ended = true;
   }
 
@@ -198,13 +204,66 @@ export class Round {
       this.roundWinner = highScorers[chosenWinner];
     }
   }
+
+  getPlayersInOrder() {
+    const sortedPlayers = this.sortPlayers();
+
+    if (!sortedPlayers) return null;
+
+    const players = sortedPlayers.map((sortedPlayer) =>
+      this.players.find((player) => player.id === sortedPlayer.id),
+    );
+
+    return players;
+  }
+  sortPlayers() {
+    const playersToSort = [...this.players];
+    const newOrder = [];
+    let winner = this.roundWinner;
+    newOrder.push(winner);
+    let remaining = playersToSort.filter((player) => player.id != winner.id);
+    playersToSort.length = 0;
+    playersToSort.push(...remaining);
+
+    while (playersToSort.length > 0) {
+      let scores = playersToSort.map((player) => player.state.score);
+      let highScore = Math.max(...scores);
+
+      let highScorers = playersToSort.filter(
+        (player) => player.state.score === highScore,
+      );
+
+      if (highScorers.length > 1) {
+        const randomWinner = Math.floor(Math.random() * highScorers.length);
+        const chosenWinner = highScorers[randomWinner];
+        newOrder.push(chosenWinner);
+        let remaining = playersToSort.filter(
+          (player) => player.id != chosenWinner.id,
+        );
+        playersToSort.length = 0;
+        playersToSort.push(...remaining);
+      } else {
+        let currentPlayer = highScorers[0];
+        newOrder.push(currentPlayer);
+
+        let remaining = playersToSort.filter(
+          (player) => player.id != currentPlayer.id,
+        );
+
+        playersToSort.length = 0;
+        playersToSort.push(...remaining);
+      }
+    }
+    return newOrder;
+  }
+
   //helpers
   getPlayerById(id) {
     return this.players.find((player) => player.id === id);
   }
 
   getBallByNum(number) {
-    return this.balls.find((ball) => ball.ballNo === number);
+    return this.balls.find((ball) => ball.ballNo === number) ?? null;
   }
 
   getBallbyId(id) {
@@ -215,7 +274,7 @@ export class Round {
     const remainingBalls = this.getAvailableBalls();
     let currentBall;
     const breaker = this.getBallByNum(3);
-    if (!breaker.isPotted) {
+    if (!breaker.isPotted || breaker) {
       currentBall = breaker;
     } else {
       currentBall = remainingBalls[0];
@@ -262,12 +321,18 @@ export class Round {
       Object.setPrototypeOf(player, Player.prototype);
       player.restorePlayer(player.id, player.name, player.state);
     });
-
-    this.balls = data.availableBalls;
-    this.balls.map((ball) => {
-      Object.setPrototypeOf(ball, Ball.prototype);
-      return ball.restoreBall(ball.ballNo, ball.id, ball.value, ball.isPotted);
-    });
+    if (data.availableBalls) {
+      this.balls = data.availableBalls;
+      this.balls.map((ball) => {
+        Object.setPrototypeOf(ball, Ball.prototype);
+        return ball.restoreBall(
+          ball.ballNo,
+          ball.id,
+          ball.value,
+          ball.isPotted,
+        );
+      });
+    }
 
     this.roundWinner = data.roundWinner;
     this.mode = data.mode;
@@ -276,44 +341,109 @@ export class Round {
 }
 
 
+
 //  ------session file
-// import { Modes } from "./modes.js";
+import { Ball } from "./balls.js";
 import { Player } from "./player.js";
-import { Round } from "./round.js";
 
-export class Session {
-  constructor(players) {
-    this.rounds = [];
-    this.players = players;
-    this.currentRound = null;
-    this.currentRoundNumber = this.rounds.length + 1;
+export class Round {
+  constructor(mode, roundNumber) {
+    this.roundID = crypto.randomUUID();
+    this.roundNumber = roundNumber;
+    this.players = [];
+    this.balls = this.#setBalls();
+    this.roundWinner = null;
+    this.mode = this.setMode(mode);
     this.ended = false;
-    this.mode = null;
   }
 
-  setPlayers() {
-    this.players.map((player) => {
-      player.sessionMemberState();
-    });
+  setParticipants(players) {
+    if (players) {
+      players.forEach((player) => {
+        this.players.push(player.roundState());
+      });
+    }
   }
+
+  addLatePlayer(player) {
+    this.players.push(player.roundState());
+  }
+
   deletePlayer(id) {
     this.players = this.players.filter((player) => player.id != id);
-    this.currentRound.deletePlayer(id);
   }
-  startNewRound() {
-    this.resetCurrentRound();
-    const players = this.getPlayersInOrder() ?? this.players;
 
-    let newRound = new Round(players, this.mode, this.currentRoundNumber);
+  #setBalls() {
+    let balls = [];
+    const breaker = 3;
+    for (let i = breaker; i <= 15; i++) {
+      let newBall = new Ball(i);
+      balls.push(newBall);
+    }
+    return balls;
+  }
 
-    newRound.ended = false;
-    this.currentRound = newRound;
-    this.currentRound.setParticipants();
-    // this.fullSort();
+  endRound() {
+    this.determineWinner();
+    this.players = this.getPlayersInOrder();
+    this.ended = true;
+  }
+
+  recordScore(playerId, ballid) {
+    const player = this.getPlayerById(playerId);
+    const ball = this.getBallbyId(ballid);
+
+    if (ball) {
+      if (!ball.isPotted) {
+        ball.potted();
+        player.potBall(ball);
+        player.calculateScore();
+      } else {
+        console.warn(
+          `Cannot pot ball no '${ball.ballNo}' because it is already potted.`,
+        );
+      }
+    }
+  }
+
+  recordCueScratch(playerId) {
+    const player = this.getPlayerById(playerId);
+    player.potCueBall(this.getCurrentBall());
+    player.calculateScore();
+  }
+  recordWrongHit(playerId, ballId) {
+    const player = this.getPlayerById(playerId);
+    const ball = this.getBallbyId(ballId);
+    if (ball) {
+      if (!ball.isPotted) {
+        player.hitWrongBall(ball);
+        player.calculateScore();
+      } else {
+        console.warn(
+          `Cannot record foul for ball no '${ball.ballNo} because it was already potted'`,
+        );
+      }
+    }
+  }
+
+  determineWinner() {
+    const playerScores = this.players.map((player) => player.state.score);
+    let highScore = Math.max(...playerScores);
+
+    let highScorers = this.players.filter(
+      (player) => player.state.score === highScore,
+    );
+
+    if (highScorers.length === 1) {
+      this.roundWinner = highScorers[0];
+    } else {
+      const chosenWinner = Math.floor(Math.random() * highScorers.length);
+      this.roundWinner = highScorers[chosenWinner];
+    }
   }
 
   getPlayersInOrder() {
-    const sortedPlayers = this.fullSort();
+    const sortedPlayers = this.sortPlayers();
 
     if (!sortedPlayers) return null;
 
@@ -323,26 +453,16 @@ export class Session {
 
     return players;
   }
-
-  fullSort() {
-    const previousRound = this.getPreviousRound();
-
-    if (!previousRound) return null;
-
-    const playersToSort = [...previousRound.players];
+  sortPlayers() {
+    const playersToSort = [...this.players];
     const newOrder = [];
+    let winner = this.roundWinner;
+    newOrder.push(winner);
+    let remaining = playersToSort.filter((player) => player.id != winner.id);
+    playersToSort.length = 0;
+    playersToSort.push(...remaining);
 
     while (playersToSort.length > 0) {
-      if (this.rounds && newOrder.length === 0) {
-        let winner = previousRound.winner;
-        newOrder.push(winner);
-        let remaining = playersToSort.filter(
-          (player) => player.id != winner.id,
-        );
-
-        playersToSort.length = 0;
-        playersToSort.push(...remaining);
-      }
       let scores = playersToSort.map((player) => player.state.score);
       let highScore = Math.max(...scores);
 
@@ -374,105 +494,89 @@ export class Session {
     return newOrder;
   }
 
-  handleTieOrder() {
-    const playerScores = this.players.map((player) => player.state.score);
-    let highScore = Math.max(...playerScores);
-    let highScorers = this.players.filter(
-      (player) => player.state.score === highScore,
-    );
-
-    const chosenWinner = Math.floor(Math.random() * highScorers.length);
-    this.roundWinner = highScorers[chosenWinner];
+  //helpers
+  getPlayerById(id) {
+    return this.players.find((player) => player.id === id);
   }
 
-  endSession() {
-    console.log(this.currentRound);
-    if (!this.currentRound) {
-      this.ended = true;
+  getBallByNum(number) {
+    return this.balls.find((ball) => ball.ballNo === number) ?? null;
+  }
+
+  getBallbyId(id) {
+    return this.balls.find((ball) => ball.id === id);
+  }
+
+  getCurrentBall() {
+    const remainingBalls = this.getAvailableBalls();
+    let currentBall;
+    const breaker = this.getBallByNum(3);
+    if (!breaker.isPotted || breaker) {
+      currentBall = breaker;
     } else {
-      this.endCurrentRound();
-      this.ended = true;
+      currentBall = remainingBalls[0];
     }
+
+    return currentBall;
   }
 
-  saveCurrentRound() {
-    this.rounds.push(this.currentRound.getSnapshot());
-    this.currentRoundNumber++;
-    this.resetCurrentRound();
+  setMode(mode) {
+    return mode;
   }
 
-  resetCurrentRound() {
-    this.currentRound = null;
+  getAvailableBalls() {
+    return this.balls
+      .filter((ball) => !ball.isPotted)
+      .sort((a, b) => a.ballNo - b.ballNo);
   }
 
-  endCurrentRound() {
-    // console.log(this.currentRound);
-
-    this.currentRound.endRound();
-  }
-
-  setGameMode(mode = "SINGLE") {
-    this.mode = mode;
-  }
-
-  currentRoundEnded() {
-    return this.currentRound ? this.currentRound.ended : null;
-  }
-
-  recordScore(playerId, ball) {
-    this.currentRound.recordScore(playerId, ball);
-    // this.fullSort()
-  }
-
-  recordCueScratch(playerId) {
-    this.currentRound.recordCueScratch(playerId);
-    // this.fullSort();
-  }
-
-  recordWrongHit(playerId, ballId) {
-    this.currentRound.recordWrongHit(playerId, ballId);
-    // this.fullSort();
-  }
-
-  getPreviousRound() {
-    return this.rounds[this.rounds.length - 1] ?? null;
-  }
-  getAllBalls() {
-    this.currentRound.balls;
-  }
+  playersHighLow() {}
   getSnapshot() {
     return Object.freeze(
       structuredClone({
-        rounds: this.rounds.map((round) => round),
-        players: structuredClone(
-          this.players.map((player) => player.getSnapshot()),
-        ),
-        currentRound: this.currentRound
-          ? this.currentRound.getSnapshot()
+        roundID: this.roundID,
+        roundNumber: this.roundNumber,
+        players: this.players.map((player) => player.getSnapshot()),
+        availableBalls: this.getAvailableBalls(),
+        winner: this.roundWinner
+          ? {
+              id: this.roundWinner.id,
+              name: this.roundWinner.name,
+              score: this.roundWinner.state.score,
+            }
           : null,
-        ended: this.ended,
         mode: this.mode,
+        ended: this.ended,
       }),
     );
   }
-  restoreSession(data) {
-    this.rounds = data.rounds;
+  restoreRound(data) {
+    this.roundID = data.roundID;
+    this.roundNumber = data.roundNumber;
     this.players = data.players.map((player) => player);
     this.players.map((player) => {
       Object.setPrototypeOf(player, Player.prototype);
       player.restorePlayer(player.id, player.name, player.state);
     });
+    if (data.availableBalls) {
+      this.balls = data.availableBalls;
+      this.balls.map((ball) => {
+        Object.setPrototypeOf(ball, Ball.prototype);
+        return ball.restoreBall(
+          ball.ballNo,
+          ball.id,
+          ball.value,
+          ball.isPotted,
+        );
+      });
+    }
 
-    this.currentRound = data.currentRound ? data.currentRound : null;
-
-    Object.setPrototypeOf(this.currentRound, Round.prototype);
-    this.currentRound.restoreRound(data.currentRound);
-
+    this.roundWinner = data.roundWinner;
     this.mode = data.mode;
     this.ended = data.ended;
-    return;
   }
 }
+
 
 
 
@@ -498,20 +602,26 @@ export class GameEngine {
   addPlayer(name) {
     let newPlayer = new Player(name);
     this.players.push(newPlayer);
+    return newPlayer;
   }
 
   addLatePlayer(name) {
-    this.addPlayer(name);
+    let latePlayer = new Player(name);
+    this.players.push(latePlayer);
+    this.currentSession?.addLatePlayer(latePlayer);
   }
 
   removePlayer() {}
   disablePlayer() {}
   setSessionPlayers() {
-    this.currentSession.setPlayers();
+    this.currentSession.setPlayers(this.players);
   }
 
   startNewSession() {
-    this.currentSession = new Session(this.players);
+    this.currentSession = new Session();
+    console.log(this.players);
+
+    this.setSessionPlayers();
   }
 
   endCurrentRound() {
@@ -522,18 +632,17 @@ export class GameEngine {
   }
 
   endCurrentSession() {
-    console.log(this.currentSession);
     this.currentSession.endSession();
     this.#saveCurrentSession();
     this.#resetCurrentSession();
+    this.clearPlayers();
   }
 
   deletePlayer(id) {
     this.players = this.players.filter((player) => player.id != id);
-    this.currentSession.deletePlayer(id);
+    this.currentSession?.deletePlayer(id);
   }
-  updatePlayerList() {}
-  clearPlayer() {
+  clearPlayers() {
     this.players.length = 0;
   }
 
@@ -567,9 +676,7 @@ export class GameEngine {
   getSnapshot() {
     return Object.freeze({
       players: this.players.map((player) => player.getSnapshot()),
-      currentSession: this.currentSession
-        ? this.currentSession.getSnapshot()
-        : null,
+      currentSession: this.currentSession?.getSnapshot() ?? null,
       sessions: this.sessions ?? null,
       modes: this.modes,
     });
@@ -580,12 +687,17 @@ export class GameEngine {
       Object.setPrototypeOf(player, Player.prototype),
     );
     this.sessions = data.sessions;
-    this.currentSession = data.currentSession ? data.currentSession : null;
 
-    Object.setPrototypeOf(this.currentSession, Session.prototype);
-    this.currentSession.restoreSession(data.currentSession);
+    if (data.currentSession) {
+      this.currentSession = data.currentSession;
+      Object.setPrototypeOf(this.currentSession, Session.prototype);
+      this.currentSession.restoreSession(data.currentSession);
+    } else {
+      this.currentSession = null;
+    }
   }
 }
+
 
 
 
@@ -600,7 +712,6 @@ const engine = new GameEngine();
 export const controller = {
   restoreData() {
     const data = localStorage.getItem("gameState");
-    console.log(data);
 
     if (!data) return this.getSnapshot();
     const gameState = JSON.parse(data);
@@ -621,7 +732,6 @@ export const controller = {
   },
   startNewGame(mode) {
     this.startNewSession(mode);
-    this.startNewRound();
 
     return this.getSnapshot();
   },
@@ -635,9 +745,9 @@ export const controller = {
   startNewRound() {
     if (!this.getSnapshot().currentSession.currentRound) {
       engine.startNewRound();
-
       return engine.getSnapshot();
     }
+
     this.endCurrentRound();
     engine.startNewRound();
     return this.getSnapshot();
@@ -659,27 +769,27 @@ export const controller = {
     return engine.getSnapshot();
   },
   clearPlayers() {
-    engine.clearPlayer();
+    engine.clearPlayers();
   },
   //   scores
   recordScore(playerID, ballID) {
     engine.recordScore(playerID, ballID);
-    return this.getCurrentRoundSnapshot();
+    return this.getSnapshot();
   },
   recordCueScratch(playerId) {
     engine.recordCueScratch(playerId);
-    return this.getCurrentRoundSnapshot();
+    return this.getSnapshot();
   },
   recordWrongHit(playerId, ballId) {
     engine.recordWrongHit(playerId, ballId);
-    return this.getCurrentRoundSnapshot();
+    return this.getSnapshot();
   },
   //getters
   getSession() {
     return engine.sessions;
   },
   getAllBalls() {
-    return engine.currentSession ? engine.getAllBalls() : null;
+    return engine.currentSession ? engine.getAllBalls() : [];
   },
   getRoundPlayers() {
     if (!engine.currentSession) return null;
@@ -705,12 +815,8 @@ export const controller = {
   },
 };
 
-// const data = localStorage.getItem("gameState");
-// if (data) controller.restoreData();
-
 
 // ---- useGameHook
-
 import { useState } from "react";
 import { controller } from "../logic/controller";
 
@@ -722,100 +828,65 @@ export function useGame() {
   };
 
   const [gameState, setGameState] = useState(snapshot);
-  const [playerList, setPlayerList] = useState(gameState.players);
-  const [currentRound, setCurrentRound] = useState(
-    gameState.currentSession ? gameState.currentSession.currentRound : null,
-  );
+  const playerList = gameState.players;
+  const currentRound = gameState.currentSession?.currentRound ?? null;
+  const allBalls = controller.getAllBalls();
+  const availableBalls = currentRound?.availableBalls ?? [];
 
   const roundPlayers = currentRound && currentRound.players;
+  const [currentRoundExists, setCurrentRoundExists] = useState(
+    Boolean(currentRound),
+  );
+  const [gameOn, setGameOn] = useState(Boolean(currentRoundExists));
+  const pastRounds = gameState.currentSession?.rounds ?? [];
+  const pastSessions = gameState.sessions;
 
   const addPlayer = (name) => {
-    saveGameState();
-    let snapshot = controller.addPlayer(name);
-    setPlayerList(snapshot.players);
-
-    setGameState(snapshot);
+    setGameState(controller.addPlayer(name));
     saveGameState();
   };
   const addLatePlayer = (name) => {
-    let snapshot = controller.addLatePlayer(name);
-    setGameState(snapshot);
-    setPlayerList(snapshot.players);
+    setGameState(controller.addLatePlayer(name));
     saveGameState();
   };
   const deletePlayer = (id) => {
-    let snapshot = controller.deletePlayer(id);
+    setGameState(controller.deletePlayer(id));
     saveGameState();
-    setGameState(snapshot);
-    setPlayerList(snapshot.players);
-    setCurrentRound(controller.getCurrentRoundSnapshot());
-
-    console.log(snapshot);
   };
   const startNewGame = (mode) => {
-    let snapshot = controller.startNewGame(mode);
-    setCurrentRound(snapshot.currentSession.currentRound);
-    setGameState(snapshot);
+    if (!currentRoundExists) {
+      controller.startNewGame(mode);
+    }
+    setGameState(controller.getSnapshot());
+    setCurrentRoundExists(true);
     saveGameState();
   };
 
   const startNewRound = () => {
-    let snapshot = controller.startNewRound();
-    setCurrentRound(snapshot.currentSession.currentRound);
-    setGameState(snapshot);
+    setGameState(controller.startNewRound());
     saveGameState();
   };
 
-  const [currentRoundExists, setCurrentRoundExists] = useState(
-    gameState.currentSession ? controller.getCurrentRoundSnapshot() : null,
-  );
-
-  const allBalls = controller.getAllBalls();
-  const availableBalls = currentRound ? currentRound.availableBalls : null;
-
   const addPoints = (playerId, ballId) => {
-    let snapshot = controller.recordScore(playerId, ballId);
-    setGameState(snapshot);
-    setCurrentRound(controller.getCurrentRoundSnapshot());
+    setGameState(controller.recordScore(playerId, ballId));
     saveGameState();
   };
 
   const recordCueScratch = (playerId) => {
-    let snapshot = controller.recordCueScratch(playerId);
-    setGameState(snapshot);
-    setCurrentRoundExists(null);
+    setGameState(controller.recordCueScratch(playerId));
     saveGameState();
   };
 
   const recordWrongHit = (playerId, ballId) => {
-    let snapshot = controller.recordWrongHit(playerId, ballId);
-    setGameState(snapshot);
-    setCurrentRound(controller.getCurrentRoundSnapshot());
+    setGameState(controller.recordWrongHit(playerId, ballId));
     saveGameState();
   };
 
   const endSession = () => {
-    let snapshot = controller.endSession();
-    setGameState(snapshot);
-    setCurrentRound(null);
+    setGameState(controller.endSession());
+    setCurrentRoundExists(false);
     saveGameState();
-
-    console.log(snapshot);
   };
-
-  // const recordScore = (type, playerId, ballId) => {
-  //   const types = {
-  //     POT: controller.recordScore(playerId, ballId),
-  //     FOUL: controller.recordWrongHit(playerId, ballId),
-  //     SCRATCH: controller.recordCueScratch(playerId),
-  //   };
-  //   let snapshot = types.type;
-  //   console.log("After Recording: ", snapshot);
-
-  //   // setGameState(snapshot);
-  //   setCurrentRound(snapshot);
-  //   // setPlayerList(snapshot.players);
-  // };
 
   return {
     currentRoundExists,
@@ -825,6 +896,10 @@ export function useGame() {
     currentRound,
     roundPlayers,
     availableBalls,
+    gameOn,
+    pastRounds,
+    pastSessions,
+    setGameOn,
     allBalls,
     addPlayer,
     startNewGame,
@@ -836,7 +911,6 @@ export function useGame() {
     deletePlayer,
   };
 }
-
 
 */
 
