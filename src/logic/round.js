@@ -3,20 +3,22 @@ import { Player } from "./player.js";
 // import { Player } from "./player.js";
 
 export class Round {
-  constructor(players, mode, roundNumber) {
+  constructor(mode, roundNumber) {
     this.roundID = crypto.randomUUID();
     this.roundNumber = roundNumber;
-    this.players = players;
+    this.players = [];
     this.balls = this.#setBalls();
     this.roundWinner = null;
     this.mode = this.setMode(mode);
     this.ended = false;
   }
 
-  setParticipants() {
-    if (this.players) {
-      this.players.map((player) => {
-        player.roundState();
+  setParticipants(players) {
+    console.log(players);
+
+    if (players) {
+      players.forEach((player) => {
+        this.players.push(player.roundState());
       });
     }
   }

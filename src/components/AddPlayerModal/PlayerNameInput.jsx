@@ -14,7 +14,7 @@ function PlayerNameInput({ playerName, getPlayerName, addPlayerToList }) {
         onChange={getPlayerName}
         value={playerName}
       />
-      <AddPlayerBtn addPlayer={addPlayerToList} />
+      <AddPlayerBtn />
     </form>
   );
 }

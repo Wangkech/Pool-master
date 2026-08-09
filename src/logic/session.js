@@ -37,12 +37,14 @@ export class Session {
   }
   startNewRound() {
     this.resetCurrentRound();
-    const players = this.getPlayersInOrder() ?? this.players;
 
-    let newRound = new Round(players, this.mode, this.getCurrentRoundNumber());
+    const players = this.getPlayersInOrder() ?? this.players;
+    console.log(players);
+
+    let newRound = new Round(this.mode, this.getCurrentRoundNumber());
 
     this.currentRound = newRound;
-    this.currentRound.setParticipants();
+    this.currentRound.setParticipants(players);
     // this.fullSort();
   }
 

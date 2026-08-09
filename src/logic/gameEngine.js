@@ -25,6 +25,8 @@ export class GameEngine {
   addLatePlayer(name) {
     let latePlayer = new Player(name);
     this.players.push(latePlayer);
+    console.log(this.currentSession);
+
     this.currentSession?.addLatePlayer(latePlayer);
   }
 
