@@ -15,9 +15,11 @@ export function useGame() {
   const availableBalls = currentRound?.availableBalls ?? [];
 
   const roundPlayers = currentRound && currentRound.players;
-  const currentRoundExists = Boolean(currentRound);
+  const [currentRoundExists, setCurrentRoundExists] = useState(
+    Boolean(currentRound),
+  );
   const [gameOn, setGameOn] = useState(Boolean(currentRoundExists));
-  const pastRounds = gameState.currentSession?.rounds ?? null;
+  const pastRounds = gameState.currentSession?.rounds ?? [];
   const pastSessions = gameState.sessions;
 
   const addPlayer = (name) => {
@@ -37,6 +39,7 @@ export function useGame() {
       controller.startNewGame(mode);
     }
     setGameState(controller.getSnapshot());
+    setCurrentRoundExists(true);
     saveGameState();
   };
 
@@ -62,7 +65,7 @@ export function useGame() {
 
   const endSession = () => {
     setGameState(controller.endSession());
-
+    setCurrentRoundExists(false);
     saveGameState();
   };
 

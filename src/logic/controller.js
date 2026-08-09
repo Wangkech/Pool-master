@@ -84,7 +84,7 @@ export const controller = {
     return engine.sessions;
   },
   getAllBalls() {
-    return engine.currentSession ? engine.getAllBalls() : null;
+    return engine.currentSession ? engine.getAllBalls() : [];
   },
   getRoundPlayers() {
     if (!engine.currentSession) return null;
