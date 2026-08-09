@@ -60,7 +60,7 @@ export class Session {
   }
 
   getPlayersInOrder() {
-    const sortedPlayers = this.getPreviousRound().players;
+    const sortedPlayers = this.getPreviousRound()?.players;
 
     if (!sortedPlayers) return null;
 
