@@ -3,24 +3,36 @@ import { Player } from "./player.js";
 import { Round } from "./round.js";
 
 export class Session {
-  constructor(players) {
+  constructor() {
     this.rounds = [];
-    this.players = players;
+    this.players = [];
     this.currentRound = null;
     this.ended = false;
     this.mode = null;
   }
 
-  setPlayers() {
-    this.players.map((player) => {
-      player.sessionMemberState();
+  setPlayers(players) {
+    console.log(players);
+    this.players.length = 0;
+
+    players.forEach((newPlayer) => {
+      console.log(
+        !this.players.includes((player) => player.id === newPlayer.id),
+      );
+
+      if (!this.players.includes((player) => player.id === newPlayer.id)) {
+        this.players.push(newPlayer.sessionMemberState());
+      }
     });
   }
   getCurrentRoundNumber() {
     return this.rounds.length + 1;
   }
   addLatePlayer(player) {
-    this.currentRound?.addLatePlayer(player);
+    if (this.currentRound) {
+      this.players.push(player.roundState());
+      this.currentRound.addLatePlayer(player);
+    }
   }
   updatePlayers(players) {
     this.players = players.map((player) => {
@@ -39,7 +51,6 @@ export class Session {
     this.resetCurrentRound();
 
     const players = this.getPlayersInOrder() ?? this.players;
-    console.log(players);
 
     let newRound = new Round(this.mode, this.getCurrentRoundNumber());
 

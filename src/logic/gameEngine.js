@@ -25,19 +25,19 @@ export class GameEngine {
   addLatePlayer(name) {
     let latePlayer = new Player(name);
     this.players.push(latePlayer);
-    console.log(this.currentSession);
-
     this.currentSession?.addLatePlayer(latePlayer);
   }
 
   removePlayer() {}
   disablePlayer() {}
   setSessionPlayers() {
-    this.currentSession.setPlayers();
+    this.currentSession.setPlayers(this.players);
   }
 
   startNewSession() {
-    this.currentSession = new Session(this.players);
+    this.currentSession = new Session();
+    console.log(this.players);
+
     this.setSessionPlayers();
   }
 
