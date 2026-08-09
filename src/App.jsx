@@ -1,31 +1,21 @@
-import { Routes, Route } from "react-router";
-import GamePage from "./pages/GamePage";
-import HistoryPage from "./pages/HistoryPage";
+import { useState } from "react";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
 // import { useEffect } from "react";
 // import "./components/ActiveGame/active";
 import "./css/App.css";
+import GameTab from "./tabs/GameTab";
+import HistoryTab from "./tabs/HistoryTab";
 function App() {
-  // useEffect(() => {
-  //   import("./css/App.css")
-  //     .then(() => {
-  //       console.log("CSS loaded");
-  //     })
-  //     .catch((err) => {
-  //       console.error("failed to load CSS", err);
-  //     });
-  // }, []);
+  const [view, setView] = useState("home")
+  const [isAddingPlayers, setIsAddingPlayers] = useState(false);
+
   return (
     <>
-      <title>Pool Master - scoreTracker</title>
-
       <Header />
-      <Routes>
-        <Route path="/" element={<GamePage />} />
-        <Route path="/history" element={<HistoryPage />} />
-      </Routes>
-      <Navbar />
+      {view == "home" && <GameTab setView={setView} setIsAddingPlayers={setIsAddingPlayers} isAddingPlayers={isAddingPlayers} setView={setView} />}
+      {view == 'history' && <HistoryTab setIsAddingPlayers={setIsAddingPlayers} setView={setView} />}
+      <Navbar setView={setView} />
     </>
   );
 }

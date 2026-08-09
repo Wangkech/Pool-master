@@ -2,7 +2,7 @@ import { useGameContext } from "../../context/useGameContext";
 import StartNewGame from "../StartNewGame";
 import PastRound from "./PastRound";
 
-function PastRounds() {
+function PastRounds({ setIsAddingPlayers, setView }) {
   const { pastRounds, currentGameExists } = useGameContext();
 
   return (
@@ -11,7 +11,7 @@ function PastRounds() {
         <div className="flex h-full flex-col items-center justify-center gap-y-8 self-center justify-self-center">
           <h1>You Haven't Played Any Games Yet</h1>
           {currentGameExists && <h1>You Haven't Played Any Games Yet</h1>}
-          {!currentGameExists && <StartNewGame />}
+          {!currentGameExists && <StartNewGame setIsAddingPlayers={setIsAddingPlayers} tab='home' setView={setView} />}
         </div>
       )}
       {pastRounds &&

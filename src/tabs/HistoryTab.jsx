@@ -1,6 +1,6 @@
 import PastRounds from "../components/history/PastRounds.jsx";
-import TabBtns from "../components/history/TabBtn";
-function HistoryPage() {
+import TabBtns from "../components/history/TabBtn.jsx";
+function HistoryTab({ setIsAddingPlayers, setView }) {
   return (
     <>
       <title>Game History</title>
@@ -14,7 +14,7 @@ function HistoryPage() {
           <TabBtns />
 
           <div className="row-3 flex h-full w-full grow flex-col items-start self-center justify-self-center overflow-hidden rounded-2xl bg-(--accent-bg) p-4">
-            <PastRounds />
+            <PastRounds setIsAddingPlayers={setIsAddingPlayers} setView={setView} />
           </div>
         </div>
       </main>
@@ -22,4 +22,4 @@ function HistoryPage() {
   );
 }
 
-export default HistoryPage;
+export default HistoryTab;
