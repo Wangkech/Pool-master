@@ -1,6 +1,5 @@
 import { Ball } from "./balls.js";
 import { Player } from "./player.js";
-// import { Player } from "./player.js";
 
 export class Round {
   constructor(mode, roundNumber) {
@@ -14,8 +13,6 @@ export class Round {
   }
 
   setParticipants(players) {
-    console.log(players);
-
     if (players) {
       players.forEach((player) => {
         this.players.push(player.roundState());
@@ -43,6 +40,7 @@ export class Round {
 
   endRound() {
     this.determineWinner();
+    this.players = this.getPlayersInOrder();
     this.ended = true;
   }
 
@@ -98,6 +96,59 @@ export class Round {
       this.roundWinner = highScorers[chosenWinner];
     }
   }
+
+  getPlayersInOrder() {
+    const sortedPlayers = this.sortPlayers();
+
+    if (!sortedPlayers) return null;
+
+    const players = sortedPlayers.map((sortedPlayer) =>
+      this.players.find((player) => player.id === sortedPlayer.id),
+    );
+
+    return players;
+  }
+  sortPlayers() {
+    const playersToSort = [...this.players];
+    const newOrder = [];
+    let winner = this.roundWinner;
+    newOrder.push(winner);
+    let remaining = playersToSort.filter((player) => player.id != winner.id);
+    playersToSort.length = 0;
+    playersToSort.push(...remaining);
+
+    while (playersToSort.length > 0) {
+      let scores = playersToSort.map((player) => player.state.score);
+      let highScore = Math.max(...scores);
+
+      let highScorers = playersToSort.filter(
+        (player) => player.state.score === highScore,
+      );
+
+      if (highScorers.length > 1) {
+        const randomWinner = Math.floor(Math.random() * highScorers.length);
+        const chosenWinner = highScorers[randomWinner];
+        newOrder.push(chosenWinner);
+        let remaining = playersToSort.filter(
+          (player) => player.id != chosenWinner.id,
+        );
+        playersToSort.length = 0;
+        playersToSort.push(...remaining);
+      } else {
+        let currentPlayer = highScorers[0];
+        newOrder.push(currentPlayer);
+
+        let remaining = playersToSort.filter(
+          (player) => player.id != currentPlayer.id,
+        );
+
+        playersToSort.length = 0;
+        playersToSort.push(...remaining);
+      }
+    }
+    return newOrder;
+  }
+
   //helpers
   getPlayerById(id) {
     return this.players.find((player) => player.id === id);

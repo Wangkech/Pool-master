@@ -60,7 +60,7 @@ export class Session {
   }
 
   getPlayersInOrder() {
-    const sortedPlayers = this.fullSort();
+    const sortedPlayers = this.getPreviousRound().players;
 
     if (!sortedPlayers) return null;
 
@@ -71,66 +71,16 @@ export class Session {
     return players;
   }
 
-  fullSort() {
-    const previousRound = this.getPreviousRound();
+  // handleTieOrder() {
+  //   const playerScores = this.players.map((player) => player.state.score);
+  //   let highScore = Math.max(...playerScores);
+  //   let highScorers = this.players.filter(
+  //     (player) => player.state.score === highScore,
+  //   );
 
-    if (!previousRound) return null;
-
-    const playersToSort = [...previousRound.players];
-    const newOrder = [];
-
-    while (playersToSort.length > 0) {
-      if (this.rounds && newOrder.length === 0) {
-        let winner = previousRound.winner;
-        newOrder.push(winner);
-        let remaining = playersToSort.filter(
-          (player) => player.id != winner.id,
-        );
-
-        playersToSort.length = 0;
-        playersToSort.push(...remaining);
-      }
-      let scores = playersToSort.map((player) => player.state.score);
-      let highScore = Math.max(...scores);
-
-      let highScorers = playersToSort.filter(
-        (player) => player.state.score === highScore,
-      );
-
-      if (highScorers.length > 1) {
-        const randomWinner = Math.floor(Math.random() * highScorers.length);
-        const chosenWinner = highScorers[randomWinner];
-        newOrder.push(chosenWinner);
-        let remaining = playersToSort.filter(
-          (player) => player.id != chosenWinner.id,
-        );
-        playersToSort.length = 0;
-        playersToSort.push(...remaining);
-      } else {
-        let currentPlayer = highScorers[0];
-        newOrder.push(currentPlayer);
-
-        let remaining = playersToSort.filter(
-          (player) => player.id != currentPlayer.id,
-        );
-
-        playersToSort.length = 0;
-        playersToSort.push(...remaining);
-      }
-    }
-    return newOrder;
-  }
-
-  handleTieOrder() {
-    const playerScores = this.players.map((player) => player.state.score);
-    let highScore = Math.max(...playerScores);
-    let highScorers = this.players.filter(
-      (player) => player.state.score === highScore,
-    );
-
-    const chosenWinner = Math.floor(Math.random() * highScorers.length);
-    this.roundWinner = highScorers[chosenWinner];
-  }
+  //   const chosenWinner = Math.floor(Math.random() * highScorers.length);
+  //   this.roundWinner = highScorers[chosenWinner];
+  // }
 
   endSession() {
     if (!this.currentRound) {
