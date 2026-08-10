@@ -5,7 +5,7 @@ function PlayerNameListContainer({ removePlayer, list, editPlayerName }) {
   const { playerList } = useGameContext();
 
   return (
-    <div className="list-container scrollbar-none overflow-y-hidden py-4">
+    <div className="list-container   overflow-y-auto scrollbar-none ">
       <PlayerNameList
         // ref={playerNameListRef}
         list={list}

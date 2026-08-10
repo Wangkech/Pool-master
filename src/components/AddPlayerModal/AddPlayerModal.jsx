@@ -50,7 +50,7 @@ function AddPlayerModal({ additionType, setIsAddingPlayers }) {
   }
 
   return (
-    <div className="grid h-full w-[90vw] grid-rows-[40px_1fr_40px] self-center overflow-y-hidden rounded-2xl bg-(--accent-bg) px-2 py-4">
+    <div className="grid h-full w-[90vw] grid-rows-[40px_1fr_40px] self-center overflow-y-hidden gap-4 rounded-2xl bg-(--accent-bg) px-2 py-4">
       <PlayerNameInput
         playerName={playerName}
         setPlayerName={setPlayerName}

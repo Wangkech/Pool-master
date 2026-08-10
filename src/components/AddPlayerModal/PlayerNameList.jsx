@@ -11,13 +11,13 @@ function PlayerNameList({ editPlayerName }) {
     const playerNameListElem = playerNameListRef.current;
 
     if (playerNameListElem) {
-      playerNameListElem.scrollBottom = playerNameListElem.scrollHeight;
+      playerNameListElem.scrollTop = playerNameListElem.scrollHeight;
     }
   }, [playerList]);
   return (
     <ul
       ref={playerNameListRef}
-      className="list grid h-auto scrollbar-none grid-rows-[repeat(auto,minmax(0,50px))] gap-2 overflow-y-auto p-2"
+      className="block scrollbar-none  gap-2 items-center overflow-y-auto p-2"
     >
       {playerList.map((player, index) => (
         <li
