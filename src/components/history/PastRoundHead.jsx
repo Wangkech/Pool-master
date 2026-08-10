@@ -6,15 +6,15 @@ function PastRoundHead({ roundNumber, winner, openTable, fullView }) {
   return (
     <div
       onClick={openTable}
-      className="h- gap grid w-full grid-cols-[1fr_5rem] px-4 py-1"
+      className="h- gap grid w-full grid-cols-[3fr_1fr] px-4 py-1"
     >
       <div className="h- flex flex-col">
-        <span className="bg--50 justify- grid h-6 w-[calc(100%-5rem)] grid-cols-[5rem_auto] items-center gap-4 rounded-2xl text-[0.75rem] font-black text-white">
+        <span className="bg--50 justify- grounded-2xl grid h-6 w-full grid-cols-[1fr_minmax(0,1fr)_2rem] items-center gap-1 text-[0.75rem] font-black text-white">
           <p className="col-1">ROUND </p>
-          <p className="col-2"> {roundNumber}</p>
+          <p className="col-2 px-2"> {roundNumber}</p>
         </span>
         {!fullView && (
-          <span className="w- grid h-6 grid-cols-[5rem_minmax(0,8rem)_2rem] items-center gap-2 text-[0.75rem]">
+          <span className="w- grid h-6 grid-cols-[1fr_minmax(0,1fr)_2rem] items-center gap-1 text-[0.75rem]">
             <p className="flex gap-2 py-1 text-[0.75rem]">
               <FontAwesomeIcon
                 icon={faCrown}
@@ -33,10 +33,10 @@ function PastRoundHead({ roundNumber, winner, openTable, fullView }) {
         )}
       </div>
       <span className="col-2 flex h-full items-center justify-end px-4">
-        {!fullView && (
+        {fullView && (
           <FontAwesomeIcon className="text-[#797977]" icon={faCaretSquareUp} />
         )}
-        {fullView && (
+        {!fullView && (
           <FontAwesomeIcon
             className="text-[#474745]"
             icon={faCaretSquareDown}
