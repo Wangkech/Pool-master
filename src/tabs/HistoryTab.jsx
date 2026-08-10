@@ -14,7 +14,10 @@ function HistoryTab({ setIsAddingPlayers, setView }) {
           <TabBtns />
 
           <div className="row-3 flex h-full w-full grow flex-col items-start self-center justify-self-center overflow-hidden rounded-2xl bg-(--accent-bg) p-4">
-            <PastRounds setIsAddingPlayers={setIsAddingPlayers} setView={setView} />
+            <PastRounds
+              setIsAddingPlayers={setIsAddingPlayers}
+              setView={setView}
+            />
           </div>
         </div>
       </main>
