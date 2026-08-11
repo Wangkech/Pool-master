@@ -6,7 +6,7 @@ function PastRoundHead({ roundNumber, winner, openTable, fullView }) {
   return (
     <div
       onClick={openTable}
-      className="h- gap grid w-full grid-cols-[3fr_1fr] px-4 py-1"
+      className="gap grid w-full grid-cols-[3fr_1fr] px-2 py-0"
     >
       <div className="h- flex flex-col">
         <span className="bg--50 justify- grounded-2xl grid h-6 w-full grid-cols-[1fr_minmax(0,1fr)_2rem] items-center gap-1 text-[0.75rem] font-black text-white">

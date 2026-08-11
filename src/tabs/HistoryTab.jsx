@@ -8,7 +8,7 @@ function HistoryTab({ setIsAddingPlayers, setView }) {
     ROUNDS: "rounds",
     SESSIONS: "sessions",
   };
-  const [activeTab, setActiveTab] = useState(screens.SESSIONS);
+  const [activeTab, setActiveTab] = useState(screens.ROUNDS);
   return (
     <>
       <title>Game History</title>

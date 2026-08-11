@@ -13,13 +13,15 @@ function PastSession({ sessionNumber, rounds, timestamp }) {
   }
   return (
     <li className="rounded-2xl bg-(--accent-bg)">
-      <PastSessionHead
-        timestamp={timestamp}
-        sessionNumber={sessionNumber}
-        expandSession={expandSession}
-        fullView={fullView}
-      />
-      {fullView && <PastSessionRounds rounds={rounds} />}
+      <div className="h-full w-full">
+        <PastSessionHead
+          timestamp={timestamp}
+          sessionNumber={sessionNumber}
+          expandSession={expandSession}
+          fullView={fullView}
+        />
+        {fullView && <PastSessionRounds rounds={rounds} />}
+      </div>
     </li>
   );
 }

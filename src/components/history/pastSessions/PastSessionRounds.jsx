@@ -7,7 +7,7 @@ function PastSessionRounds({ rounds }) {
         <p className="">no.</p> <p className="text-">name</p>{" "}
         <p className="text-center">score</p>
       </div> */}
-      <div className="flex flex-col gap-y-2 bg-[#] py-1">
+      <ul className="flex flex-col gap-y-2 bg-[#] py-1">
         {rounds.map((round) => (
           <PastRound
             players={round.players}
@@ -16,7 +16,7 @@ function PastSessionRounds({ rounds }) {
             key={round.roundID}
           />
         ))}
-      </div>
+      </ul>
     </div>
   );
 }

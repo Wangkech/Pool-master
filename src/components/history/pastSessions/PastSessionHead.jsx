@@ -4,6 +4,7 @@ import {
   faHistory,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Timestamp from "../../TimeStamp";
 
 function PastSessionHead({
   sessionNumber,
@@ -11,6 +12,16 @@ function PastSessionHead({
   timestamp,
   fullView,
 }) {
+  // const DAYS = {
+  //   1: "Mon",
+  //   2: "Tue",
+  //   3: "Wed",
+  //   4: "Thur",
+  //   5: "Fri",
+  //   6: "Sat",
+  //   7: "Mon",
+  // };
+
   return (
     <div
       onClick={expandSession}
@@ -26,20 +37,20 @@ function PastSessionHead({
           <p className="col-2 px-2"> {sessionNumber}</p>
         </span>
         {!fullView && (
-          // <span className="w- grid h-6 grid-cols-[1fr_minmax(0,1fr)_2rem] items-center gap-1 text-[0.75rem]">
-          <span className="w- grid h-6 grid-cols-[1fr_minmax(0,0.5fr)_2rem] items-center gap-1 text-[0.75rem]">
-            {timestamp && (
-              <p className="flex gap-2 py-1 text-[0.75rem]">
-                {`${timestamp.date}/${timestamp.month}/${timestamp.year} - ${timestamp.hour}: ${timestamp.minutes}: ${timestamp.secs}`}{" "}
-              </p>
+          <span className="w- grid h-6 grid-cols-[1fr] items-center gap-1 text-[0.75rem]">
+            {timestamp && <Timestamp timestamp={timestamp} />}
+            {!timestamp && (
+              <div className="flex w-full">
+                {" "}
+                <div className="rounded-sm bg-[#47474552] px-4 py-1 text-[0.75rem]">
+                  {" "}
+                  {/* {winner.name} */}
+                </div>
+                <div className="rounded-sm bg-green-800 px-2 py-1 text-[0.75rem]">
+                  {/* {winner.score} */}
+                </div>
+              </div>
             )}
-            <div className="rounded-sm bg-[#47474552] px-4 py-1 text-[0.75rem]">
-              {" "}
-              {/* {winner.name} */}
-            </div>
-            <div className="rounded-sm bg-green-800 px-2 py-1 text-[0.75rem]">
-              {/* {winner.score} */}
-            </div>
           </span>
         )}
       </div>

@@ -6,7 +6,7 @@ function PastRounds({ setIsAddingPlayers, screens, setView }) {
   const { pastRounds, currentRoundExists } = useGameContext();
 
   return (
-    <ul className="flex h-full w-full scrollbar-none flex-col gap-y-2 overflow-y-auto">
+    <div className="flex h-full w-full scrollbar-none flex-col gap-y-2 overflow-y-auto">
       {!pastRounds ||
         (pastRounds.length === 0 && (
           <div className="flex h-full flex-col items-center justify-center gap-y-8 self-center justify-self-center">
@@ -34,7 +34,7 @@ function PastRounds({ setIsAddingPlayers, screens, setView }) {
             roundNumber={round.roundNumber}
           />
         ))}
-    </ul>
+    </div>
   );
 }
 

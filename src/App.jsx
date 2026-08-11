@@ -9,7 +9,7 @@ import HistoryTab from "./tabs/HistoryTab";
 import RankingsTab from "./tabs/RankingsTab";
 import SettingsTab from "./tabs/SettingsTab";
 function App() {
-  const [view, setView] = useState("home");
+  const [view, setView] = useState("history");
   const [isAddingPlayers, setIsAddingPlayers] = useState(false);
 
   return (

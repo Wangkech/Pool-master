@@ -11,13 +11,9 @@ export const controller = {
     if (!raw) return this.getSnapshot();
     const gameState = JSON.parse(raw);
 
-    if (!gameState.currentSession) return this.getSnapshot();
-    try {
-      engine.restoreEngine(gameState);
-    } catch (err) {
-      console.error("Could not restore data... ", err);
-      return this.getSnapshot();
-    }
+    engine.restoreEngine(gameState);
+
+    return this.getSnapshot();
   },
   addPlayer(player) {
     engine.addPlayer(player);
