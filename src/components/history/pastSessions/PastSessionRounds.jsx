@@ -1,4 +1,4 @@
-import PastRound from "../PastRounds/PastRound";
+import PastRound from "../pastRounds/PastRound";
 
 function PastSessionRounds({ rounds }) {
   return (
