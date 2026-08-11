@@ -2,7 +2,7 @@ import { useGameContext } from "../../context/useGameContext";
 import StartNewGame from "../StartNewGame";
 import PastRound from "./PastRound";
 
-function PastRounds({ setIsAddingPlayers, setView }) {
+function PastRounds({ setIsAddingPlayers, screens, setView }) {
   const { pastRounds, currentRoundExists } = useGameContext();
 
   return (

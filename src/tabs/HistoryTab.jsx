@@ -3,8 +3,11 @@ import { useState } from "react";
 import PastRounds from "../components/history/PastRounds.jsx";
 import TabBtns from "../components/history/TabBtns.jsx";
 function HistoryTab({ setIsAddingPlayers, setView }) {
-  const [activeTab, setActiveTab] = useState("round");
-
+  const screens = {
+    ROUNDS: "rounds",
+    SESSIONS: "sessions",
+  };
+  const [activeTab, setActiveTab] = useState(screens.SESSIONS);
   return (
     <>
       <title>Game History</title>
@@ -17,14 +20,16 @@ function HistoryTab({ setIsAddingPlayers, setView }) {
 
           <TabBtns activeTab={activeTab} setActiveTab={setActiveTab} />
 
-          {activeTab === "round" && (
+          {activeTab === screens.ROUNDS && (
             <div className="row-2 flex h-full w-full grow flex-col items-start self-center justify-self-center overflow-hidden rounded-2xl bg-(--accent-bg) p-4">
               <PastRounds
+                screens={screens}
                 setIsAddingPlayers={setIsAddingPlayers}
                 setView={setView}
               />
             </div>
           )}
+          {activeTab === screens.SESSIONS}
         </div>
       </main>
     </>

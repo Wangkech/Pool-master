@@ -8,7 +8,7 @@ function TabBtns({ setActiveTab, activeTab }) {
     <div className="row-1 flex h-full w-fit items-center justify-center justify-self-center rounded-2xl border-none bg-(--accent-bg) px-2 text-[0.875rem]">
       <TabBtn
         activeTab={activeTab}
-        tab="round"
+        tab="rounds"
         text="current"
         switchTab={switchTab}
       />
