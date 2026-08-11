@@ -1,7 +1,8 @@
 import { useState } from "react";
 
-import PastRounds from "../components/history/PastRounds.jsx";
+import PastRounds from "../components/history/PastRounds/PastRounds.jsx";
 import TabBtns from "../components/history/TabBtns.jsx";
+import PastSessions from "../components/history/pastSessions/PastSessions.jsx";
 function HistoryTab({ setIsAddingPlayers, setView }) {
   const screens = {
     ROUNDS: "rounds",
@@ -29,7 +30,7 @@ function HistoryTab({ setIsAddingPlayers, setView }) {
               />
             </div>
           )}
-          {activeTab === screens.SESSIONS}
+          {activeTab === screens.SESSIONS && <PastSessions />}
         </div>
       </main>
     </>

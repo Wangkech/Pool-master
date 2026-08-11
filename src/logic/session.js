@@ -3,8 +3,9 @@ import { Player } from "./player.js";
 import { Round } from "./round.js";
 
 export class Session {
-  constructor() {
+  constructor(sessionNumber) {
     this.sessionID = crypto.randomUUID();
+    this.sessionNumber = sessionNumber;
     this.rounds = [];
     this.players = [];
     this.currentRound = null;
@@ -134,6 +135,7 @@ export class Session {
     return Object.freeze(
       structuredClone({
         sessionID: this.sessionID,
+        sessionNumber: this.sessionNumber,
         rounds: this.rounds.map((round) => round),
         players: structuredClone(
           this.players.map((player) => player.getSnapshot()),

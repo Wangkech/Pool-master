@@ -27,7 +27,9 @@ export class GameEngine {
     this.players.push(latePlayer);
     this.currentSession?.addLatePlayer(latePlayer);
   }
-
+  getCurrentSessionNumber() {
+    return this.sessions.length + 1;
+  }
   removePlayer() {}
   disablePlayer() {}
   setSessionPlayers() {
@@ -35,7 +37,7 @@ export class GameEngine {
   }
 
   startNewSession() {
-    this.currentSession = new Session();
+    this.currentSession = new Session(this.getCurrentSessionNumber());
     console.log(this.players);
 
     this.setSessionPlayers();
