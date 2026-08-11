@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import PastRounds from "../components/history/PastRounds/PastRounds";
 import TabBtns from "../components/history/TabBtns.jsx";
 import PastSessions from "../components/history/pastSessions/PastSessions";
+import PastRounds from "../components/history/pastRounds/PastRounds.jsx";
 function HistoryTab({ setIsAddingPlayers, setView }) {
   const screens = {
     ROUNDS: "rounds",
