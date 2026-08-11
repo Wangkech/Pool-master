@@ -1,14 +1,19 @@
-function TabBtns() {
+import ActiveTabBtn from "./ActiveTabBtn";
+
+function TabBtn({ tab, switchTab, text, activeTab }) {
   return (
-    <div className="row-2 flex h-full w-fit items-center justify-center justify-self-center rounded-2xl border-none bg-(--accent-bg) text-[0.875rem]">
-      <button className="rounded--2xl h-full w-29 rounded-tl-2xl bg-(--accent-bg) px-2 shadow-none">
-        Current
-      </button>
-      <button className="rounded--2xl h-full w-29 rounded-tr-2xl bg-(--primary-color) px-2 text-black">
-        All Time
-      </button>
-    </div>
+    <>
+      {activeTab === tab && <ActiveTabBtn text={text} />}
+      {activeTab != tab && (
+        <button
+          onClick={() => switchTab(tab)}
+          className="h-9 w-29 rounded-2xl bg-(--accent-bg) px-4 shadow-none"
+        >
+          {text}
+        </button>
+      )}
+    </>
   );
 }
 
-export default TabBtns;
+export default TabBtn;
