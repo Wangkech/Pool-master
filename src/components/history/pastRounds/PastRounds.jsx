@@ -1,5 +1,5 @@
-import { useGameContext } from "../../context/useGameContext";
-import StartNewGame from "../StartNewGame";
+import { useGameContext } from "../../../context/useGameContext";
+import StartNewGame from "../../StartNewGame";
 import PastRound from "./PastRound";
 
 function PastRounds({ setIsAddingPlayers, screens, setView }) {

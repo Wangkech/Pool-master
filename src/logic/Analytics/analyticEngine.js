@@ -3,4 +3,5 @@ export class AnalyticEngine {
     this.currentSession = currentSession;
     this.allSessions = alltime;
   }
+  currentSessionPlayer() {}
 }

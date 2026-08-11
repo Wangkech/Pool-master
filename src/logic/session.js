@@ -13,14 +13,9 @@ export class Session {
   }
 
   setPlayers(players) {
-    console.log(players);
     this.players.length = 0;
 
     players.forEach((newPlayer) => {
-      console.log(
-        !this.players.includes((player) => player.id === newPlayer.id),
-      );
-
       if (!this.players.includes((player) => player.id === newPlayer.id)) {
         this.players.push(newPlayer.sessionMemberState());
       }
