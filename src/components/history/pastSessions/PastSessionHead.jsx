@@ -5,7 +5,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function PastSessionHead({ sessionNumber, expandSession, fullView }) {
+function PastSessionHead({
+  sessionNumber,
+  expandSession,
+  timestamp,
+  fullView,
+}) {
   return (
     <div
       onClick={expandSession}
@@ -23,9 +28,11 @@ function PastSessionHead({ sessionNumber, expandSession, fullView }) {
         {!fullView && (
           // <span className="w- grid h-6 grid-cols-[1fr_minmax(0,1fr)_2rem] items-center gap-1 text-[0.75rem]">
           <span className="w- grid h-6 grid-cols-[1fr_minmax(0,0.5fr)_2rem] items-center gap-1 text-[0.75rem]">
-            <p className="flex gap-2 py-1 text-[0.75rem]">
-              12/08/2026 - 13:50{" "}
-            </p>
+            {timestamp && (
+              <p className="flex gap-2 py-1 text-[0.75rem]">
+                {`${timestamp.date}/${timestamp.month}/${timestamp.year} - ${timestamp.hour}: ${timestamp.minutes}: ${timestamp.secs}`}{" "}
+              </p>
+            )}
             <div className="rounded-sm bg-[#47474552] px-4 py-1 text-[0.75rem]">
               {" "}
               {/* {winner.name} */}

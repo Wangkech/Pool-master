@@ -4,6 +4,7 @@ import { Round } from "./round.js";
 
 export class Session {
   constructor(sessionNumber) {
+    this.timestamp = null;
     this.sessionID = crypto.randomUUID();
     this.sessionNumber = sessionNumber;
     this.rounds = [];
@@ -21,6 +22,20 @@ export class Session {
         this.players.push(newPlayer.sessionMemberState());
       }
     });
+    this.setDate();
+  }
+  setDate() {
+    let now = new Date();
+
+    this.timestamp = {
+      secs: now.getSeconds(),
+      hour: now.getHours(),
+      minutes: now.getMinutes(),
+      month: now.getMonth(),
+      date: now.getDate(),
+      day: now.getUTCDay(),
+      year: now.getFullYear(),
+    };
   }
   getCurrentRoundNumber() {
     return this.rounds.length + 1;
@@ -135,6 +150,7 @@ export class Session {
     return Object.freeze(
       structuredClone({
         sessionID: this.sessionID,
+        timestamp: this.timestamp,
         sessionNumber: this.sessionNumber,
         rounds: this.rounds.map((round) => round),
         players: structuredClone(
@@ -149,6 +165,9 @@ export class Session {
     );
   }
   restoreSession(data) {
+    this.sessionID = data.sessionID;
+    this.sessionNumber = data.sessionNumber;
+    this.timestamp = data.date;
     this.rounds = data.rounds;
     this.players = data.players.map((player) => player);
     this.players.map((player) => {

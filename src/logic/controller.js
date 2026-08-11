@@ -6,16 +6,18 @@ const engine = new GameEngine();
 
 export const controller = {
   restoreData() {
-    const data = localStorage.getItem("gameState");
+    const raw = localStorage.getItem("gameState");
 
-    if (!data) return this.getSnapshot();
-    const gameState = JSON.parse(data);
+    if (!raw) return this.getSnapshot();
+    const gameState = JSON.parse(raw);
 
     if (!gameState.currentSession) return this.getSnapshot();
-
-    engine.restoreEngine(gameState);
-
-    return this.getSnapshot();
+    try {
+      engine.restoreEngine(gameState);
+    } catch (err) {
+      console.error("Could not restore data... ", err);
+      return this.getSnapshot();
+    }
   },
   addPlayer(player) {
     engine.addPlayer(player);

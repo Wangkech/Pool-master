@@ -18,6 +18,7 @@ function PastSessions() {
       {pastSessions &&
         pastSessions.map((session) => (
           <PastSession
+            timestamp={session.timestamp}
             key={session.sessionID}
             // winner={round.winner}
             rounds={session.rounds}

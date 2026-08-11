@@ -2,7 +2,7 @@ import { useState } from "react";
 import PastSessionHead from "./PastSessionHead";
 import PastSessionRounds from "./PastSessionRounds";
 
-function PastSession({ sessionNumber, rounds }) {
+function PastSession({ sessionNumber, rounds, timestamp }) {
   const [fullView, setFullView] = useState(false);
   function expandSession() {
     if (fullView) {
@@ -14,6 +14,7 @@ function PastSession({ sessionNumber, rounds }) {
   return (
     <li className="rounded-2xl bg-(--accent-bg)">
       <PastSessionHead
+        timestamp={timestamp}
         sessionNumber={sessionNumber}
         expandSession={expandSession}
         fullView={fullView}
