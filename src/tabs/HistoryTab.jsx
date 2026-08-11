@@ -24,7 +24,6 @@ function HistoryTab({ setIsAddingPlayers, setView }) {
           {activeTab === screens.ROUNDS && (
             <div className="row-2 flex h-full w-full grow flex-col items-start self-center justify-self-center overflow-hidden rounded-2xl bg-(--accent-bg) p-4">
               <PastRounds
-                screens={screens}
                 setIsAddingPlayers={setIsAddingPlayers}
                 setView={setView}
               />
