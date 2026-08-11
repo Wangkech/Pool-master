@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { useGameContext } from "../../context/useGameContext";
+import AddPointsDropDown from "./AddPointsDropdown";
 import DeleteBtn from "./DeleteBtn";
 import PlayerNameHolder from "./PlayerNameHolder";
 import PlayerPointsHolder from "./PlayerPointsHolder";
 import PointsBtns from "./PointsBtns";
+import MinusPointsDropdown from "./MinusPointsDropDown";
 
 function ActivePlayerCard({
   name,
@@ -12,7 +15,10 @@ function ActivePlayerCard({
   showDeletePlayer,
   balls,
 }) {
-  const { potBall, deletePlayer } = useGameContext();
+  const [isAdding, setIsAdding] = useState(false);
+  const [isFouling, setIsFouling] = useState(false);
+
+  const { potBall, deletePlayer, availableBalls } = useGameContext();
   // const ballid = balls[7].id;
   function addPoints(playerId, ballId) {
     potBall(playerId, ballId);
@@ -20,16 +26,19 @@ function ActivePlayerCard({
   return (
     <li
       key={id}
-      className="player-card flex flex-col items-center justify-between shadow-[0_0_8px_8px_rgb(33,38,39,0.25)]"
+      className="flex h-auto w-full flex-col items-end justify-between gap-0 rounded-2xl px-4 py-2 shadow-(--base-shadow)"
     >
       {/* <p>{id}</p> */}
-      <div className="player-card-top my-auto">
+      <div className="-auto relative m-0 grid h-12 w-full grid-cols-[1fr_minmax(0,8rem)] items-center gap-4">
         <PlayerNameHolder name={name} />
         {!showDeletePlayer ? (
-          <span className="points-area">
+          <span className="flex h-full items-center justify-between">
             <PlayerPointsHolder score={score} />
             <PointsBtns
-              // ballId={ballid}
+              isAdding={isAdding}
+              isFouling={isFouling}
+              setIsAdding={setIsAdding}
+              setIsFouling={setIsFouling}
               addPoints={addPoints}
               balls={balls}
               potBall={potBall}
@@ -40,14 +49,29 @@ function ActivePlayerCard({
           <DeleteBtn deletePlayer={deletePlayer} id={id} />
         )}
       </div>
-
-      <div className="player-card-bottom">
-        <ul className="potted-balls-container items-center text-black">
-          {basket.map((ball) => (
-            <li key={crypto.randomUUID()} className="potted-ball">
-              {ball.ballNo}
-            </li>
-          ))}
+      {isFouling && availableBalls.length > 0 && (
+        <MinusPointsDropdown id={id} setIsFouling={setIsFouling} />
+      )}
+      {isAdding && <AddPointsDropDown id={id} setIsAdding={setIsAdding} />}
+      <div className="player-card- max-h-8 max-w-[90%] self-start overflow-hidden">
+        <ul className="flex max-h-8 w-auto scrollbar-none items-center gap-x-1 overflow-auto py-0.5 text-black">
+          {basket.map((ball) =>
+            ball.value > 0 ? (
+              <li
+                key={crypto.randomUUID()}
+                className="potted-bal h-6 w-6 rounded-[50%] bg-white p-2 text-center text-[0.75rem]"
+              >
+                {ball.ballNo}
+              </li>
+            ) : (
+              <li
+                key={crypto.randomUUID()}
+                className="potted-bal h-6 w-6 rounded-[50%] bg-red-400 p-2 text-center text-[0.75rem]"
+              >
+                {ball.ballNo}
+              </li>
+            ),
+          )}
         </ul>
       </div>
     </li>
