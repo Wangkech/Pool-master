@@ -6,7 +6,7 @@ function SortDropDown({ selectedSort, setSelectedSort, OPTIONS }) {
   const { sortPlayerStarts } = useGameContext();
 
   return (
-    <div className="flex w-full items-end justify-end gap-x-2 py-2">
+    <div className="row-1 flex w-full items-end justify-end gap-x-2 py-2">
       <FontAwesomeIcon icon={faSortAmountAsc} />
       <select
         defaultValue={selectedSort.value}

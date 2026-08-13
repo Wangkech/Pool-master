@@ -23,15 +23,16 @@ export function useGame() {
   const stats =
     gameState.currentSession &&
     controller.getCurrentSessionStats(gameState.currentSession);
-  const [currentSessionStats, setCurrentSessionStats] = useState(stats);
+  const currentSessionStats = stats;
+  // const [currentSessionStats, setCurrentSessionStats] = useState(stats);
 
   //stats
   function sortPlayerStarts(order) {
     console.log(order);
 
-    setCurrentSessionStats(
-      controller.getCurrentSessionStats(gameState.currentSession, order),
-    );
+    // setCurrentSessionStats(
+    controller.getCurrentSessionStats(gameState.currentSession, order);
+    // );
   }
   const addPlayer = (name) => {
     setGameState(controller.addPlayer(name));
