@@ -1,5 +1,5 @@
 import { useGameContext } from "../../../context/useGameContext";
-import LeaderBoardRow from "./leaderBoardRow";
+import LeaderBoardRow from "./LeaderBoardRow";
 
 function Leaderboard({ selectedSort, OPTIONS }) {
   const { currentSessionStats } = useGameContext();
