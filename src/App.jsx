@@ -27,7 +27,7 @@ function App() {
         <HistoryTab setIsAddingPlayers={setIsAddingPlayers} setView={setView} />
       )}
       {view === "ranking" && <RankingsTab />}
-      {view === "settings" && <SettingsTab />}
+      {view === "settings" && <SettingsTab setView={setView} />}
       <Navbar setView={setView} view={view} />
     </>
   );
