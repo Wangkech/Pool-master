@@ -1,8 +1,13 @@
 export class RoundAnalytics {
-  constructor(round) {
-    this.players = round.players;
+  constructor(id, number, data) {
+    this.id = id;
+    this.number = number;
+    this.players = data.players;
+    this.topScorer = this.#getTopScorer();
+    this.averageScore;
+    this.lowestScore;
   }
-  getTopScorer() {
+  #getTopScorer() {
     const scores = this.players.map((player) => player.state.score);
     const topScore = Math.max(...scores);
     let topScorers = this.players.filter(

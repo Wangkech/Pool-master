@@ -25,15 +25,32 @@ function PastRounds({ setIsAddingPlayers, setView }) {
             )}
           </div>
         ))}
-      {pastRounds &&
-        pastRounds.map((round) => (
-          <PastRound
-            key={round.roundID}
-            winner={round.winner}
-            players={round.players}
-            roundNumber={round.roundNumber}
-          />
-        ))}
+      {pastRounds && (
+        <>
+          <div className="grid h-24 w-full grid-cols-3 gap-4 px-2">
+            <span className="flex h-full flex-col rounded-2xl bg-(--accent-bg) p-2 text-center shadow-(--base-shadow)">
+              <p className="text-2xl">{pastRounds.length}</p>
+              <p className="text-xs">RNDs</p>
+            </span>
+            <span className="flex h-full flex-col rounded-2xl bg-(--accent-bg) p-2 text-center shadow-(--base-shadow)">
+              <p className="text-2xl">{pastRounds.length}</p>
+              <p className="text-xs">best Score.</p>
+            </span>
+            <span className="flex h-full flex-col rounded-2xl bg-(--accent-bg) p-2 text-center shadow-(--base-shadow)">
+              <p className="text-2xl">{pastRounds.length}</p>
+              <p className="text-xs">top wins</p>
+            </span>
+          </div>
+          {pastRounds.map((round) => (
+            <PastRound
+              key={round.roundID}
+              winner={round.winner}
+              players={round.players}
+              roundNumber={round.roundNumber}
+            />
+          ))}
+        </>
+      )}
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { controller } from "../logic/controller";
-
 const snapshot = controller.restoreData();
 
 export function useGame() {
@@ -21,7 +20,19 @@ export function useGame() {
   const [gameOn, setGameOn] = useState(Boolean(currentRoundExists));
   const pastRounds = gameState.currentSession?.rounds ?? [];
   const pastSessions = gameState.sessions;
+  const stats =
+    gameState.currentSession &&
+    controller.getCurrentSessionStats(gameState.currentSession);
+  const [currentSessionStats, setCurrentSessionStats] = useState(stats);
 
+  //stats
+  function sortPlayerStarts(order) {
+    console.log(order);
+
+    setCurrentSessionStats(
+      controller.getCurrentSessionStats(gameState.currentSession, order),
+    );
+  }
   const addPlayer = (name) => {
     setGameState(controller.addPlayer(name));
     saveGameState();
@@ -66,8 +77,11 @@ export function useGame() {
   const endSession = () => {
     setGameState(controller.endSession());
     setCurrentRoundExists(false);
+
     saveGameState();
   };
+  // console.log(analytics.currentSessionPlayer());
+  // console.log(snapshot);
 
   return {
     currentRoundExists,
@@ -90,5 +104,7 @@ export function useGame() {
     addPoints,
     endSession,
     deletePlayer,
+    currentSessionStats,
+    sortPlayerStarts,
   };
 }

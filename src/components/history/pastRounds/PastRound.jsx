@@ -12,20 +12,21 @@ function PastRound({ winner, players, roundNumber }) {
     }
   }
   return (
-    <li className="flex flex-col justify-between gap-y-2 rounded-2xl bg-[#161616] px-4 py-2">
+    <li
+      className={`flex flex-col justify-between gap-y-2 rounded-2xl bg-[#161616] px-4 py-2`}
+    >
       <PastRoundHead
         openTable={openTable}
         winner={winner}
         roundNumber={roundNumber}
         fullView={fullView}
       />
-      {fullView && (
-        <PastRoundPlayers
-          fullView={fullView}
-          winnerId={winner.id}
-          players={players}
-        />
-      )}
+
+      <PastRoundPlayers
+        fullView={fullView}
+        winnerId={winner.id}
+        players={players}
+      />
     </li>
   );
 }

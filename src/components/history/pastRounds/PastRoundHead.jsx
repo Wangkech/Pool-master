@@ -1,5 +1,7 @@
-import { faCaretSquareUp } from "@fortawesome/free-regular-svg-icons/faCaretSquareUp";
-import { faCaretSquareDown, faCrown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronCircleDown,
+  faCrown,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function PastRoundHead({ roundNumber, winner, openTable, fullView }) {
@@ -33,15 +35,10 @@ function PastRoundHead({ roundNumber, winner, openTable, fullView }) {
         )}
       </div>
       <span className="col-2 flex h-full items-center justify-end px-4">
-        {fullView && (
-          <FontAwesomeIcon className="text-[#797977]" icon={faCaretSquareUp} />
-        )}
-        {!fullView && (
-          <FontAwesomeIcon
-            className="text-[#474745]"
-            icon={faCaretSquareDown}
-          />
-        )}
+        <FontAwesomeIcon
+          className={`text-[#474745] transition-all duration-300 ease-in-out ${fullView && "-rotate-180 text-[#797977]"}`}
+          icon={faChevronCircleDown}
+        />
       </span>
     </div>
   );

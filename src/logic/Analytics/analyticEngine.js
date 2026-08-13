@@ -1,7 +1,31 @@
+// import { parseSync } from "vite";
+import { SessionAnalytics } from "./sessionAnalytics";
+
 export class AnalyticEngine {
-  constructor(alltime, currentSession) {
-    this.currentSession = currentSession;
-    this.allSessions = alltime;
+  constructor() {
+    this.currentSession = null;
+    this.pastSessions = null;
   }
-  currentSessionPlayer() {}
+  #analyseCurrentSession(session) {
+    this.currentSession = new SessionAnalytics(session);
+  }
+  #analysePastSessions(sessions) {
+    const pastSessions = [];
+    sessions.map((session) => {
+      const analyzed = new SessionAnalytics(session);
+      pastSessions.push(analyzed.getStats());
+    });
+    // console.log(pastSessions);
+    this.pastSessions = pastSessions;
+  }
+  getCurrentSessionStats(session, order) {
+    this.#analyseCurrentSession(session);
+    return this.currentSession.getStats(order);
+  }
+  getAllTimeStats(sessions) {
+    this.#analysePastSessions(sessions);
+  }
+  getPlayersStats() {
+    return this.currentSession.getStats();
+  }
 }

@@ -1,7 +1,9 @@
 // import { Modes } from "./modes.js";
+import { AnalyticEngine } from "./Analytics/analyticEngine.js";
 import { GameEngine } from "./gameEngine.js";
 
 const engine = new GameEngine();
+const analytics = new AnalyticEngine();
 // const modes = engine.modes;
 
 export const controller = {
@@ -100,6 +102,10 @@ export const controller = {
   },
   getSnapshot() {
     return engine.getSnapshot();
+  },
+
+  getCurrentSessionStats(data, order) {
+    return analytics.getCurrentSessionStats(data, order);
   },
 
   saveGameState() {
