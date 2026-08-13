@@ -45,9 +45,6 @@ export class SessionAnalytics {
   }
   #sortPlayers(order) {
     if (order) this.players.sort((low, high) => high[order] - low[order]);
-    this.players.map((player, index) =>
-      console.log(index + 1, player.name, player[order]),
-    );
   }
   getStats(order) {
     this.#sortPlayers(order);
