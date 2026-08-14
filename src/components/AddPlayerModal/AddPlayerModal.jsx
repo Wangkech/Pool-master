@@ -3,15 +3,19 @@ import PlayerNameInput from "./PlayerNameInput.jsx";
 import PlayerNameListContainer from "./PlayerNameListContainer.jsx";
 import Actionbtn from "./Actionbtn.jsx";
 import { useGameContext } from "../../context/useGameContext.js";
+import { useDialog } from "../../context/useDialog.js";
+
 function AddPlayerModal({ additionType, setIsAddingPlayers }) {
   const {
     addPlayer,
     startNewGame,
     playerList,
     setGameOn,
+    currentRoundExists,
     // currentGameExists,
     addLatePlayer,
   } = useGameContext();
+  const { alert } = useDialog();
   // const players = useState(gameState.players);
   const [playerName, setPlayerName] = useState("");
   // const { addPlayer } = useGame();
@@ -21,27 +25,54 @@ function AddPlayerModal({ additionType, setIsAddingPlayers }) {
   }
   // const [list, setList] = useState([]);
 
-  function addPlayerToList(e) {
+  async function addPlayerToList(e) {
     e.preventDefault();
-
+    async function alertDuplicate() {
+      await alert({
+        title: "Player Already Added",
+        message: `${playerName} was already added!`,
+        actionText: "OK",
+        alertType: "warning",
+      });
+    }
     if (playerName != "") {
       if (additionType === "regular") {
-        addPlayer(playerName);
+        const found = addPlayer(playerName);
+        if (found) {
+          alertDuplicate();
+        }
       } else {
-        addLatePlayer(playerName);
+        const found = addLatePlayer(playerName);
+        if (found) {
+          alertDuplicate();
+        }
       }
+      // if (playerList.find((player) => player.name === playerName)) {
+
+      // } else {
+      //   if (additionType === "regular") {
+      //     addPlayer(playerName);
+      //   } else {
+      //     addLatePlayer(playerName);
+      //   }
+      // }
     }
 
     setPlayerName("");
   }
 
-  function saveList() {
+  async function saveList() {
     if (playerList.length > 1) {
       startNewGame();
       setIsAddingPlayers(false);
       setGameOn(true);
     } else {
-      alert(`Add more than ${playerList.length} Players to Proceed`);
+      await alert({
+        title: "Not Enough Players!",
+        message: `You need at least 2 players. Currently added: ${playerList.length}`,
+        actionText: "OK",
+        alertType: "warning",
+      });
     }
   }
 
@@ -50,7 +81,7 @@ function AddPlayerModal({ additionType, setIsAddingPlayers }) {
   }
 
   return (
-    <div className="grid h-full w-[90vw] grid-rows-[40px_1fr_40px] self-center overflow-y-hidden gap-4 rounded-2xl bg-(--accent-bg) px-2 py-4">
+    <div className="grid h-full w-[90vw] grid-rows-[40px_1fr_40px] gap-4 self-center overflow-y-hidden rounded-2xl bg-(--accent-bg) px-2 py-4">
       <PlayerNameInput
         playerName={playerName}
         setPlayerName={setPlayerName}
@@ -61,10 +92,12 @@ function AddPlayerModal({ additionType, setIsAddingPlayers }) {
       />
       <PlayerNameListContainer />
       <div className="flex justify-around">
-        <Actionbtn action={cancelList} id="btn2" text="Cancel" imgURL="" />
+        {!currentRoundExists && (
+          <Actionbtn action={cancelList} id="btn2" text="Cancel" imgURL="" />
+        )}{" "}
         <Actionbtn
           action={saveList}
-          style={"bg-white border-none text-black"}
+          style={`bg-white border-none text-black ${currentRoundExists && " w-1/2"} text-center rounded-lg`}
           id="btn1"
           text="Continue"
           imgURL={""}

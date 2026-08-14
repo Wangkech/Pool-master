@@ -17,12 +17,12 @@ function PastRoundHead({ roundNumber, winner, openTable, fullView }) {
         </span>
         {!fullView && (
           <span className="w- grid h-6 grid-cols-[1fr_minmax(0,1fr)_2rem] items-center gap-1 text-[0.75rem]">
-            <p className="flex gap-2 py-1 text-[0.75rem]">
+            <p className="flex justify-center gap-2 py-1 text-center text-[0.75rem]">
               <FontAwesomeIcon
                 icon={faCrown}
                 className="text-[1rem] text-amber-300"
               />
-              Winner:{" "}
+              {/* Winner{" "} */}
             </p>
             <p className="rounded-sm bg-[#47474552] px-4 py-1 text-[0.75rem]">
               {" "}

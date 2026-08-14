@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useGameContext } from "../../context/useGameContext";
 import AddPointsDropDown from "./AddPointsDropdown";
-import DeleteBtn from "./DeleteBtn";
+import DeleteBtn from "../DeleteBtn";
 import PlayerNameHolder from "./PlayerNameHolder";
 import PlayerPointsHolder from "./PlayerPointsHolder";
 import PointsBtns from "./PointsBtns";
@@ -46,7 +46,7 @@ function ActivePlayerCard({
             />
           </span>
         ) : (
-          <DeleteBtn deletePlayer={deletePlayer} id={id} />
+          <DeleteBtn deletePlayer={deletePlayer} id={id} playerName={name} />
         )}
       </div>
       {isFouling && availableBalls.length > 0 && (
