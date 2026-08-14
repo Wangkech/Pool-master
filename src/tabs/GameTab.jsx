@@ -5,11 +5,14 @@ import AddPlayerModal from "../components/AddPlayerModal/AddPlayerModal.jsx";
 import StartNewGame from "../components/StartNewGame.jsx";
 import ActiveGameContainer from "../components/ActiveGame/ActiveGameContainer.jsx";
 
-function GameTab({ setView, isAddingPlayers, setIsAddingPlayers }) {
+function GameTab({
+  setView,
+  isAddingPlayers,
+  setActiveTab,
+  setIsAddingPlayers,
+}) {
   const { gameState, currentRoundExists, gameOn } = useGameContext();
   const [additionType, setAdditionType] = useState("regular");
-
-  // const [gameOn, setGameOn] = useState(false);
 
   return (
     <>
@@ -25,18 +28,22 @@ function GameTab({ setView, isAddingPlayers, setIsAddingPlayers }) {
               />
             )}
             {isAddingPlayers === false && gameOn === false && (
-              <StartNewGame
-                tab="home"
-                setView={setView}
-                setIsAddingPlayers={setIsAddingPlayers}
-              />
+              <div className="px- flex h-1/2 flex-col justify-center rounded-2xl bg-(--accent-bgb)">
+                <StartNewGame
+                  tab="home"
+                  setView={setView}
+                  setIsAddingPlayers={setIsAddingPlayers}
+                />
+              </div>
             )}
             {currentRoundExists &&
               gameOn === true &&
               isAddingPlayers === false && (
                 <ActiveGameContainer
+                  setView={setView}
                   setAdditionType={setAdditionType}
                   setIsAddingPlayers={setIsAddingPlayers}
+                  setActiveTab={setActiveTab}
                 />
               )}
           </>

@@ -4,11 +4,16 @@ import { useDialog } from "../../context/useDialog";
 function BottomRowContainer({
   setAdditionType,
   setGameOn,
+  setActiveTab,
+  setView,
   setIsAddingPlayers,
 }) {
   const { startNewRound, endSession } = useGameContext();
   const { confirm } = useDialog();
 
+  const viewHistory = async () => {
+    await setView("history");
+  };
   const handleEndSession = async () => {
     const confirmed = await confirm({
       title: "End Session?",
@@ -24,6 +29,8 @@ function BottomRowContainer({
       setAdditionType("regular");
       setGameOn(false);
       setIsAddingPlayers(false);
+      setView("history");
+      viewHistory().then(setActiveTab("sessions"));
     }
   };
 

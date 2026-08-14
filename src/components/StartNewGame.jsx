@@ -9,7 +9,7 @@ function StartNewGame({ setIsAddingPlayers, setView, tab }) {
         setIsAddingPlayers(true);
       }}
       to="/"
-      className="cursor-pointer rounded-2xl bg-(--primary-color) p-2 text-2xl font-bold text-black"
+      className="h-10 cursor-pointer rounded-lg bg-(--primary-color) p-2 text-2xl font-semibold text-black shadow-(--base-shadow)"
     >
       Start New Game
     </button>

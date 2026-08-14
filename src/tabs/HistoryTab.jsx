@@ -1,14 +1,13 @@
-import { useState } from "react";
-
 import TabBtns from "../components/history/TabBtns.jsx";
 import PastSessions from "../components/history/pastSessions/PastSessions";
 import PastRounds from "../components/history/pastRounds/PastRounds.jsx";
-function HistoryTab({ setIsAddingPlayers, setView }) {
-  const screens = {
-    ROUNDS: "rounds",
-    SESSIONS: "sessions",
-  };
-  const [activeTab, setActiveTab] = useState(screens.ROUNDS);
+function HistoryTab({
+  setIsAddingPlayers,
+  screens,
+  activeTab,
+  setActiveTab,
+  setView,
+}) {
   return (
     <>
       <title>Game History</title>

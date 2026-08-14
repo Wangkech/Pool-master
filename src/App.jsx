@@ -11,12 +11,17 @@ import SettingsTab from "./tabs/SettingsTab";
 function App() {
   const [view, setView] = useState("home");
   const [isAddingPlayers, setIsAddingPlayers] = useState(false);
-
+  const screens = {
+    ROUNDS: "rounds",
+    SESSIONS: "sessions",
+  };
+  const [activeTab, setActiveTab] = useState(screens.ROUNDS);
   return (
     <>
       <Header />
       {view == "home" && (
         <GameTab
+          setActiveTab={setActiveTab}
           setView={setView}
           setIsAddingPlayers={setIsAddingPlayers}
           isAddingPlayers={isAddingPlayers}
@@ -24,7 +29,13 @@ function App() {
         />
       )}
       {view == "history" && (
-        <HistoryTab setIsAddingPlayers={setIsAddingPlayers} setView={setView} />
+        <HistoryTab
+          setActiveTab={setActiveTab}
+          activeTab={activeTab}
+          screens={screens}
+          setIsAddingPlayers={setIsAddingPlayers}
+          setView={setView}
+        />
       )}
       {view === "ranking" && <RankingsTab />}
       {view === "settings" && <SettingsTab setView={setView} />}

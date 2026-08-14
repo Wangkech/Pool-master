@@ -11,8 +11,9 @@ import { useGameContext } from "../../context/useGameContext";
 
 function ActiveGameContainer({
   setAdditionType,
-
+  setActiveTab,
   setIsAddingPlayers,
+  setView,
 }) {
   const { currentRound, potBall, gameOn, setGameOn } = useGameContext();
   const [showDeletePlayer, setShowDeletePlayer] = useState(null);
@@ -43,6 +44,8 @@ function ActiveGameContainer({
           <BottomRowContainer
             setAdditionType={setAdditionType}
             setGameOn={setGameOn}
+            setActiveTab={setActiveTab}
+            setView={setView}
             setIsAddingPlayers={setIsAddingPlayers}
           />
         </div>
