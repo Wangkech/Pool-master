@@ -6,11 +6,7 @@ import StartNewGame from "../components/StartNewGame.jsx";
 import ActiveGameContainer from "../components/ActiveGame/ActiveGameContainer.jsx";
 
 function GameTab({ setView, isAddingPlayers, setIsAddingPlayers }) {
-  const {
-    gameState,
-    currentRound,
-    gameOn,
-  } = useGameContext();
+  const { gameState, currentRoundExists, gameOn } = useGameContext();
   const [additionType, setAdditionType] = useState("regular");
 
   // const [gameOn, setGameOn] = useState(false);
@@ -19,7 +15,6 @@ function GameTab({ setView, isAddingPlayers, setIsAddingPlayers }) {
     <>
       <title>Pool Master - scoreTracker</title>
       <Container
-
         child={
           <>
             {isAddingPlayers === true && (
@@ -30,14 +25,20 @@ function GameTab({ setView, isAddingPlayers, setIsAddingPlayers }) {
               />
             )}
             {isAddingPlayers === false && gameOn === false && (
-              <StartNewGame tab="home" setView={setView} setIsAddingPlayers={setIsAddingPlayers} />
-            )}
-            {currentRound && gameOn === true && isAddingPlayers === false && (
-              <ActiveGameContainer
-                setAdditionType={setAdditionType}
+              <StartNewGame
+                tab="home"
+                setView={setView}
                 setIsAddingPlayers={setIsAddingPlayers}
               />
             )}
+            {currentRoundExists &&
+              gameOn === true &&
+              isAddingPlayers === false && (
+                <ActiveGameContainer
+                  setAdditionType={setAdditionType}
+                  setIsAddingPlayers={setIsAddingPlayers}
+                />
+              )}
           </>
         }
       />

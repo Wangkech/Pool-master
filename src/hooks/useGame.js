@@ -24,6 +24,7 @@ export function useGame() {
     gameState.currentSession &&
     controller.getCurrentSessionStats(gameState.currentSession);
   // const currentSessionStats = stats;
+  // const currentSessionStats = stats;
   const [currentSessionStats, setCurrentSessionStats] = useState(stats);
 
   //stats
@@ -61,12 +62,15 @@ export function useGame() {
 
   const startNewRound = () => {
     setGameState(controller.startNewRound());
+    let stats = controller.getCurrentSessionStats(gameState.currentSession);
+    setCurrentSessionStats(stats);
     saveGameState();
   };
 
   const addPoints = (playerId, ballId) => {
     setGameState(controller.recordScore(playerId, ballId));
     saveGameState();
+    setCurrentSessionStats();
   };
 
   const recordCueScratch = (playerId) => {
@@ -82,15 +86,21 @@ export function useGame() {
   const endSession = () => {
     setGameState(controller.endSession());
     setCurrentRoundExists(false);
-
+    let stats = controller.getCurrentSessionStats(gameState.currentSession);
+    setCurrentSessionStats(stats);
     saveGameState();
   };
 
   const clearAllData = () => {
     localStorage.clear();
-    setGameState(controller.restoreData());
-    setCurrentRoundExists(false);
+    controller.clearAllData();
     saveGameState();
+    setGameOn(false);
+    setGameState(controller.getSnapshot());
+    setCurrentRoundExists(false);
+    console.log(snapshot);
+    let stats = controller.getCurrentSessionStats(gameState.currentSession);
+    setCurrentSessionStats(null);
   };
 
   return {

@@ -115,4 +115,9 @@ export class GameEngine {
       this.currentSession = null;
     }
   }
+  clearAllData() {
+    this.players.length = 0;
+    this.sessions.length = 0;
+    this.currentSession = null;
+  }
 }

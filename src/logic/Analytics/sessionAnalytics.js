@@ -7,9 +7,10 @@ export class SessionAnalytics {
     this.players = this.#setPlayers(session);
     this.topScorer = this.#getTopScorer();
     this.topWinner = this.#getTopWinner();
-    this.id = session.sessionID;
+    this.id = session?.sessionID;
   }
   #setPlayers(data) {
+    if (!data) return [];
     const players = [];
     const rounds = data.rounds;
     rounds?.forEach((round) => {
@@ -29,6 +30,7 @@ export class SessionAnalytics {
   }
 
   #setRounds(data) {
+    if (!data) return [];
     const rounds = [];
     data.rounds.map((round) => {
       rounds.push(new RoundAnalytics(round.id, round.roundNumber, round));

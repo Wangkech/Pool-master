@@ -79,6 +79,10 @@ export const controller = {
     engine.recordWrongHit(playerId, ballId);
     return this.getSnapshot();
   },
+  clearAllData() {
+    engine.clearAllData();
+    return engine.getSnapshot();
+  },
   //getters
   getSession() {
     return engine.sessions;

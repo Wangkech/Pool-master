@@ -14,35 +14,40 @@ function ActiveGameContainer({
 
   setIsAddingPlayers,
 }) {
-  const { currentRound, potBall, setGameOn } = useGameContext();
+  const { currentRound, potBall, gameOn, setGameOn } = useGameContext();
   const [showDeletePlayer, setShowDeletePlayer] = useState(null);
   function addMorePlayers() {}
+  console.log("game On", gameOn);
 
   return (
-    <div className="grid h-full w-[90vw] grid-rows-[50px_1fr_50px] gap-1 rounded-2xl bg-(--accent-bg) p-2">
-      <TopRowContainer
-        showDeletePlayer={showDeletePlayer}
-        roundNumber={currentRound && currentRound.roundNumber}
-        deleteIcon={deleteIcon}
-        disableIcon={disableIcon}
-        plusIcon={plusIcon}
-        setAdditionType={setAdditionType}
-        setIsAddingPlayers={setIsAddingPlayers}
-        setShowDeletePlayer={setShowDeletePlayer}
-        addMorePlayers={addMorePlayers}
-      />
-      <ActivePlayersList
-        showDeletePlayer={showDeletePlayer}
-        potBall={potBall}
-        balls={currentRound && currentRound.availableBalls}
-        roundPlayers={currentRound && currentRound.players}
-      />
-      <BottomRowContainer
-        setAdditionType={setAdditionType}
-        setGameOn={setGameOn}
-        setIsAddingPlayers={setIsAddingPlayers}
-      />
-    </div>
+    <>
+      {gameOn === true && (
+        <div className="grid h-full w-[90vw] grid-rows-[50px_1fr_50px] gap-1 rounded-2xl bg-(--accent-bg) p-2">
+          <TopRowContainer
+            showDeletePlayer={showDeletePlayer}
+            roundNumber={currentRound && currentRound.roundNumber}
+            deleteIcon={deleteIcon}
+            disableIcon={disableIcon}
+            plusIcon={plusIcon}
+            setAdditionType={setAdditionType}
+            setIsAddingPlayers={setIsAddingPlayers}
+            setShowDeletePlayer={setShowDeletePlayer}
+            addMorePlayers={addMorePlayers}
+          />
+          <ActivePlayersList
+            showDeletePlayer={showDeletePlayer}
+            potBall={potBall}
+            balls={currentRound && currentRound.availableBalls}
+            roundPlayers={currentRound && currentRound.players}
+          />
+          <BottomRowContainer
+            setAdditionType={setAdditionType}
+            setGameOn={setGameOn}
+            setIsAddingPlayers={setIsAddingPlayers}
+          />
+        </div>
+      )}
+    </>
   );
 }
 
