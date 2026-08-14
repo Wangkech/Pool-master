@@ -2,7 +2,8 @@ import { useEffect, useRef } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useGameContext } from "../../context/useGameContext";
-import { faTrash, faUserPen } from "@fortawesome/free-solid-svg-icons";
+import { faUserPen } from "@fortawesome/free-solid-svg-icons";
+import DeleteBtn from "../DeleteBtn";
 
 function PlayerNameList({ editPlayerName }) {
   const { playerList, deletePlayer } = useGameContext();
@@ -17,7 +18,7 @@ function PlayerNameList({ editPlayerName }) {
   return (
     <ul
       ref={playerNameListRef}
-      className="block scrollbar-none  gap-2 items-center overflow-y-auto p-2"
+      className="block scrollbar-none items-center gap-2 overflow-y-auto p-2"
     >
       {playerList.map((player, index) => (
         <li
@@ -33,9 +34,14 @@ function PlayerNameList({ editPlayerName }) {
           <button onClick={() => editPlayerName(player.id)} className="h-10">
             <FontAwesomeIcon icon={faUserPen} />
           </button>
-          <button onClick={() => deletePlayer(player.id)}>
+          <DeleteBtn
+            deletePlayer={deletePlayer}
+            id={player.id}
+            playerName={player.name}
+          />
+          {/* <button onClick={() => deletePlayer(player.id)}>
             <FontAwesomeIcon icon={faTrash} />
-          </button>
+          </button> */}
         </li>
       ))}
     </ul>

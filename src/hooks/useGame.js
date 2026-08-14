@@ -23,26 +23,30 @@ export function useGame() {
   const stats =
     gameState.currentSession &&
     controller.getCurrentSessionStats(gameState.currentSession);
-  const currentSessionStats = stats;
-  // const [currentSessionStats, setCurrentSessionStats] = useState(stats);
+  // const currentSessionStats = stats;
+  const [currentSessionStats, setCurrentSessionStats] = useState(stats);
 
   //stats
   function sortPlayerStarts(order) {
     console.log(order);
-
-    // setCurrentSessionStats(
-    controller.getCurrentSessionStats(gameState.currentSession, order);
-    // );
+    let stats = controller.getCurrentSessionStats(
+      gameState.currentSession,
+      order,
+    );
+    setCurrentSessionStats(stats);
   }
   const addPlayer = (name) => {
     setGameState(controller.addPlayer(name));
     saveGameState();
   };
   const addLatePlayer = (name) => {
+    const found = playerList.find((player) => player.name === name);
+    if (found) return true;
     setGameState(controller.addLatePlayer(name));
     saveGameState();
   };
   const deletePlayer = (id) => {
+    if (gameState.players.length < 3 && currentRoundExists) return;
     setGameState(controller.deletePlayer(id));
     saveGameState();
   };
@@ -81,8 +85,13 @@ export function useGame() {
 
     saveGameState();
   };
-  // console.log(analytics.currentSessionPlayer());
-  // console.log(snapshot);
+
+  const clearAllData = () => {
+    localStorage.clear();
+    setGameState(controller.restoreData());
+    setCurrentRoundExists(false);
+    saveGameState();
+  };
 
   return {
     currentRoundExists,
@@ -107,5 +116,6 @@ export function useGame() {
     deletePlayer,
     currentSessionStats,
     sortPlayerStarts,
+    clearAllData,
   };
 }
