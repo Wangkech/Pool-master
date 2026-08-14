@@ -28,7 +28,7 @@ export function useGame() {
   const [currentSessionStats, setCurrentSessionStats] = useState(stats);
 
   //stats
-  function sortPlayerStarts(order) {
+  function sortPlayerStats(order) {
     console.log(order);
     let stats = controller.getCurrentSessionStats(
       gameState.currentSession,
@@ -125,7 +125,7 @@ export function useGame() {
     endSession,
     deletePlayer,
     currentSessionStats,
-    sortPlayerStarts,
+    sortPlayerStats,
     clearAllData,
   };
 }

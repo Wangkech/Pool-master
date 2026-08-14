@@ -1,17 +1,20 @@
 import { faSortAmountAsc } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useGameContext } from "../../../context/useGameContext";
+import { useEffect } from "react";
 
 function SortDropDown({ selectedSort, setSelectedSort, OPTIONS }) {
-  const { sortPlayerStarts } = useGameContext();
-
+  const { sortPlayerStats } = useGameContext();
+  useEffect(() => {
+    sortPlayerStats(selectedSort.value);
+  }, []);
   return (
     <div className="py- row-1 flex w-full items-end justify-end gap-x-2 p-4">
       <FontAwesomeIcon icon={faSortAmountAsc} />
       <select
         defaultValue={selectedSort.value}
         onChange={(e) => {
-          sortPlayerStarts(e.target.value);
+          sortPlayerStats(e.target.value);
           setSelectedSort(
             OPTIONS.find((option) => option.value === e.target.value),
           );

@@ -15,6 +15,7 @@ function RankingsTab() {
 
   const { currentSessionStats } = useGameContext();
   const [activeTab, setActiveTab] = useState(screens.ROUNDS);
+  console.log(currentSessionStats);
 
   const OPTIONS = [
     {
