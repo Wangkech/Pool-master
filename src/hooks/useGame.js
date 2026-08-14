@@ -87,7 +87,7 @@ export function useGame() {
     setGameState(controller.endSession());
     setCurrentRoundExists(false);
     let stats = controller.getCurrentSessionStats(gameState.currentSession);
-    setCurrentSessionStats(stats);
+    setCurrentSessionStats(null);
     saveGameState();
   };
 
