@@ -1,7 +1,3 @@
-import {
-  faQuestionCircle,
-  faLightbulb,
-} from "@fortawesome/free-regular-svg-icons";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDialog } from "../context/useDialog";
@@ -52,7 +48,9 @@ function SettingsTab({ setView }) {
 
           <div className="h-full overflow-y-auto rounded-lg bg-(--accent-bg) p-4">
             <h3 className="mb-2 text-lg font-semibold">About</h3>
-            <p className="mb-2 text-sm text-gray-300">Pool Master v2.0</p>
+            <p className="mb-2 text-sm text-gray-300">
+              Pool Master v2.0.0-beta
+            </p>
             <p className="mb-2 text-xs text-gray-400">
               Pool Master is an installable offline-first scorekeeping app built
               for local pool sessions. Designed to make multi-round games simple
