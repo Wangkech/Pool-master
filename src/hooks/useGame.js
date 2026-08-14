@@ -37,6 +37,8 @@ export function useGame() {
     setCurrentSessionStats(stats);
   }
   const addPlayer = (name) => {
+    const found = playerList.find((player) => player.name === name);
+    if (found) return true;
     setGameState(controller.addPlayer(name));
     saveGameState();
   };
