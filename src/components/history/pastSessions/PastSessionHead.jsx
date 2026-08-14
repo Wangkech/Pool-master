@@ -1,6 +1,5 @@
-import { faCaretSquareUp } from "@fortawesome/free-regular-svg-icons/faCaretSquareUp";
 import {
-  faCaretSquareDown,
+  faChevronCircleDown,
   faHistory,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -55,15 +54,10 @@ function PastSessionHead({
         )}
       </div>
       <span className="col-4 flex h-full items-center justify-end px-4">
-        {fullView && (
-          <FontAwesomeIcon className="text-[#797977]" icon={faCaretSquareUp} />
-        )}
-        {!fullView && (
-          <FontAwesomeIcon
-            className="text-[#474745]"
-            icon={faCaretSquareDown}
-          />
-        )}
+        <FontAwesomeIcon
+          className={`text-[#797977] ${fullView && " rotate-180 transition-all duration-300 ease-in-out"} transition-all duration-300 ease-in-out`}
+          icon={faChevronCircleDown}
+        />
       </span>
     </div>
   );
