@@ -18,7 +18,6 @@ function ActiveGameContainer({
   const { currentRound, potBall, gameOn, setGameOn } = useGameContext();
   const [showDeletePlayer, setShowDeletePlayer] = useState(null);
   function addMorePlayers() {}
-  console.log("game On", gameOn);
 
   return (
     <>

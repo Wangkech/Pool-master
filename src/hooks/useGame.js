@@ -29,7 +29,6 @@ export function useGame() {
 
   //stats
   function sortPlayerStats(order) {
-    console.log(order);
     let stats = controller.getCurrentSessionStats(
       gameState.currentSession,
       order,
@@ -99,7 +98,6 @@ export function useGame() {
     setGameOn(false);
     setGameState(controller.getSnapshot());
     setCurrentRoundExists(false);
-    console.log(snapshot);
     setCurrentSessionStats(null);
   };
 

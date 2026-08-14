@@ -9,7 +9,7 @@ function PlayerNameInput({ playerName, getPlayerName, addPlayerToList }) {
     >
       <input
         type="text"
-        className="player-name-input flex h-10 min-w-[60%] justify-center gap-2 rounded-[5rem] border-2 border-none bg-white p-4 text-[0.875rem] text-black shadow-black placeholder:text-[#1F1F1F]"
+        className="player-name-input flex h-10 min-w-[60%] justify-center gap-2 rounded-lg border-2 border-none bg-white p-4 text-[0.875rem] text-black shadow-black placeholder:text-[#1F1F1F]"
         placeholder=" Enter Player Name...  "
         onChange={getPlayerName}
         value={playerName}

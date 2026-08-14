@@ -16,7 +16,7 @@ function PastRoundHead({ roundNumber, winner, openTable, fullView }) {
           <p className="col-2 px-2"> {roundNumber}</p>
         </span>
         {!fullView && (
-          <span className="w- grid h-6 grid-cols-[1fr_minmax(0,1fr)_2rem] items-center gap-1 text-[0.75rem]">
+          <span className="w- grid h-6 grid-cols-[2rem_minmax(0,1fr)_2rem] items-center gap-1 text-[0.75rem]">
             <p className="flex justify-center gap-2 py-1 text-center text-[0.75rem]">
               <FontAwesomeIcon
                 icon={faCrown}

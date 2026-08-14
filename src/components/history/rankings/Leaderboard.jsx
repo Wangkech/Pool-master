@@ -4,8 +4,6 @@ import LeaderBoardRow from "./LeaderBoardRow";
 function Leaderboard({ selectedSort, OPTIONS }) {
   const { currentSessionStats } = useGameContext();
 
-  console.log(selectedSort);
-
   return (
     <div className="row-2 flex h-full scrollbar-none flex-col gap-y-4 overflow-y-auto pb-4">
       {currentSessionStats.players.map((player, index) => (

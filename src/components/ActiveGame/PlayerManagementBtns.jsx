@@ -30,7 +30,7 @@ function PlayerManagementBtns({
       </button>
       <button
         aria-label="archive-lpayer"
-        className="active-game-action-btn delete-player-btn px-2"
+        className="active-game-action-btn delete-player-btn col-3 hidden px-2"
       >
         <FontAwesomeIcon icon={faCancel} />
         {/* <img className="h-6" src={deleteIcon} alt="Delete-player" /> */}

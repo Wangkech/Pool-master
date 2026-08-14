@@ -12,8 +12,6 @@ export class PlayerAnalytics {
     this.allTimeHighScore;
   }
   #getRoundsPlayed(data) {
-    // console.log(data);
-
     const playedRounds = [
       ...data.filter((round) =>
         round.players.map((player) => player.id).includes(this.id),

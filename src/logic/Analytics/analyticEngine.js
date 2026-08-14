@@ -15,7 +15,6 @@ export class AnalyticEngine {
       const analyzed = new SessionAnalytics(session);
       pastSessions.push(analyzed.getStats());
     });
-    // console.log(pastSessions);
     this.pastSessions = pastSessions;
   }
   getCurrentSessionStats(session, order) {

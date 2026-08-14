@@ -1,136 +1,175 @@
-# 🎱 Pool Master - Tournament Tracker
+# 🎱 Pool Master
 
-A web-based scoring and tournament management application for pool/billiards elimination games. Track player scores across multiple rounds and sessions with automatic leaderboard rankings and persistent game history.
+Pool Master is an **offline-first Progressive Web App (PWA)** for managing local pool and billiards sessions across multiple rounds. It was built around a custom game engine that models players, rounds, sessions, scoring, fouls, player ordering, and persistent game history through immutable snapshots.
 
----
-
-## 📋 Features
-
-### Player Management
-
-- **Add Players**: Enter player names to create a game session
-- **Score Tracking**: Input and update player scores for each round
-- **Late Comer**: Add new players who arrive after the session has started
-- **Archive Player**: Temporarily remove players while preserving their records (currently in development)
-
-### Game Management
-
-- **Multiple Rounds**: Play through unlimited rounds, with scores accumulating
-- **Two-Player Special Handling**: When only 2 players remain, displays the score difference and current leader
-- **Game Sessions**: Create new sessions to start fresh tournaments
-- **Game Counter**: Automatically tracks total games played
-
-### Game History & Leaderboard
-
-- **Persistent Records**: All game data is saved in your browser's local storage
-- **Game History View**: See all past games and player performance
-- **Automatic Leaderboard**: Rankings update based on active players' scores
-
-### Data Persistence
-
-- Your game sessions are automatically saved—no data is lost if you refresh the page
-- Game history persists across browser sessions
-- Player scores are preserved when moving between rounds
+The app is designed to work reliably even without an internet connection after the initial load, making it suitable for pool halls, tournaments, and casual games where connectivity cannot be guaranteed.
 
 ---
 
-## 🎮 How to Use
+## ✨ Features
 
-### Starting a New Game
+### 🎮 Session Management
 
-1. **Click "Create Session"** to begin a new game session
-2. **Add Players**:
-   - Enter a player name in the text input field
-   - Click "Add Player"
-   - Repeat for all participants
-3. **Confirm Players**: Click the "confirm" button once all players are added
+* Create a new game session with any number of players
+* Play through **multiple rounds** within the same session
+* Automatically preserve session history
+* End sessions and start new ones without losing previous records
 
-### Playing the Game
+### 🧮 Scoring System
 
-1. **Enter Scores**:
-   - Each player has a score input field
-   - Enter the points earned in the current round
-   - Click "add points" to record the score
-2. **Move to Next Round**: Click "next round" to advance to the next round and reset inputs
-3. **Add Late Comers**: Click "add late comer" if a new player joins mid-game
-4. **End Session**: Click "end session" when the game is complete
+* Automatic score calculation
+* Correct handling of **fouls** and **cue scratches**
+* Ball values follow the game rules (including the special value for the breaker ball)
+* Shared ball availability across all players
+* Prevents duplicate potting of the same ball
 
-### Viewing Game History
+### 👥 Player Management
 
-- **Game Records**: All completed games appear in the "Game Records" section at the bottom of the page
-- **Leaderboard**: Active players are ranked based on accumulated points
-- **No Records Message**: "No game records yet" appears when starting your first game
+* Add players before a session starts
+* **Add late players** during an active session
+* Delete players during a session
+* Player ordering automatically updates between rounds
 
----
+### 🏆 Automatic Rankings
 
-## ⚙️ Technical Details
+After every round, players are reordered automatically:
 
-### Browser Storage
+* Round winner is placed first
+* Remaining players are ordered by score
+* Ties are resolved automatically and preserved in the saved round snapshot
 
-- All data is stored in your browser's **localStorage**
-- Data persists across page refreshes and browser sessions
-- Clearing browser data will erase all game history
+### 📚 History
 
-### Saved Data
+* View completed sessions and rounds
+* Browse historical player performance
+* All history is stored locally on the device
+* History remains available offline
 
-- Player list and scores
-- Game history and rounds
-- Game number/session count
-- Game status (active or ended)
+### 📱 Progressive Web App
 
-### Special Features
-
-#### Two-Player Mode
-
-When exactly 2 players remain active, the display switches to a special format:
-
-- Shows each player side-by-side
-- Displays the point difference between players
-- Highlights who's currently in the lead
+* Installable on desktop and mobile devices
+* Works offline after the first successful load
+* Fast startup through cached application assets
+* No account or internet connection required during gameplay
 
 ---
 
-## 🔧 Features in Development
+## 🚀 How It Works
 
-### Archive Player
+### Start a New Session
 
-The Archive Player feature is currently being stabilized and is hidden from the UI.
+1. Add players
+2. Choose a game mode
+3. Start the session
+4. Begin Round 1
 
-**Planned Functionality:**
+### During a Round
 
-- Temporarily remove a player from the active game
-- Archived players keep all accumulated scores and records
-- Option to rejoin archived players later with data restored
-- Permanent removal option for players who want to leave entirely
-- Only active players affect tournament rankings
+For each player:
 
----
+* Record a potted ball
+* Record a wrong-ball foul
+* Record a cue scratch
 
-## 💡 Tips
+Scores update immediately and available balls are synchronized for every player.
 
-- **Backup Important Records**: Consider taking screenshots of your game history before clearing browser data
-- **Session Management**: Clearing cookies/local storage will erase all game history
-- **Two-Player Games**: The app automatically detects when you have 2 players and adjusts the display accordingly
-- **Multiple Games**: You can play multiple tournament sessions—each game is numbered and tracked
+### End a Round
 
----
+When the round ends:
 
-## 🐛 Known Limitations
+* Winner is determined automatically
+* Player order is recalculated
+* A snapshot of the completed round is stored
+* A new round can begin immediately
 
-- Archive Player button is currently hidden while the feature is being finalized
-- Archived player re-entry functionality is not yet fully implemented
-- Permanent player removal feature is under development
+### End a Session
 
----
-
-## 📱 Browser Compatibility
-
-Works on any modern web browser that supports:
-
-- HTML5 and CSS3
-- JavaScript ES6+
-- LocalStorage API
+Completed sessions are saved permanently in local storage and become available in the History tab.
 
 ---
 
-**Version**: 2.0 | **Last Updated**: May 2026
+## 🧠 Architecture
+
+Pool Master is built around a layered architecture that separates game rules from the UI.
+
+### Game Engine
+
+* `GameEngine`
+* `Session`
+* `Round`
+* `Player`
+* `Ball`
+
+The engine owns all game logic and can run independently of React.
+
+### React Layer
+
+React acts as a presentation layer:
+
+* UI components
+* Context providers
+* Hooks
+* Rendering and interaction handling
+
+All UI is derived directly from immutable **game snapshots** returned by the engine.
+
+---
+
+## 💾 Offline & Persistence
+
+Pool Master follows an **offline-first** design.
+
+* Game state is stored in **localStorage**
+* Sessions can be restored after refresh or app restart
+* Installed PWA continues functioning without network access
+* Completed history remains available offline
+
+---
+
+## 📊 Current MVP
+
+The MVP includes:
+
+* Multi-round sessions
+* Automatic player ordering
+* Late-player support
+* Player deletion
+* Session history
+* Offline persistence
+* Installable PWA
+* Basic leaderboard and ranking support
+
+---
+
+## 🛣 Roadmap
+
+Planned post-MVP improvements:
+
+* Expanded analytics dashboard
+* Global player rankings across sessions
+* Cloud synchronization
+* Import/export of game history
+* Additional tournament formats
+* Enhanced statistics and visualizations
+
+---
+
+## 🧑‍💻 Tech Stack
+
+* **React**
+* **Vite**
+* **Tailwind CSS**
+* **vite-plugin-pwa**
+* **LocalStorage**
+* **Custom JavaScript game engine**
+
+---
+
+## 📄 License
+
+MIT License
+
+---
+
+**Version:** v2.0.0-beta
+**Status:** Pre-release

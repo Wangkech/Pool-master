@@ -38,7 +38,6 @@ export class GameEngine {
 
   startNewSession() {
     this.currentSession = new Session(this.getCurrentSessionNumber());
-    console.log(this.players);
 
     this.setSessionPlayers();
   }

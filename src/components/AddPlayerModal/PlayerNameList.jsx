@@ -31,7 +31,10 @@ function PlayerNameList({ editPlayerName }) {
             </p>
             <p> {player.name}</p>
           </span>
-          <button onClick={() => editPlayerName(player.id)} className="h-10">
+          <button
+            onClick={() => editPlayerName(player.id)}
+            className="col-2 hidden h-10"
+          >
             <FontAwesomeIcon icon={faUserPen} />
           </button>
           <DeleteBtn

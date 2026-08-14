@@ -33,7 +33,7 @@ function SettingsTab({ setView }) {
   };
 
   return (
-    <main className="py- row-2 grid grid-rows-[3rem_1fr]">
+    <main className="py- row-2 grid grid-rows-[3rem_1fr] overflow-hidden">
       <div className="row-1 flex items-center justify-center">
         <h1 className="text-2xl font-bold capitalize">Settings</h1>
       </div>
@@ -50,11 +50,15 @@ function SettingsTab({ setView }) {
             </button>
           </div>
 
-          <div className="rounded-lg bg-(--accent-bg) p-4">
+          <div className="h-full overflow-y-auto rounded-lg bg-(--accent-bg) p-4">
             <h3 className="mb-2 text-lg font-semibold">About</h3>
             <p className="mb-2 text-sm text-gray-300">Pool Master v2.0</p>
             <p className="mb-2 text-xs text-gray-400">
-              A scoring and analytics app for pool/billiards games.
+              Pool Master is an installable offline-first scorekeeping app built
+              for local pool sessions. Designed to make multi-round games simple
+              to manage, with automatic player ordering, foul handling, session
+              history, and persistent storage that works even without an
+              internet connection.
             </p>
             <p className="text-xs text-gray-400">
               Wangkech &copy; {new Date().getFullYear()}
@@ -62,13 +66,6 @@ function SettingsTab({ setView }) {
           </div>
         </div>
       </div>
-      {/* <div className="row-3 flex flex-col items-center justify-center gap-y-1 text-center text-[0.75rem] text-[#bebebe]">
-        <p>
-          <FontAwesomeIcon className="text-xl" icon={faQuestionCircle} />{" "}
-          version 2.0{" "}
-        </p>
-        <div className="h-px w-5 bg-[#8b8b8b]"></div>
-      </div> */}
     </main>
   );
 }
