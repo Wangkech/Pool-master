@@ -6,7 +6,7 @@ import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
 function PastSessions() {
   const { pastSessions } = useGameContext();
   return (
-    <ul className="flex h-full w-full scrollbar-none flex-col gap-y-2 overflow-y-auto rounded-2xl">
+    <ul className="flex h-full w-full scrollbar-none flex-col gap-y-2 overflow-y-auto rounded-lg">
       {!pastSessions ||
         (pastSessions.length === 0 && (
           <div className="flex h-full flex-col items-center justify-center gap-y-8 self-center justify-self-center">

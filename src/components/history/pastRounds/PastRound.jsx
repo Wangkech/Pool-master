@@ -13,7 +13,7 @@ function PastRound({ winner, players, roundNumber }) {
   }
   return (
     <li
-      className={`flex flex-col justify-between gap-y-2 rounded-2xl bg-[#161616] px-4 py-2`}
+      className={`pl- flex flex-col justify-between gap-y-2 rounded-lg bg-[#161616] px-4 py-4`}
     >
       <PastRoundHead
         openTable={openTable}

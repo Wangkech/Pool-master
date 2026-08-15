@@ -18,7 +18,7 @@ function Navbar({ setView, view }) {
   return (
     <nav
       aria-label="navigation"
-      className="bottom-nav shadow] row-3 flex w-[90vw] items-center justify-evenly self-center justify-self-center rounded-[5rem] bg-(--accent-bg) py-1.5 bg-blend-color shadow-(--base-shadow) md:w-3xl"
+      className="bottom-nav shadow] rounded-[5rem row-3 flex w-[90vw] items-center justify-evenly self-center justify-self-center rounded-2xl bg-(--accent-bg) py-1.5 bg-blend-color shadow-(--base-shadow) md:w-3xl"
     >
       {/* <NavButton icon={faUserGroup} label={"rankings"} /> */}
       <NavButton

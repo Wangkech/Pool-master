@@ -5,7 +5,7 @@ function TabBtns({ setActiveTab, activeTab }) {
     setActiveTab(tab);
   }
   return (
-    <div className="row-1 flex h-full w-fit items-center justify-center justify-self-center rounded-2xl border-none bg-(--accent-bg) px-2 text-[0.875rem]">
+    <div className="row-1 flex h-full w-fit items-center justify-center justify-self-center rounded-3xl border-none bg-(--accent-bg) px-2 text-[0.875rem]">
       <TabBtn
         activeTab={activeTab}
         tab="rounds"

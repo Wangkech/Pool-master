@@ -12,7 +12,7 @@ function PastSession({ sessionNumber, rounds, timestamp }) {
     }
   }
   return (
-    <li className="rounded-2xl bg-(--accent-bg)">
+    <li className="rounded-lg bg-(--accent-bg) py-2">
       <div className="h-full w-full">
         <PastSessionHead
           timestamp={timestamp}

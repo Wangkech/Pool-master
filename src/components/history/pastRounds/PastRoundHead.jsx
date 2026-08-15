@@ -34,7 +34,7 @@ function PastRoundHead({ roundNumber, winner, openTable, fullView }) {
           </span>
         )}
       </div>
-      <span className="col-2 flex h-full items-center justify-end px-4">
+      <span className="col-2 flex h-full items-center justify-end">
         <FontAwesomeIcon
           className={`text-[#474745] transition-all duration-300 ease-in-out ${fullView && "-rotate-180 text-[#797977]"}`}
           icon={faChevronCircleDown}

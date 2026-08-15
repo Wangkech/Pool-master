@@ -22,7 +22,7 @@ function LeaderBoardRow({
           setIsExpanded(false);
         }
       }}
-      className="flex flex-col rounded-2xl bg-(--accent-bg) px-2"
+      className="flex flex-col rounded-lg bg-(--accent-bg) px-2"
     >
       <span className="h grid w-full grid-cols-[2rem_1fr_4.5rem_2rem] gap-2 overflow-y-auto py-4 capitalize">
         <p className="col-1 text-center">{num}</p>
