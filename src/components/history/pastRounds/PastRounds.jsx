@@ -31,12 +31,13 @@ function PastRounds({ setIsAddingPlayers, setView }) {
                   setIsAddingPlayers={setIsAddingPlayers}
                   tab="home"
                   setView={setView}
+                  fromHistory={true}
                 />{" "}
                 <h1>
-                  <FontAwesomeIcon
+                  {/* <FontAwesomeIcon
                     className="animate-bounce"
                     icon={faLightbulb}
-                  />{" "}
+                  />{" "} */}
                   You Haven't Played Any Games Yet
                 </h1>
               </>
