@@ -6,6 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useGameContext } from "../../context/useGameContext";
 import useDialog from "../../context/useDialog";
+import { useEffect } from "react";
 
 function PointsBtns({ isAdding, setIsAdding, isFouling, setIsFouling }) {
   const { availableBalls } = useGameContext();
@@ -44,10 +45,13 @@ function PointsBtns({ isAdding, setIsAdding, isFouling, setIsFouling }) {
       actionText: "OK",
     });
   }
-  if (availableBalls.length === 0) {
-    setIsFouling(false);
-    setIsFouling(false);
-  }
+
+  useEffect(() => {
+    if (availableBalls.length === 0) {
+      setIsFouling(false);
+      setIsFouling(false);
+    }
+  }, [availableBalls]);
   return (
     <div className="points-btns w-ful bg-green-8d00 h-full rounded-t-2xl">
       <div
@@ -56,7 +60,6 @@ function PointsBtns({ isAdding, setIsAdding, isFouling, setIsFouling }) {
         <FontAwesomeIcon
           onClick={() => {
             if (availableBalls.length === 0) {
-              console.log(availableBalls);
               noBallsAlert();
             }
             handlePlusbtn();
@@ -70,7 +73,12 @@ function PointsBtns({ isAdding, setIsAdding, isFouling, setIsFouling }) {
       >
         <FontAwesomeIcon
           icon={isFouling ? faTimes : faMinusCircle}
-          onClick={handleMinusBtn}
+          onClick={() => {
+            if (availableBalls.length === 0) {
+              noBallsAlert();
+            }
+            handleMinusBtn();
+          }}
           className={`minus-points-btn points-btn relative cursor-pointer ${isFouling ? " text-[#a12626]" : "text-white"}`}
         />
       </div>
