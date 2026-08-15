@@ -68,8 +68,11 @@ function RankingsTab() {
                   {" "}
                   <h1 className="text-center capitalize">
                     {" "}
-                    <FontAwesomeIcon icon={faLightbulb} /> Play Some Games TO
-                    see ranking...{" "}
+                    <FontAwesomeIcon
+                      className="animate-bounce"
+                      icon={faLightbulb}
+                    />{" "}
+                    Play Some Games TO see ranking...{" "}
                   </h1>
                 </div>
               )}
@@ -80,8 +83,11 @@ function RankingsTab() {
               {" "}
               <h4 className="text-center capitalize">
                 {" "}
-                <FontAwesomeIcon icon={faLightbulb} /> Coming Sooner Than you
-                think...{" "}
+                <FontAwesomeIcon
+                  className="animate-bounce"
+                  icon={faLightbulb}
+                />{" "}
+                Coming Sooner Than you think...{" "}
               </h4>
               <p>
                 {" "}

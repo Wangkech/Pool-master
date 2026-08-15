@@ -28,13 +28,11 @@ function GameTab({
               />
             )}
             {isAddingPlayers === false && gameOn === false && (
-              <div className="px- flex h-1/2 flex-col justify-center rounded-2xl bg-(--accent-bgb)">
-                <StartNewGame
-                  tab="home"
-                  setView={setView}
-                  setIsAddingPlayers={setIsAddingPlayers}
-                />
-              </div>
+              <StartNewGame
+                tab="home"
+                setView={setView}
+                setIsAddingPlayers={setIsAddingPlayers}
+              />
             )}
             {currentRoundExists &&
               gameOn === true &&

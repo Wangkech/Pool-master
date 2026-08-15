@@ -1,6 +1,7 @@
 import TabBtns from "../components/history/TabBtns.jsx";
 import PastSessions from "../components/history/pastSessions/PastSessions";
 import PastRounds from "../components/history/pastRounds/PastRounds.jsx";
+import { useGameContext } from "../context/useGameContext.js";
 function HistoryTab({
   setIsAddingPlayers,
   screens,
@@ -8,6 +9,7 @@ function HistoryTab({
   setActiveTab,
   setView,
 }) {
+  const { pastRounds } = useGameContext();
   return (
     <>
       <title>Game History</title>
@@ -21,7 +23,9 @@ function HistoryTab({
           <TabBtns activeTab={activeTab} setActiveTab={setActiveTab} />
 
           {activeTab === screens.ROUNDS && (
-            <div className="row-2 flex h-full w-full grow flex-col items-start self-center justify-self-center overflow-hidden rounded-2xl bg-(--accent-bg) p-4">
+            <div
+              className={`row-2 flex h-full w-full grow flex-col items-start self-center justify-self-center overflow-hidden rounded-2xl bg-(--accent-bg) p-4 ${pastRounds.length === 0 && "bg-(--primary-bg)"}`}
+            >
               <PastRounds
                 setIsAddingPlayers={setIsAddingPlayers}
                 setView={setView}

@@ -1,18 +1,27 @@
 // import { useGameContext } from "../context/useGameContext";
 
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 function StartNewGame({ setIsAddingPlayers, setView, tab }) {
   // const { setIsAddingPlayers } = useGameContext();
   return (
-    <button
-      onClick={() => {
-        setView(tab);
-        setIsAddingPlayers(true);
-      }}
-      to="/"
-      className="h-10 cursor-pointer rounded-lg bg-(--primary-color) p-2 text-2xl font-semibold text-black shadow-(--base-shadow)"
-    >
-      Start New Game
-    </button>
+    <div className="flex flex-col items-center justify-center rounded-2xl border-[0.5px] border-(--accent-bg) bg-(--primary-bg) p-10 shadow-(--base-shadow)">
+      {" "}
+      <button
+        onClick={() => {
+          setView(tab);
+          setIsAddingPlayers(true);
+        }}
+        className="bg-gray- font- flex cursor-pointer flex-col items-center justify-center gap-4 p-2 text-(--primary-color)"
+      >
+        <FontAwesomeIcon
+          className="gap- h-15 w-20 rounded-lg bg-(--accent-bg) p-5 text-3xl shadow-(--base-shadow)"
+          icon={faPlus}
+        />
+        <p className="text-lg">Start New Game</p>
+      </button>
+    </div>
   );
 }
 
