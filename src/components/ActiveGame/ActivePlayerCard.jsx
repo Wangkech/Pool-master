@@ -7,11 +7,8 @@ import PlayerPointsHolder from "./PlayerPointsHolder";
 import PointsBtns from "./PointsBtns";
 import MinusPointsDropdown from "./MinusPointsDropDown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowLeftRotate,
-  faCaretLeft,
-  faDeleteLeft,
-} from "@fortawesome/free-solid-svg-icons";
+import { faDeleteLeft } from "@fortawesome/free-solid-svg-icons";
+import useDialog from "../../context/useDialog";
 
 function ActivePlayerCard({
   name,
@@ -23,13 +20,28 @@ function ActivePlayerCard({
 }) {
   const [isAdding, setIsAdding] = useState(false);
   const [isFouling, setIsFouling] = useState(false);
-
+  const { confirm } = useDialog();
   const { potBall, deletePlayer, availableBalls, undoLastPot } =
     useGameContext();
   // const ballid = balls[7].id;
   function addPoints(playerId, ballId) {
     potBall(playerId, ballId);
   }
+
+  async function handleUndo(id) {
+    const confirmed = await confirm({
+      title: "Irreversible action ",
+      message: `Are you sure you want to undo ball number ${basket[basket.length - 1].ballNo} from ${name}? `,
+      confirmText: "Confirm",
+      cancelText: "Cancel",
+      isDangerous: true,
+    });
+
+    if (confirmed) {
+      undoLastPot(id);
+    }
+  }
+
   return (
     <li
       key={id}
@@ -81,7 +93,10 @@ function ActivePlayerCard({
               ),
             )}
           </ul>
-          <button onClick={() => undoLastPot(id)} className="px-2 text-end">
+          <button
+            onClick={() => handleUndo(id)}
+            className="px-2 text-end text-[#797977]"
+          >
             <FontAwesomeIcon icon={faDeleteLeft} />
           </button>
         </div>

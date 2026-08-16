@@ -74,10 +74,6 @@ export class Round {
       if (!ball.isPotted) {
         player.hitWrongBall(ball);
         player.calculateScore();
-      } else {
-        console.warn(
-          `Cannot record foul for ball no '${ball.ballNo} because it was already potted'`,
-        );
       }
     }
   }
@@ -86,16 +82,14 @@ export class Round {
     const player = this.players.find((player) => player.id === id);
     if (player.state.ballBasket.length === 0) return;
     const ballToUndo = player.undoLastPot();
+
     this.balls.map((ball) => {
       if (ball.id === ballToUndo.id) {
-        console.log("before: ", ball);
-
         ball.undoPot();
-        console.log("After: ", ball);
       }
     });
-    this.availableBalls = this.getAvailableBalls();
 
+    this.availableBalls = this.getAvailableBalls();
     this.getCurrentBall();
   }
 
