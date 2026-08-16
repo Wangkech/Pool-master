@@ -44,6 +44,11 @@ export class Player {
     };
   }
 
+  undoLastPot() {
+    const ball = this.state.ballBasket.pop();
+    this.calculateScore();
+    return ball;
+  }
   potBall(ball) {
     this.addToBasket(ball);
   }
@@ -66,6 +71,8 @@ export class Player {
         (total, ball) => total + ball.value,
         0,
       );
+    } else {
+      this.state.score = 0;
     }
   }
   getSnapshot() {

@@ -6,6 +6,12 @@ import PlayerNameHolder from "./PlayerNameHolder";
 import PlayerPointsHolder from "./PlayerPointsHolder";
 import PointsBtns from "./PointsBtns";
 import MinusPointsDropdown from "./MinusPointsDropDown";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowLeftRotate,
+  faCaretLeft,
+  faDeleteLeft,
+} from "@fortawesome/free-solid-svg-icons";
 
 function ActivePlayerCard({
   name,
@@ -18,7 +24,8 @@ function ActivePlayerCard({
   const [isAdding, setIsAdding] = useState(false);
   const [isFouling, setIsFouling] = useState(false);
 
-  const { potBall, deletePlayer, availableBalls } = useGameContext();
+  const { potBall, deletePlayer, availableBalls, undoLastPot } =
+    useGameContext();
   // const ballid = balls[7].id;
   function addPoints(playerId, ballId) {
     potBall(playerId, ballId);
@@ -53,27 +60,32 @@ function ActivePlayerCard({
         <MinusPointsDropdown id={id} setIsFouling={setIsFouling} />
       )}
       {isAdding && <AddPointsDropDown id={id} setIsAdding={setIsAdding} />}
-      <div className="player-card- max-h-8 max-w-[90%] self-start overflow-hidden">
-        <ul className="flex max-h-8 w-auto scrollbar-none items-center gap-x-1 overflow-auto py-0.5 text-black">
-          {basket.map((ball) =>
-            ball.value > 0 ? (
-              <li
-                key={crypto.randomUUID()}
-                className="potted-bal h-6 w-6 rounded-[50%] bg-white p-2 text-center text-[0.75rem]"
-              >
-                {ball.ballNo}
-              </li>
-            ) : (
-              <li
-                key={crypto.randomUUID()}
-                className="potted-bal h-6 w-6 rounded-[50%] bg-red-400 p-2 text-center text-[0.75rem]"
-              >
-                {ball.ballNo}
-              </li>
-            ),
-          )}
-        </ul>
-      </div>
+      {basket.length > 0 && (
+        <div className="player-card- grid max-h-8 w-full grid-cols-[1fr_3rem] self-start overflow-hidden">
+          <ul className="flex max-h-8 w-auto scrollbar-none items-center gap-x-1 overflow-auto overflow-x-auto py-0.5 text-black">
+            {basket.map((ball) =>
+              ball.value > 0 ? (
+                <li
+                  key={crypto.randomUUID()}
+                  className="potted-bal h-6 w-6 rounded-[50%] bg-white p-2 text-center text-[0.75rem]"
+                >
+                  {ball.ballNo}
+                </li>
+              ) : (
+                <li
+                  key={crypto.randomUUID()}
+                  className="potted-bal h-6 w-6 rounded-[50%] bg-red-400 p-2 text-center text-[0.75rem]"
+                >
+                  {ball.ballNo}
+                </li>
+              ),
+            )}
+          </ul>
+          <button onClick={() => undoLastPot(id)} className="px-2 text-end">
+            <FontAwesomeIcon icon={faDeleteLeft} />
+          </button>
+        </div>
+      )}
     </li>
   );
 }
