@@ -84,6 +84,11 @@ export function useGame() {
     saveGameState();
   };
 
+  const undoLastPot = (id) => {
+    setGameState(controller.undoLastPot(id));
+    saveGameState();
+  };
+
   const endSession = () => {
     setGameState(controller.endSession());
     setCurrentRoundExists(false);
@@ -119,6 +124,7 @@ export function useGame() {
     startNewRound,
     recordCueScratch,
     recordWrongHit,
+    undoLastPot,
     addPoints,
     endSession,
     deletePlayer,

@@ -139,7 +139,9 @@ export class Session {
     this.currentRound.recordWrongHit(playerId, ballId);
     // this.fullSort();
   }
-
+  undoLastPot(id) {
+    this.currentRound.undoLastPot(id);
+  }
   getPreviousRound() {
     return this.rounds[this.rounds.length - 1] ?? null;
   }

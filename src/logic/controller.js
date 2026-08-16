@@ -79,6 +79,10 @@ export const controller = {
     engine.recordWrongHit(playerId, ballId);
     return this.getSnapshot();
   },
+  undoLastPot(id) {
+    engine.undoLastPot(id);
+    return this.getSnapshot();
+  },
   clearAllData() {
     engine.clearAllData();
     return engine.getSnapshot();

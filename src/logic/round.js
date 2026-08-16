@@ -7,6 +7,7 @@ export class Round {
     this.roundNumber = roundNumber;
     this.players = [];
     this.balls = this.#setBalls();
+    this.availableBalls = this.getAvailableBalls();
     this.roundWinner = null;
     this.mode = this.setMode(mode);
     this.ended = false;
@@ -73,12 +74,23 @@ export class Round {
       if (!ball.isPotted) {
         player.hitWrongBall(ball);
         player.calculateScore();
-      } else {
-        console.warn(
-          `Cannot record foul for ball no '${ball.ballNo} because it was already potted'`,
-        );
       }
     }
+  }
+
+  undoLastPot(id) {
+    const player = this.players.find((player) => player.id === id);
+    if (player.state.ballBasket.length === 0) return;
+    const ballToUndo = player.undoLastPot();
+
+    this.balls.map((ball) => {
+      if (ball.id === ballToUndo.id) {
+        ball.undoPot();
+      }
+    });
+
+    this.availableBalls = this.getAvailableBalls();
+    this.getCurrentBall();
   }
 
   determineWinner() {
@@ -163,13 +175,12 @@ export class Round {
   }
 
   getCurrentBall() {
-    const remainingBalls = this.getAvailableBalls();
     let currentBall;
     const breaker = this.getBallByNum(3);
     if (breaker && !breaker.isPotted) {
       currentBall = breaker;
     } else {
-      currentBall = remainingBalls[0];
+      currentBall = this.availableBalls[0];
     }
 
     return currentBall;
@@ -180,9 +191,15 @@ export class Round {
   }
 
   getAvailableBalls() {
-    return this.balls
-      .filter((ball) => !ball.isPotted)
-      .sort((a, b) => a.ballNo - b.ballNo);
+    const availableBalls = [
+      ...this.balls
+        .filter((ball) => !ball.isPotted)
+        .sort((a, b) => a.ballNo - b.ballNo),
+    ];
+
+    return (this.availableBalls = availableBalls.map((ball) =>
+      this.balls.find((liveBall) => ball.id === liveBall.id),
+    ));
   }
 
   playersHighLow() {}

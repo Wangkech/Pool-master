@@ -83,7 +83,9 @@ export class GameEngine {
   recordWrongHit(playerId, ballId) {
     this.currentSession.recordWrongHit(playerId, ballId);
   }
-
+  undoLastPot(id) {
+    this.currentSession.undoLastPot(id);
+  }
   startNewRound() {
     this.currentSession.startNewRound();
   }
