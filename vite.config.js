@@ -44,19 +44,6 @@ export default defineConfig({
       workbox: {
         globPatterns: ["**/*.{js,css,html,svg,png,ttf}"],
         navigateFallback: "/index.html",
-        runtimeCaching: [
-          {
-            urlPattern: /\/.*\.(js|css|html|svg|png|ttf)$/,
-            handler: "CacheFirst",
-            options: {
-              cacheName: "app-static-cache",
-              expiration: {
-                maxEntries: 100,
-                maxAgeSeconds: 60 * 60 * 24 * 30,
-              },
-            },
-          },
-        ],
       },
     }),
   ],
