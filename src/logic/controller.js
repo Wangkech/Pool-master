@@ -144,11 +144,25 @@ session.getKnockedPlayers();
 console.log("Knocked Players: ", session.knockedPlayers);
 
 session.startNewRound();
-const round = session.currentRound;
+let round = session.currentRound;
+console.log("round 1: ", session.currentRound.players);
+console.log("Knocked: ", session.knockedPlayers);
 
 player = round.players.find((player) => player.name === "Hothnyang");
 let ball = round.balls.find((ball) => ball.value === 8);
 round.recordScore(player.id, ball.id);
 engine.endCurrentRound();
-session.knockPlayers();
-console.log(session);
+
+session.startNewRound();
+round = session.currentRound;
+console.log("round 2: ", round.players);
+console.log("Knocked: ", session.knockedPlayers);
+
+player = session.players.find((player) => player.name === "Bot");
+session.recordScore(player.id, ball.id);
+session.endCurrentRound();
+
+session.startNewRound();
+round = session.currentRound;
+console.log("round 3: ", round.players);
+console.log("Knocked:  ", session.knockedPlayers);

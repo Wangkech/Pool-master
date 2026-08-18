@@ -1,6 +1,8 @@
 // import { Modes } from "./modes.js";
 import { Player } from "./player.js";
-import { Session, SessionInRotation } from "./session.js";
+import { Session } from "./session.js";
+
+import { SessionInRotation } from "./rotation/sessionInRotation.js";
 
 const MODES = Object.freeze({
   TWOPLAYER: "TWOPLAYER",
