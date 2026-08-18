@@ -9,15 +9,35 @@ export class Round {
     this.balls = this.#setBalls();
     this.availableBalls = this.getAvailableBalls();
     this.roundWinner = null;
-    this.mode = this.setMode(mode);
+    this.mode = mode;
     this.ended = false;
   }
 
   setParticipants(players) {
+    const states = (obj) => {
+      const playerStatesMap = {
+        ROTATION: obj.rotationModeState(),
+        SINGLE: obj.singlesModeState(),
+      };
+      // console.log(playerStatesMap[this.mode]);
+      console.log(this.mode);
+
+      if (this.mode === "ROTATION") return playerStatesMap.ROTATION;
+
+      return null;
+    };
+
     if (players) {
-      players.forEach((player) => {
-        this.players.push(player.roundState());
-      });
+      if (this.mode === "ROTATION") {
+        players.forEach((player) => {
+          this.players.push(player.rotationModeState());
+        });
+      } else if (this.mode === "SINGLE") {
+        players.forEach((player) => {
+          console.log(player.singlesModeState());
+          this.players.push(player.singlesModeState());
+        });
+      }
     }
   }
 

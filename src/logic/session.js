@@ -2,8 +2,15 @@
 import { Player } from "./player.js";
 import { Round } from "./round.js";
 
+// const MODES = Object.freeze({
+//   TWOPLAYER: "TWOPLAYER",
+//   SINGLE: "SINGLE",
+//   TEAMS: "TEAMS",
+//   ROTATION: "ROTATION",
+// });
+
 export class Session {
-  constructor(sessionNumber) {
+  constructor(sessionNumber, mode) {
     this.timestamp = null;
     this.sessionID = crypto.randomUUID();
     this.sessionNumber = sessionNumber;
@@ -11,19 +18,9 @@ export class Session {
     this.players = [];
     this.currentRound = null;
     this.ended = false;
-    this.mode = null;
+    this.mode = mode;
   }
 
-  setPlayers(players) {
-    this.players.length = 0;
-
-    players.forEach((newPlayer) => {
-      if (!this.players.includes((player) => player.id === newPlayer.id)) {
-        this.players.push(newPlayer.sessionMemberState());
-      }
-    });
-    this.setDate();
-  }
   setDate() {
     let now = new Date();
 
@@ -37,15 +34,18 @@ export class Session {
       year: now.getFullYear(),
     };
   }
+
   getCurrentRoundNumber() {
     return this.rounds.length + 1;
   }
+
   addLatePlayer(player) {
     if (this.currentRound) {
       this.players.push(player.roundState());
       this.currentRound.addLatePlayer(player);
     }
   }
+
   updatePlayers(players) {
     this.players = players.map((player) => {
       if (!player.state) {
@@ -55,10 +55,12 @@ export class Session {
       }
     });
   }
+
   deletePlayer(id) {
     this.players = this.players.filter((player) => player.id != id);
     this.currentRound.deletePlayer(id);
   }
+
   startNewRound() {
     this.resetCurrentRound();
 
@@ -68,7 +70,6 @@ export class Session {
 
     this.currentRound = newRound;
     this.currentRound.setParticipants(players);
-    // this.fullSort();
   }
 
   getPlayersInOrder() {
@@ -82,17 +83,6 @@ export class Session {
 
     return players;
   }
-
-  // handleTieOrder() {
-  //   const playerScores = this.players.map((player) => player.state.score);
-  //   let highScore = Math.max(...playerScores);
-  //   let highScorers = this.players.filter(
-  //     (player) => player.state.score === highScore,
-  //   );
-
-  //   const chosenWinner = Math.floor(Math.random() * highScorers.length);
-  //   this.roundWinner = highScorers[chosenWinner];
-  // }
 
   endSession() {
     if (!this.currentRound) {
@@ -117,9 +107,11 @@ export class Session {
     this.currentRound.endRound();
   }
 
-  setGameMode(mode = "SINGLE") {
+  setGameMode(mode) {
     this.mode = mode;
   }
+
+  setModeRules() {}
 
   currentRoundEnded() {
     return this.currentRound ? this.currentRound.ended : null;
@@ -189,5 +181,76 @@ export class Session {
     this.mode = data.mode;
     this.ended = data.ended;
     return;
+  }
+}
+
+export class SessionInSingle extends Session {
+  constructor(sessionNumber) {
+    super(sessionNumber);
+  }
+  setPlayers(players) {
+    this.players.length = 0;
+
+    players.forEach((newPlayer) => {
+      if (!this.players.includes((player) => player.id === newPlayer.id)) {
+        this.players.push(newPlayer.singlesMemberState());
+      }
+    });
+    this.setDate();
+  }
+}
+
+export class SessionInRotation extends Session {
+  constructor(sessionNumber, mode, subs) {
+    super(sessionNumber, mode);
+    this.subs = subs || 0;
+    this.standingPlayers = [];
+    this.knockedPlayers = [];
+  }
+  setPlayers(players) {
+    this.players.length = 0;
+    players.forEach((newPlayer) => {
+      if (!this.players.includes((player) => player.id === newPlayer.id)) {
+        this.players.push(newPlayer.rotationMemberState());
+      }
+    });
+
+    this.setDate();
+  }
+
+  getStandingPlayers() {
+    const players = [...this.players];
+    const standing = players.filter((player) => !player.state.isKnocked);
+    this.standingPlayers = standing.map((p) =>
+      this.players.find((player) => p.id === player.id),
+    );
+  }
+
+  getKnockedPlayers() {
+    const players = [...this.players];
+    const knocked = players.filter((player) => player.state.isKnocked);
+    this.knockedPlayers = knocked.map((p) =>
+      this.players.find((player) => p.id === player.id),
+    );
+  }
+
+  startNewRound() {
+    this.currentRound = new Round(this.mode, this.getCurrentRoundNumber());
+    this.currentRound.setParticipants(this.standingPlayers, this.mode);
+  }
+  knockPlayers() {
+    const previousPlayers = [...this.getPreviousRound().players];
+    if (!previousPlayers) return;
+    let playersToKnock = previousPlayers.splice(
+      this.subs * -1,
+      previousPlayers.length,
+    );
+
+    console.log("PlayersToKnock: ", playersToKnock);
+    console.log("standing: ", previousPlayers);
+
+    let playersToSubIn = this.knockedPlayers.splice(0, this.subs);
+    console.log("PlayersToSubIn: ", playersToSubIn);
+    console.log("PlayersToWaitNextRound: ", this.knockedPlayers);
   }
 }

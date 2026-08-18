@@ -1,17 +1,19 @@
 // import { Modes } from "./modes.js";
 import { Player } from "./player.js";
-import { Session } from "./session.js";
+import { Session, SessionInRotation } from "./session.js";
+
+const MODES = Object.freeze({
+  TWOPLAYER: "TWOPLAYER",
+  SINGLE: "SINGLE",
+  TEAMS: "TEAMS",
+  ROTATION: "ROTATION",
+});
 
 export class GameEngine {
   constructor() {
     this.players = [];
     this.sessions = [];
-    this.modes = Object.freeze({
-      TWOPLAYER: "TWOPLAYER",
-      SINGLE: "SINGLE",
-      TEAMS: "TEAMS",
-      ROTATION: "ROTATION",
-    });
+    this.modes = MODES;
 
     this.currentSession = null;
   }
@@ -36,10 +38,22 @@ export class GameEngine {
     this.currentSession.setPlayers(this.players);
   }
 
-  startNewSession() {
-    this.currentSession = new Session(this.getCurrentSessionNumber());
+  startNewSession(mode) {
+    console.log(mode);
 
-    this.setSessionPlayers();
+    switch (mode) {
+      case this.modes.SINGLE:
+        this.currentSession = new Session(this.getCurrentSessionNumber());
+        this.setSessionPlayers();
+        break;
+      case this.modes.ROTATION:
+        this.currentSession = new SessionInRotation(
+          this.getCurrentSessionNumber(),
+          mode,
+          1,
+        );
+        break;
+    }
   }
 
   endCurrentRound() {

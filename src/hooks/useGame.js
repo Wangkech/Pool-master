@@ -52,7 +52,7 @@ export function useGame() {
     setGameState(controller.deletePlayer(id));
     saveGameState();
   };
-  const startNewGame = (mode) => {
+  const startNewGame = (mode = "ROTATION") => {
     if (!currentRoundExists) {
       controller.startNewGame(mode);
     }

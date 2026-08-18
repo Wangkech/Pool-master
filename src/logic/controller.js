@@ -31,9 +31,9 @@ export const controller = {
     return this.getSnapshot();
   },
   startNewSession(mode) {
-    engine.startNewSession();
+    engine.startNewSession(mode);
     engine.setSessionPlayers();
-    engine.setSessionMode(mode);
+    // engine.setSessionMode(mode);
     this.startNewRound();
     return engine.getSnapshot();
   },
@@ -121,3 +121,34 @@ export const controller = {
     localStorage.setItem("gameState", snapshot);
   },
 };
+
+controller.addPlayer("Wangkech");
+controller.addPlayer("Hothnyang");
+controller.addPlayer("Kelly");
+controller.addPlayer("Bot");
+
+engine.startNewSession("ROTATION");
+const session = engine.currentSession;
+engine.setSessionPlayers(engine.players);
+console.log("ALL Players: ", session.players);
+let player = session.players.find((player) => player.name === "Kelly");
+console.log(player);
+player.knockedState();
+
+player = session.players.find((player) => player.name === "Bot");
+player.knockedState();
+session.getStandingPlayers();
+console.log("Standing Players: ", session.standingPlayers);
+console.log("ALL Players: ", session.players);
+session.getKnockedPlayers();
+console.log("Knocked Players: ", session.knockedPlayers);
+
+session.startNewRound();
+const round = session.currentRound;
+
+player = round.players.find((player) => player.name === "Hothnyang");
+let ball = round.balls.find((ball) => ball.value === 8);
+round.recordScore(player.id, ball.id);
+engine.endCurrentRound();
+session.knockPlayers();
+console.log(session);

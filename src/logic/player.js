@@ -4,8 +4,25 @@ export class Player {
     this.id = crypto.randomUUID();
     this.state = null;
   }
+  // single mode
+  singlesModeState() {
+    this.state = {
+      isActive: true,
+      ballBasket: [],
+      score: 0,
+    };
+    return this;
+  }
 
-  roundState() {
+  singlesMemberState() {
+    this.state = {
+      isActive: true,
+    };
+    return this;
+  }
+
+  // rotations mode
+  rotationModeState() {
     this.state = {
       isKnocked: false,
       isActive: true,
@@ -15,19 +32,18 @@ export class Player {
     return this;
   }
 
-  roundSEndtate() {
-    this.state = {
-      isKnocked: false,
-      isActive: true,
-    };
-  }
-
-  sessionMemberState() {
+  rotationMemberState() {
     this.state = {
       isActive: true,
       isKnocked: false,
     };
     return this;
+  }
+  roundSEndtate() {
+    this.state = {
+      isKnocked: false,
+      isActive: true,
+    };
   }
 
   knockedState() {
