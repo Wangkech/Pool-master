@@ -1,5 +1,6 @@
 import { Session } from "../session";
 import { Round } from "../round";
+import { Player } from "../player";
 
 export class SessionInRotation extends Session {
   constructor(sessionNumber, mode, subs) {
@@ -35,13 +36,14 @@ export class SessionInRotation extends Session {
     );
   }
 
-  async startNewRound() {
-    const previous = await this.getPreviousRound();
+  startNewRound() {
+    const previous = this.getPreviousRound();
     if (previous) {
-      await this.knockPlayers();
-      console.log(this.knockedPlayers);
-      console.log(this.standingPlayers);
+      this.knockPlayers();
+      // console.log(this.knockedPlayers);
+      // console.log(this.standingPlayers);
     }
+    this.getStandingPlayers();
     this.currentRound = new Round(this.mode, this.getCurrentRoundNumber());
     this.currentRound.setParticipants(this.standingPlayers, this.mode);
   }
@@ -57,7 +59,9 @@ export class SessionInRotation extends Session {
     // console.log("PlayersToKnock: ", playersToKnock);
     // console.log("standing: ", previousPlayers);
 
-    const playersAwaitingNextRound = [...this.knockedPlayers];
+    const playersAwaitingNextRound = this.knockedPlayers
+      ? [...this.knockedPlayers]
+      : [];
     const playersToSubIn = playersAwaitingNextRound.splice(0, this.subs);
 
     // console.log("PlayersToSubIn: ", playersToSubIn);
@@ -90,14 +94,14 @@ export class SessionInRotation extends Session {
       previousPlayers.map((p) => {
         let prevPlayer = this.players.find((player) => player.id === p.id);
         players.push(prevPlayer.rotationModeState());
-        console.log(prevPlayer);
+        // console.log(prevPlayer);
       });
 
       playersToSubIn.map((p) => {
         let sub = this.players.find((player) => player.id === p.id);
 
         players.push(sub.rotationModeState());
-        console.log(sub);
+        // console.log(sub);
       });
 
       this.standingPlayers = players;
@@ -106,5 +110,54 @@ export class SessionInRotation extends Session {
 
     standingPlayers();
     // console.log("final standing Players: ", this.standingPlayers);
+  }
+
+  getSnapshot() {
+    return Object.freeze(
+      structuredClone({
+        sessionID: this.sessionID,
+        timestamp: this.timestamp,
+        sessionNumber: this.sessionNumber,
+        rounds: this.rounds.map((round) => round),
+        players: structuredClone(
+          this.players.map((player) => player.getSnapshot()),
+        ),
+        standingPlayers: structuredClone(
+          this.standingPlayers?.map((player) => player.getSnapshot()),
+        ),
+        knockedPlayers: structuredClone(
+          this.knockedPlayers?.map((player) => player.getSnapshot()),
+        ),
+        currentRound: this.currentRound
+          ? this.currentRound.getSnapshot()
+          : null,
+        ended: this.ended,
+        mode: this.mode,
+      }),
+    );
+  }
+  restoreSession(data) {
+    this.sessionID = data.sessionID;
+    this.sessionNumber = data.sessionNumber;
+    this.timestamp = data.date;
+    this.rounds = data.rounds;
+    this.players = data.players.map((player) => player);
+    this.players.map((player) => {
+      Object.setPrototypeOf(player, Player.prototype);
+      player.restorePlayer(player.id, player.name, player.state);
+    });
+
+    if (data.currentRound) {
+      this.currentRound = data.currentRound;
+      Object.setPrototypeOf(this.currentRound, Round.prototype);
+
+      this.currentRound.restoreRound(data.currentRound);
+    } else {
+      this.currentRound = null;
+    }
+
+    this.mode = data.mode;
+    this.ended = data.ended;
+    return;
   }
 }

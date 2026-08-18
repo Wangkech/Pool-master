@@ -140,6 +140,22 @@ export class Session {
   getAllBalls() {
     this.currentRound.balls;
   }
+}
+
+export class SessionInSingle extends Session {
+  constructor(sessionNumber) {
+    super(sessionNumber);
+  }
+  setPlayers(players) {
+    this.players.length = 0;
+
+    players.forEach((newPlayer) => {
+      if (!this.players.includes((player) => player.id === newPlayer.id)) {
+        this.players.push(newPlayer.singlesMemberState());
+      }
+    });
+    this.setDate();
+  }
   getSnapshot() {
     return Object.freeze(
       structuredClone({
@@ -168,6 +184,16 @@ export class Session {
       Object.setPrototypeOf(player, Player.prototype);
       player.restorePlayer(player.id, player.name, player.state);
     });
+    this.knockedPlayers = data.knockedPlayers;
+    this.knockedPlayers.map((player) => {
+      Object.setPrototypeOf(player, Player.prototype);
+      player.restorePlayer(player.id, player.name, player.state);
+    });
+    this.standingPlayers = data.standingPlayers;
+    this.standingPlayers.map((player) => {
+      Object.setPrototypeOf(player, Player.prototype);
+      player.restorePlayer(player.id, player.name, player.state);
+    });
 
     if (data.currentRound) {
       this.currentRound = data.currentRound;
@@ -180,22 +206,5 @@ export class Session {
 
     this.mode = data.mode;
     this.ended = data.ended;
-    return;
-  }
-}
-
-export class SessionInSingle extends Session {
-  constructor(sessionNumber) {
-    super(sessionNumber);
-  }
-  setPlayers(players) {
-    this.players.length = 0;
-
-    players.forEach((newPlayer) => {
-      if (!this.players.includes((player) => player.id === newPlayer.id)) {
-        this.players.push(newPlayer.singlesMemberState());
-      }
-    });
-    this.setDate();
   }
 }

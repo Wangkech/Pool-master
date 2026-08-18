@@ -1,6 +1,6 @@
 // import { Modes } from "./modes.js";
 import { Player } from "./player.js";
-import { Session } from "./session.js";
+import { Session, SessionInSingle } from "./session.js";
 
 import { SessionInRotation } from "./rotation/sessionInRotation.js";
 
@@ -123,13 +123,22 @@ export class GameEngine {
       Object.setPrototypeOf(player, Player.prototype),
     );
     this.sessions = data.sessions;
-
-    if (data.currentSession) {
-      this.currentSession = data.currentSession;
-      Object.setPrototypeOf(this.currentSession, Session.prototype);
-      this.currentSession.restoreSession(data.currentSession);
-    } else {
-      this.currentSession = null;
+    if (data.mode === this.modes.ROTATION) {
+      if (data.currentSession) {
+        this.currentSession = data.currentSession;
+        Object.setPrototypeOf(this.currentSession, SessionInRotation.prototype);
+        this.currentSession.restoreSession(data.currentSession);
+      } else {
+        this.currentSession = null;
+      }
+    } else if (data.mode === this.modes.SINGLE) {
+      if (data.currentSession) {
+        this.currentSession = data.currentSession;
+        Object.setPrototypeOf(this.currentSession, SessionInSingle.prototype);
+        this.currentSession.restoreSession(data.currentSession);
+      } else {
+        this.currentSession = null;
+      }
     }
   }
   clearAllData() {
