@@ -5,7 +5,7 @@ export function pwaConfig() {
     devOptions: {
       enabled: false,
     },
-    registerType: "prompt",
+    registerType: "autoUpdate",
     injectRegister: "auto",
     includeAssets: [
       "favicon.svg",
@@ -14,10 +14,11 @@ export function pwaConfig() {
       "favicon-32x32.png",
       "favicon-180x180.png",
       "favicon-192x192.png",
+      "favicon-512x512.png",
     ],
     manifest: {
       name: "Pool Master",
-      short_name: "Pool",
+      short_name: "Pool Master",
       description: "Offline-ready pool scoring app",
       theme_color: "#ffffff",
       background_color: "#ffffff",
@@ -31,6 +32,11 @@ export function pwaConfig() {
         {
           src: "favicon-180x180.png",
           sizes: "180x180",
+          type: "image/png",
+        },
+        {
+          src: "favicon-512x512.png",
+          sizes: "512x512",
           type: "image/png",
         },
       ],
