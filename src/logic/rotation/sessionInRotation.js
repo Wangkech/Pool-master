@@ -1,14 +1,15 @@
 import { Session } from "../session";
-import { Round } from "../round";
 import { Player } from "../player";
+import { RotationRound } from "./RotationRound";
 
-export class SessionInRotation extends Session {
-  constructor(sessionNumber, mode, subs) {
+export class RotationSession extends Session {
+  constructor(sessionNumber, mode) {
     super(sessionNumber, mode);
-    this.subs = subs || 0;
+    this.subs = 0;
     this.standingPlayers = [];
     this.waitingPlayers = [];
   }
+
   setPlayers(players) {
     this.players.length = 0;
     players.forEach((newPlayer) => {
@@ -22,7 +23,6 @@ export class SessionInRotation extends Session {
 
   getPlayersInOrder() {
     let previousRound = this.getPreviousRound();
-    console.log(previousRound);
     if (!previousRound) {
       const players = [...this.players];
       const standing = players.filter((player) => !player.state.isKnocked);
@@ -34,6 +34,9 @@ export class SessionInRotation extends Session {
         .map((p) => this.players.find((player) => p.id === player.id));
     }
     return;
+  }
+  setSubs(subs) {
+    this.subs = subs;
   }
 
   getwaitingPlayers() {
@@ -49,11 +52,13 @@ export class SessionInRotation extends Session {
 
     const previous = this.getPreviousRound();
     if (previous) {
-      console.log(previous.players);
       this.knockPlayers(previous.players);
     }
     this.getPlayersInOrder();
-    this.currentRound = new Round(this.mode, this.getCurrentRoundNumber());
+    this.currentRound = new RotationRound(
+      this.mode,
+      this.getCurrentRoundNumber(),
+    );
     this.currentRound.setParticipants(this.standingPlayers, this.mode);
   }
 
@@ -86,6 +91,12 @@ export class SessionInRotation extends Session {
     this.standingPlayers = allStandingPlayers;
   }
 
+  addLatePlayer(player) {
+    if (this.currentRound) {
+      this.players.push(player.rotationMemberState());
+      this.waitingPlayers.push(player.knockedState());
+    }
+  }
   getSnapshot() {
     return Object.freeze(
       structuredClone({
@@ -131,7 +142,7 @@ export class SessionInRotation extends Session {
 
     if (data.currentRound) {
       this.currentRound = data.currentRound;
-      Object.setPrototypeOf(this.currentRound, Round.prototype);
+      Object.setPrototypeOf(this.currentRound, RotationRound.prototype);
 
       this.currentRound.restoreRound(data.currentRound);
     } else {

@@ -14,35 +14,19 @@ export class Round {
   }
 
   setParticipants(players) {
-    const states = (obj) => {
-      const playerStatesMap = {
-        ROTATION: obj.rotationModeState(),
-        SINGLE: obj.singlesModeState(),
-      };
-      // console.log(playerStatesMap[this.mode]);
-      console.log(this.mode);
-
-      if (this.mode === "ROTATION") return playerStatesMap.ROTATION;
-
-      return null;
-    };
+    console.log(players);
+    console.log(this.mode);
 
     if (players) {
-      if (this.mode === "ROTATION") {
-        players.forEach((player) => {
-          this.players.push(player.rotationModeState());
-        });
-      } else if (this.mode === "SINGLE") {
-        players.forEach((player) => {
-          console.log(player.singlesModeState());
-          this.players.push(player.singlesModeState());
-        });
-      }
+      players.forEach((player) => {
+        console.log(player.singlesModeState());
+        this.players.push(player.singlesModeState());
+      });
     }
   }
 
   addLatePlayer(player) {
-    this.players.push(player.roundState());
+    this.players.push(player.singlesModeState());
   }
 
   deletePlayer(id) {

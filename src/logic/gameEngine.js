@@ -1,8 +1,8 @@
 // import { Modes } from "./modes.js";
 import { Player } from "./player.js";
-import { Session, SessionInSingle } from "./session.js";
+import { Session } from "./session.js";
 
-import { SessionInRotation } from "./rotation/sessionInRotation.js";
+import { RotationSession } from "./rotation/sessionInRotation.js";
 
 const MODES = Object.freeze({
   TWOPLAYER: "TWOPLAYER",
@@ -34,28 +34,28 @@ export class GameEngine {
   getCurrentSessionNumber() {
     return this.sessions.length + 1;
   }
-  removePlayer() {}
   disablePlayer() {}
   setSessionPlayers() {
     this.currentSession.setPlayers(this.players);
   }
 
   startNewSession(mode) {
-    console.log(mode);
-
     switch (mode) {
       case this.modes.SINGLE:
-        this.currentSession = new Session(this.getCurrentSessionNumber());
+        this.currentSession = new Session(this.getCurrentSessionNumber(), mode);
         this.setSessionPlayers();
         break;
       case this.modes.ROTATION:
-        this.currentSession = new SessionInRotation(
+        this.currentSession = new RotationSession(
           this.getCurrentSessionNumber(),
           mode,
-          1,
         );
         break;
     }
+  }
+
+  setSubs(subs) {
+    this.currentSession.setSubs(subs);
   }
 
   endCurrentRound() {
@@ -126,7 +126,7 @@ export class GameEngine {
     if (data.mode === this.modes.ROTATION) {
       if (data.currentSession) {
         this.currentSession = data.currentSession;
-        Object.setPrototypeOf(this.currentSession, SessionInRotation.prototype);
+        Object.setPrototypeOf(this.currentSession, RotationSession.prototype);
         this.currentSession.restoreSession(data.currentSession);
       } else {
         this.currentSession = null;
@@ -134,7 +134,7 @@ export class GameEngine {
     } else if (data.mode === this.modes.SINGLE) {
       if (data.currentSession) {
         this.currentSession = data.currentSession;
-        Object.setPrototypeOf(this.currentSession, SessionInSingle.prototype);
+        Object.setPrototypeOf(this.currentSession, Session.prototype);
         this.currentSession.restoreSession(data.currentSession);
       } else {
         this.currentSession = null;

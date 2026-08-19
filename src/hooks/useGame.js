@@ -23,8 +23,7 @@ export function useGame() {
   const stats =
     gameState.currentSession &&
     controller.getCurrentSessionStats(gameState.currentSession);
-  // const currentSessionStats = stats;
-  // const currentSessionStats = stats;
+
   const [currentSessionStats, setCurrentSessionStats] = useState(stats);
 
   //stats
@@ -52,9 +51,10 @@ export function useGame() {
     setGameState(controller.deletePlayer(id));
     saveGameState();
   };
-  const startNewGame = (mode = "ROTATION") => {
+  const startNewGame = (mode = "ROTATION", subs = 2) => {
     if (!currentRoundExists) {
       controller.startNewGame(mode);
+      if (mode === "ROTATION") controller.setSubs(subs);
     }
     setGameState(controller.getSnapshot());
     setCurrentRoundExists(true);

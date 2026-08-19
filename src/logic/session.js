@@ -41,7 +41,7 @@ export class Session {
 
   addLatePlayer(player) {
     if (this.currentRound) {
-      this.players.push(player.roundState());
+      this.players.push(player.singlesModeState());
       this.currentRound.addLatePlayer(player);
     }
   }
@@ -60,12 +60,23 @@ export class Session {
     this.players = this.players.filter((player) => player.id != id);
     this.currentRound.deletePlayer(id);
   }
+  setPlayers(players) {
+    this.players.length = 0;
+
+    players.forEach((newPlayer) => {
+      if (!this.players.includes((player) => player.id === newPlayer.id)) {
+        this.players.push(newPlayer.singlesMemberState());
+      }
+    });
+    this.setDate();
+  }
 
   startNewRound() {
     this.resetCurrentRound();
 
     const players = this.getPlayersInOrder() ?? this.players;
-
+    // console.log(players);
+    console.log(this.mode);
     let newRound = new Round(this.mode, this.getCurrentRoundNumber());
 
     this.currentRound = newRound;
@@ -140,22 +151,6 @@ export class Session {
   getAllBalls() {
     this.currentRound.balls;
   }
-}
-
-export class SessionInSingle extends Session {
-  constructor(sessionNumber) {
-    super(sessionNumber);
-  }
-  setPlayers(players) {
-    this.players.length = 0;
-
-    players.forEach((newPlayer) => {
-      if (!this.players.includes((player) => player.id === newPlayer.id)) {
-        this.players.push(newPlayer.singlesMemberState());
-      }
-    });
-    this.setDate();
-  }
   getSnapshot() {
     return Object.freeze(
       structuredClone({
@@ -181,16 +176,6 @@ export class SessionInSingle extends Session {
     this.rounds = data.rounds;
     this.players = data.players.map((player) => player);
     this.players.map((player) => {
-      Object.setPrototypeOf(player, Player.prototype);
-      player.restorePlayer(player.id, player.name, player.state);
-    });
-    this.knockedPlayers = data.knockedPlayers;
-    this.knockedPlayers.map((player) => {
-      Object.setPrototypeOf(player, Player.prototype);
-      player.restorePlayer(player.id, player.name, player.state);
-    });
-    this.standingPlayers = data.standingPlayers;
-    this.standingPlayers.map((player) => {
       Object.setPrototypeOf(player, Player.prototype);
       player.restorePlayer(player.id, player.name, player.state);
     });

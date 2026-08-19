@@ -30,6 +30,9 @@ export const controller = {
 
     return this.getSnapshot();
   },
+  setSubs(subs) {
+    engine.setSubs(subs);
+  },
   startNewSession(mode) {
     engine.startNewSession(mode);
     engine.setSessionPlayers();
@@ -121,21 +124,3 @@ export const controller = {
     localStorage.setItem("gameState", snapshot);
   },
 };
-
-controller.addPlayer("Wangkech");
-controller.addPlayer("Hothnyang");
-controller.addPlayer("Kelly");
-controller.addPlayer("john");
-controller.addPlayer("doe");
-controller.addPlayer("roe");
-
-engine.startNewSession("ROTATION");
-engine.setSessionPlayers(engine.players);
-const session = engine.currentSession;
-let player = session.players.find((p) => p.name === "doe");
-console.log(player);
-
-player.knockedState();
-console.log("ALL Players: ", session.players);
-
-engine.currentSession.startNewRound();
