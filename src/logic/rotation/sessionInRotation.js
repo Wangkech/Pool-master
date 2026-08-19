@@ -39,7 +39,7 @@ export class SessionInRotation extends Session {
   startNewRound() {
     const previous = this.getPreviousRound();
     if (previous) {
-      console.log(previous.players);
+      console.log(previous);
       this.knockPlayers(previous.players);
     }
     this.getStandingPlayers();
@@ -47,8 +47,9 @@ export class SessionInRotation extends Session {
     this.currentRound.setParticipants(this.standingPlayers, this.mode);
   }
 
-  knockPlayers(previousPlayers) {
-    if (!previousPlayers) return;
+  knockPlayers(players) {
+    if (!players) return;
+    const previousPlayers = [...players];
     const survivors = previousPlayers.splice(
       0,
       previousPlayers.length - this.subs,
@@ -70,12 +71,18 @@ export class SessionInRotation extends Session {
         this.players.find((player) => player.id === s.id).rotationModeState(),
       ),
     );
+
+    const orderedStanding = players.map((p) =>
+      allStandingPlayers.find((player) => player.id === p.id),
+    );
+
     awaitingSub.map((p) =>
       allStandingPlayers.push(
         this.players.find((player) => player.id === p.id).rotationMemberState(),
       ),
     );
-    this.standingPlayers = allStandingPlayers;
+
+    this.standingPlayers = orderedStanding;
     console.log("======= START ====");
     console.log("Knocked: ", this.waitingPlayers);
     console.log("Standing: ", this.standingPlayers);
