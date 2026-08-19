@@ -7,7 +7,6 @@ export class SessionInRotation extends Session {
     super(sessionNumber, mode);
     this.subs = subs || 0;
     this.standingPlayers = [];
-    this.knockedPlayers = [];
     this.waitingPlayers = [];
   }
   setPlayers(players) {
@@ -30,7 +29,7 @@ export class SessionInRotation extends Session {
       this.standingPlayers = standing.map((p) =>
         this.players.find((player) => p.id === player.id),
       );
-      this.knockedPlayers = players
+      this.waitingPlayers = players
         .filter((p) => p.state.isKnocked)
         .map((p) => this.players.find((player) => p.id === player.id));
     }
@@ -53,11 +52,7 @@ export class SessionInRotation extends Session {
       console.log(previous.players);
       this.knockPlayers(previous.players);
     }
-
     this.getPlayersInOrder();
-
-    console.log(this.standingPlayers);
-    console.log(this.knockedPlayers);
     this.currentRound = new Round(this.mode, this.getCurrentRoundNumber());
     this.currentRound.setParticipants(this.standingPlayers, this.mode);
   }
@@ -71,8 +66,6 @@ export class SessionInRotation extends Session {
     );
     const playersToKnock = previousPlayers;
     const awaitingSub = this.waitingPlayers.splice(0, this.subs);
-    console.log("Player to SUB", awaitingSub);
-    console.log("Player to Knock", playersToKnock);
 
     playersToKnock.map((p) =>
       this.waitingPlayers.push(
@@ -89,18 +82,8 @@ export class SessionInRotation extends Session {
         this.players.find((player) => player.id === p.id).rotationMemberState(),
       ),
     );
-    // allStandingPlayers.map((p) => players.find((player) => player.id === p.id));
-
-    // const orderedStanding = players.map((p) =>
-    //   allStandingPlayers.find((player) => player.id === p.id),
-    // );
 
     this.standingPlayers = allStandingPlayers;
-    console.log("======= START ====");
-    console.log("Knocked: ", this.waitingPlayers);
-    console.log("Standing: ", this.standingPlayers);
-    console.log("Players: ", this.players);
-    console.log("======== END ====");
   }
 
   getSnapshot() {
@@ -132,6 +115,16 @@ export class SessionInRotation extends Session {
     this.rounds = data.rounds;
     this.players = data.players.map((player) => player);
     this.players.map((player) => {
+      Object.setPrototypeOf(player, Player.prototype);
+      player.restorePlayer(player.id, player.name, player.state);
+    });
+    this.waitingPlayers = data.waitingPlayers;
+    this.waitingPlayers.map((player) => {
+      Object.setPrototypeOf(player, Player.prototype);
+      player.restorePlayer(player.id, player.name, player.state);
+    });
+    this.standingPlayers = data.standingPlayers;
+    this.standingPlayers.map((player) => {
       Object.setPrototypeOf(player, Player.prototype);
       player.restorePlayer(player.id, player.name, player.state);
     });
