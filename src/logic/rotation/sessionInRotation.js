@@ -7,6 +7,7 @@ export class SessionInRotation extends Session {
     super(sessionNumber, mode);
     this.subs = subs || 0;
     this.standingPlayers = [];
+    this.knockedPlayers = [];
     this.waitingPlayers = [];
   }
   setPlayers(players) {
@@ -20,12 +21,20 @@ export class SessionInRotation extends Session {
     this.setDate();
   }
 
-  getStandingPlayers() {
-    const players = [...this.players];
-    const standing = players.filter((player) => !player.state.isKnocked);
-    this.standingPlayers = standing.map((p) =>
-      this.players.find((player) => p.id === player.id),
-    );
+  getPlayersInOrder() {
+    let previousRound = this.getPreviousRound();
+    console.log(previousRound);
+    if (!previousRound) {
+      const players = [...this.players];
+      const standing = players.filter((player) => !player.state.isKnocked);
+      this.standingPlayers = standing.map((p) =>
+        this.players.find((player) => p.id === player.id),
+      );
+      this.knockedPlayers = players
+        .filter((p) => p.state.isKnocked)
+        .map((p) => this.players.find((player) => p.id === player.id));
+    }
+    return;
   }
 
   getwaitingPlayers() {
@@ -37,12 +46,18 @@ export class SessionInRotation extends Session {
   }
 
   startNewRound() {
+    this.resetCurrentRound();
+
     const previous = this.getPreviousRound();
     if (previous) {
-      console.log(previous);
+      console.log(previous.players);
       this.knockPlayers(previous.players);
     }
-    this.getStandingPlayers();
+
+    this.getPlayersInOrder();
+
+    console.log(this.standingPlayers);
+    console.log(this.knockedPlayers);
     this.currentRound = new Round(this.mode, this.getCurrentRoundNumber());
     this.currentRound.setParticipants(this.standingPlayers, this.mode);
   }
@@ -65,15 +80,8 @@ export class SessionInRotation extends Session {
       ),
     );
 
-    const allStandingPlayers = [];
-    survivors.map((s) =>
-      allStandingPlayers.push(
-        this.players.find((player) => player.id === s.id).rotationModeState(),
-      ),
-    );
-
-    const orderedStanding = players.map((p) =>
-      allStandingPlayers.find((player) => player.id === p.id),
+    const allStandingPlayers = survivors.map((s) =>
+      this.players.find((player) => player.id === s.id).rotationModeState(),
     );
 
     awaitingSub.map((p) =>
@@ -81,8 +89,13 @@ export class SessionInRotation extends Session {
         this.players.find((player) => player.id === p.id).rotationMemberState(),
       ),
     );
+    // allStandingPlayers.map((p) => players.find((player) => player.id === p.id));
 
-    this.standingPlayers = orderedStanding;
+    // const orderedStanding = players.map((p) =>
+    //   allStandingPlayers.find((player) => player.id === p.id),
+    // );
+
+    this.standingPlayers = allStandingPlayers;
     console.log("======= START ====");
     console.log("Knocked: ", this.waitingPlayers);
     console.log("Standing: ", this.standingPlayers);

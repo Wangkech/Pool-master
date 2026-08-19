@@ -125,40 +125,17 @@ export const controller = {
 controller.addPlayer("Wangkech");
 controller.addPlayer("Hothnyang");
 controller.addPlayer("Kelly");
-controller.addPlayer("Bot");
+controller.addPlayer("john");
+controller.addPlayer("doe");
+controller.addPlayer("roe");
 
 engine.startNewSession("ROTATION");
-const session = engine.currentSession;
 engine.setSessionPlayers(engine.players);
+const session = engine.currentSession;
+let player = session.players.find((p) => p.name === "doe");
+console.log(player);
+
+player.knockedState();
 console.log("ALL Players: ", session.players);
-let player = session.players.find((player) => player.name === "Kelly");
-// console.log("this session", engine.currentSession.players);
-// player.knockedState();
+
 engine.currentSession.startNewRound();
-
-// engine.currentSession.endCurrentRound();
-// engine.currentSession.startNewRound();
-// let round = session.currentRound;
-// // console.log("round 1: ", session.currentRound.players);
-// // console.log("Knocked: ", session.getSnapshot());
-// // console.log(round);
-
-// player = round?.players.find((player) => player.name === "Hothnyang");
-
-// let ball = round.balls.find((ball) => ball.value === 8);
-// // round.recordScore(player.id, ball.id);
-// engine.currentSession.endCurrentRound();
-
-// session.startNewRound();
-// round = session.currentRound;
-// // console.log("round 2: ", round.players);
-// // console.log("Knocked: ", session.getSnapshot());
-
-// player = session.players.find((player) => player.name === "Bot");
-// session.recordScore(player.id, ball.id);
-// session.endCurrentRound();
-
-// session.startNewRound();
-// round = session.currentRound;
-// // console.log("round 3: ", round.players);
-// // console.log("Knocked:  ", session.getSnapshot());
