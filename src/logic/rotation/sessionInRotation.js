@@ -7,7 +7,6 @@ export class RotationSession extends Session {
     super(sessionNumber, mode);
     this.subs = 0;
     this.standingPlayers = [];
-    this.knockedPlayers = [];
     this.waitingPlayers = [];
   }
 
@@ -30,7 +29,7 @@ export class RotationSession extends Session {
       this.standingPlayers = standing.map((p) =>
         this.players.find((player) => p.id === player.id),
       );
-      this.knockedPlayers = players
+      this.waitingPlayers = players
         .filter((p) => p.state.isKnocked)
         .map((p) => this.players.find((player) => p.id === player.id));
     }
@@ -58,8 +57,6 @@ export class RotationSession extends Session {
 
     this.getPlayersInOrder();
 
-    console.log(this.standingPlayers);
-    console.log(this.knockedPlayers);
     this.currentRound = new Round(this.mode, this.getCurrentRoundNumber());
     this.currentRound.setParticipants(this.standingPlayers, this.mode);
   }
@@ -67,14 +64,12 @@ export class RotationSession extends Session {
   knockPlayers(players) {
     if (!players) return;
     const previousPlayers = [...players];
-    const survivors = previousPlayers.splice(
-      0,
-      previousPlayers.length - this.subs,
-    );
+    const max = previousPlayers.length - this.subs;
+
+    const survivors = previousPlayers.splice(0, max);
+
     const playersToKnock = previousPlayers;
     const awaitingSub = this.waitingPlayers.splice(0, this.subs);
-    console.log("Player to SUB", awaitingSub);
-    console.log("Player to Knock", playersToKnock);
 
     playersToKnock.map((p) =>
       this.waitingPlayers.push(
@@ -91,18 +86,7 @@ export class RotationSession extends Session {
         this.players.find((player) => player.id === p.id).rotationMemberState(),
       ),
     );
-    // allStandingPlayers.map((p) => players.find((player) => player.id === p.id));
-
-    // const orderedStanding = players.map((p) =>
-    //   allStandingPlayers.find((player) => player.id === p.id),
-    // );
-
     this.standingPlayers = allStandingPlayers;
-    console.log("======= START ====");
-    console.log("Knocked: ", this.waitingPlayers);
-    console.log("Standing: ", this.standingPlayers);
-    console.log("Players: ", this.players);
-    console.log("======== END ====");
   }
 
   addLatePlayer(player) {
@@ -117,15 +101,16 @@ export class RotationSession extends Session {
         sessionID: this.sessionID,
         timestamp: this.timestamp,
         sessionNumber: this.sessionNumber,
+        subs: this.subs,
         rounds: this.rounds.map((round) => round),
         players: structuredClone(
           this.players.map((player) => player.getSnapshot()),
         ),
         standingPlayers: structuredClone(
-          this.standingPlayers?.map((player) => player.getSnapshot()),
+          this.standingPlayers?.map((player) => player),
         ),
         waitingPlayers: structuredClone(
-          this.waitingPlayers?.map((player) => player.getSnapshot()),
+          this.waitingPlayers?.map((player) => player),
         ),
         currentRound: this.currentRound?.getSnapshot() ?? null,
         ended: this.ended,
@@ -137,12 +122,35 @@ export class RotationSession extends Session {
     this.sessionID = data.sessionID;
     this.sessionNumber = data.sessionNumber;
     this.timestamp = data.date;
-    this.rounds = data.rounds;
+    this.subs = parseInt(data.subs);
+    this.rounds = data.rounds.map((r) => r);
     this.players = data.players.map((player) => player);
+
     this.players.map((player) => {
+      const id = player.id;
+      const name = player.name;
+      const state = player.state;
+
       Object.setPrototypeOf(player, Player.prototype);
-      player.restorePlayer(player.id, player.name, player.state);
+      player.restorePlayer(id, name, state);
     });
+    let standing = data?.standingPlayers.map((p) => p);
+
+    const standingPlayers = standing.map((p) =>
+      this.players.find((player) => player.id === p.id),
+    );
+    this.standingPlayers.length = 0;
+    standingPlayers.map((p) => this.standingPlayers.push(p));
+
+    if (data.waitingPlayers) {
+      const waiting = data.waitingPlayers.map((p) => p);
+      this.waitingPlayers.length = 0;
+      waiting.map((p) =>
+        this.waitingPlayers.push(
+          this.players.find((player) => player.id === p.id),
+        ),
+      );
+    }
 
     if (data.currentRound) {
       this.currentRound = data.currentRound;

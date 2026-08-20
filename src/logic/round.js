@@ -14,12 +14,8 @@ export class Round {
   }
 
   setParticipants(players) {
-    console.log(players);
-    console.log(this.mode);
-
     if (players) {
       players.forEach((player) => {
-        console.log(player.singlesModeState());
         this.players.push(player.singlesModeState());
       });
     }
