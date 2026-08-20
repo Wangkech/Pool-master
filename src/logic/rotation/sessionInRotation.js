@@ -1,7 +1,7 @@
 import { Session } from "../session";
 import { Player } from "../player";
 import { RotationRound } from "./RotationRound";
-
+import { Round } from "../round";
 export class RotationSession extends Session {
   constructor(sessionNumber, mode) {
     super(sessionNumber, mode);
@@ -57,17 +57,10 @@ export class RotationSession extends Session {
     }
 
     this.getPlayersInOrder();
-<<<<<<< HEAD
-    this.currentRound = new RotationRound(
-      this.mode,
-      this.getCurrentRoundNumber(),
-    );
-=======
 
     console.log(this.standingPlayers);
     console.log(this.knockedPlayers);
     this.currentRound = new Round(this.mode, this.getCurrentRoundNumber());
->>>>>>> parent of 2f94bad (stabilised rotation / substitution mechanism)
     this.currentRound.setParticipants(this.standingPlayers, this.mode);
   }
 

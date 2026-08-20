@@ -123,24 +123,21 @@ export class GameEngine {
       Object.setPrototypeOf(player, Player.prototype),
     );
     this.sessions = data.sessions;
-    if (data.mode === this.modes.ROTATION) {
-      if (data.currentSession) {
+    if (data.currentSession) {
+      if (data.currentSession.mode === this.modes.ROTATION) {
         this.currentSession = data.currentSession;
         Object.setPrototypeOf(this.currentSession, RotationSession.prototype);
         this.currentSession.restoreSession(data.currentSession);
-      } else {
-        this.currentSession = null;
-      }
-    } else if (data.mode === this.modes.SINGLE) {
-      if (data.currentSession) {
+      } else if (data.currentSession.mode === this.modes.SINGLE) {
         this.currentSession = data.currentSession;
         Object.setPrototypeOf(this.currentSession, Session.prototype);
         this.currentSession.restoreSession(data.currentSession);
-      } else {
-        this.currentSession = null;
       }
+    } else {
+      this.currentSession = null;
     }
   }
+
   clearAllData() {
     this.players.length = 0;
     this.sessions.length = 0;
