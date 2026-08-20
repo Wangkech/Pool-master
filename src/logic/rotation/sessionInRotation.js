@@ -102,7 +102,7 @@ export class RotationSession extends Session {
         timestamp: this.timestamp,
         sessionNumber: this.sessionNumber,
         subs: this.subs,
-        rounds: this.rounds.map((round) => round),
+        rounds: this.rounds,
         players: structuredClone(
           this.players.map((player) => player.getSnapshot()),
         ),
@@ -121,41 +121,26 @@ export class RotationSession extends Session {
   restoreSession(data) {
     this.sessionID = data.sessionID;
     this.sessionNumber = data.sessionNumber;
-    this.timestamp = data.date;
+    this.timestamp = data.timestamp;
     this.subs = parseInt(data.subs);
-    this.rounds = data.rounds.map((r) => r);
+    this.rounds = data.rounds;
     this.players = data.players.map((player) => player);
 
     this.players.map((player) => {
-      const id = player.id;
-      const name = player.name;
-      const state = player.state;
-
       Object.setPrototypeOf(player, Player.prototype);
-      player.restorePlayer(id, name, state);
+      player.restorePlayer(player.id, player.name, player.state);
     });
-    let standing = data?.standingPlayers.map((p) => p);
+    this.standingPlayers = data.standingPlayers
+      .map((p) => p)
+      .map((p) => this.players.find((player) => player.id === p.id));
 
-    const standingPlayers = standing.map((p) =>
-      this.players.find((player) => player.id === p.id),
-    );
-    this.standingPlayers.length = 0;
-    standingPlayers.map((p) => this.standingPlayers.push(p));
-
-    if (data.waitingPlayers) {
-      const waiting = data.waitingPlayers.map((p) => p);
-      this.waitingPlayers.length = 0;
-      waiting.map((p) =>
-        this.waitingPlayers.push(
-          this.players.find((player) => player.id === p.id),
-        ),
-      );
-    }
+    this.waitingPlayers = data.waitingPlayers
+      .map((p) => p)
+      .map((p) => this.players.find((player) => player.id === p.id));
 
     if (data.currentRound) {
       this.currentRound = data.currentRound;
       Object.setPrototypeOf(this.currentRound, RotationRound.prototype);
-
       this.currentRound.restoreRound(data.currentRound);
     } else {
       this.currentRound = null;

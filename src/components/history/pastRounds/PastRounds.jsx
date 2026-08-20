@@ -49,7 +49,7 @@ function PastRounds({ setIsAddingPlayers, setView }) {
           {pastRounds.map((round) => (
             <PastRound
               key={round.roundID}
-              winner={round.winner}
+              winner={round.roundWinner}
               players={round.players}
               roundNumber={round.roundNumber}
             />

@@ -172,7 +172,7 @@ export class Session {
   restoreSession(data) {
     this.sessionID = data.sessionID;
     this.sessionNumber = data.sessionNumber;
-    this.timestamp = data.date;
+    this.timestamp = data.timestamp;
     this.rounds = data.rounds;
     this.players = data.players.map((player) => player);
     this.players.map((player) => {

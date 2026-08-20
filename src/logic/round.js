@@ -210,7 +210,7 @@ export class Round {
         roundNumber: this.roundNumber,
         players: this.players.map((player) => player.getSnapshot()),
         availableBalls: this.getAvailableBalls(),
-        winner: this.roundWinner
+        roundWinner: this.roundWinner
           ? {
               id: this.roundWinner.id,
               name: this.roundWinner.name,

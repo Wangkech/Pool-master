@@ -21,7 +21,9 @@ export class PlayerAnalytics {
     return playedRounds;
   }
   #getRoundsWon() {
-    return this.roundsPlayed.filter((round) => round.winner.id === this.id);
+    return this.roundsPlayed.filter(
+      (round) => round.roundWinner.id === this.id,
+    );
   }
   #calculateWins() {
     return this.roundsWon.length;
