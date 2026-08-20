@@ -51,7 +51,7 @@ export function useGame() {
     setGameState(controller.deletePlayer(id));
     saveGameState();
   };
-  const startNewGame = (mode = "ROTATION", subs = 2) => {
+  const startNewGame = (mode = "SINGLE", subs = 2) => {
     if (!currentRoundExists) {
       controller.startNewGame(mode);
       if (mode === "ROTATION") controller.setSubs(subs);
