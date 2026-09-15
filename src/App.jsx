@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import Header from "./components/Header";
 import Navbar from "./components/NavBar/Navbar";
 // import { useEffect } from "react";
@@ -40,6 +41,7 @@ function App() {
       {view === "ranking" && <RankingsTab />}
       {view === "settings" && <SettingsTab setView={setView} />}
       <Navbar setView={setView} view={view} />
+      <Analytics />
     </>
   );
 }
