@@ -14,6 +14,7 @@ function ActiveGameContainer({
   setActiveTab,
   setIsAddingPlayers,
   setView,
+  mode,
 }) {
   const { currentRound, potBall, gameOn, setGameOn } = useGameContext();
   const [showDeletePlayer, setShowDeletePlayer] = useState(null);
@@ -29,6 +30,7 @@ function ActiveGameContainer({
             deleteIcon={deleteIcon}
             disableIcon={disableIcon}
             plusIcon={plusIcon}
+            mode={mode}
             setAdditionType={setAdditionType}
             setIsAddingPlayers={setIsAddingPlayers}
             setShowDeletePlayer={setShowDeletePlayer}

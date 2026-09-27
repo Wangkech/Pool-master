@@ -1,5 +1,5 @@
 // import "react"
-
+import logoInWhite from "../assets/images/logo-white-no-bg.svg";
 function Header() {
   return (
     <header
@@ -21,8 +21,9 @@ function Header() {
             id="burger-btn-line3"
           ></div>
         </div> */}
-        <div className="logo-banner w-[90%] text-center text-white">
-          <h1 className="logo mt-auto mb-auto text-center text-2xl uppercase">
+        <div className="logo-banner flex w-[90%] items-center justify-center gap-4 justify-self-center text-white">
+          <img src={logoInWhite} height={32} width="32" alt="" />
+          <h1 className="logo h-10 text-center text-2xl uppercase">
             Pool Master
           </h1>
         </div>
